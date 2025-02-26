@@ -1,6 +1,11 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:screen_retriever/screen_retriever.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:windows_widgets/utils/global_colors.dart';
 import 'package:windows_widgets/utils/windows/window_utils.dart';
 
 class MainWindow extends StatefulWidget {
@@ -21,6 +26,9 @@ class _MainWindowState extends State<MainWindow>
   CurvedAnimation? curvedAnimation;
   Offset originalPosition = Offset.zero;
   Size originalSize = Size.zero;
+  String? folderPath;
+
+  StreamSubscription? colorSubscription;
 
   @override
   void initState() {
@@ -49,12 +57,17 @@ class _MainWindowState extends State<MainWindow>
         });
       },
     );
+
+    colorSubscription = WindowUtils.watchAccentColor().listen((color) {
+      setState(() => GColors.windowColor = color);
+    });
   }
 
   @override
   void dispose() {
     positionController?.dispose();
     sizeController?.dispose();
+    colorSubscription?.cancel();
     windowManager.removeListener(this);
     super.dispose();
   }
@@ -99,33 +112,85 @@ class _MainWindowState extends State<MainWindow>
     sizeController!.forward(from: 0);
   }
 
+  String? _filePath;
+
+  Future<void> pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      setState(() {
+        _filePath = result.files.single.path;
+      });
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  void openFile() {
+    if (folderPath != null) {
+      Process.run('explorer', [folderPath!], runInShell: true);
+    } else {
+      // Show a message to the user that no file is selected
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('No file selected')),
+      );
+    }
+  }
+
+  Future<void> pickFolder() async {
+    // Open a folder picker dialog
+    String? selectedFolder = await FilePicker.platform.getDirectoryPath();
+
+    if (selectedFolder != null) {
+      setState(() {
+        folderPath = selectedFolder; // Save the selected folder path
+      });
+    } else {
+      // User canceled the folder picker
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No folder selected')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        children: [
-          MouseRegion(
-            onEnter: (_) => animateTo(originalPosition + Offset(-50, 0)),
-            onExit: (_) => animateTo(originalPosition),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white,
-                ),
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Colors.red),
-                  elevation: WidgetStatePropertyAll(3),
-                ),
-                onPressed: () async {
-                  animateSizeTo(Size(200, 400));
-                },
+    return MouseRegion(
+      onEnter: (_) => animateTo(originalPosition + Offset(-50, 0)),
+      onExit: (_) => animateTo(originalPosition),
+      child: Scaffold(
+        backgroundColor: GColors.windowColor.withValues(alpha: 0.5),
+        body: Column(
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+              ),
+              style: ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll(Colors.red),
+                elevation: WidgetStatePropertyAll(3),
+              ),
+              onPressed: () async => animateSizeTo(Size(200, 400)),
+            ),
+            IconButton(
+              onPressed: pickFolder,
+              icon: Icon(
+                Icons.file_open_rounded,
+                color: Colors.white,
               ),
             ),
-          ),
-        ],
+            IconButton(
+              onPressed: openFile,
+              icon: Icon(
+                Icons.file_copy_rounded,
+                color: Colors.white,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

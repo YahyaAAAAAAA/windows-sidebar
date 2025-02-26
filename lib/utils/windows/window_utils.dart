@@ -1,10 +1,12 @@
 import 'dart:async';
-import 'dart:ffi';
-import 'package:ffi/ffi.dart';
+import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:screen_retriever/screen_retriever.dart';
-import 'package:win32/win32.dart';
 import 'package:window_manager/window_manager.dart';
+import 'dart:ffi';
+import 'package:ffi/ffi.dart';
+import 'package:win32/win32.dart';
+import 'package:windows_widgets/utils/global_colors.dart';
 
 class WindowUtils {
   static late final Offset windowsPosition;
@@ -25,9 +27,11 @@ class WindowUtils {
     int newX = screenWidth - windowWidth;
     int newY = (screenHeight - windowHeight) ~/ 2;
 
+    int marginFactor = windowWidth - 8;
+
     //move window to new position
     await windowManager
-        .setPosition(Offset(newX.toDouble() + 192, newY.toDouble()));
+        .setPosition(Offset(newX.toDouble() + marginFactor, newY.toDouble()));
 
     windowsPosition = await windowManager.getPosition();
   }
@@ -45,32 +49,80 @@ class WindowUtils {
         .setPosition(Offset(currentPosition.dx, newY.toDouble()));
   }
 
-  //! ---------------------------------------------------------------------
+  //reads windows system accent color from the registry
+  static Color getSystemAccentColor() {
+    //memory allocation
+    final hKey = calloc<HANDLE>();
+    final result = RegOpenKeyEx(
+        HKEY_CURRENT_USER,
+        r'SOFTWARE\Microsoft\Windows\DWM'.toNativeUtf16(),
+        0,
+        REG_SAM_FLAGS.KEY_READ,
+        hKey);
 
-  static int getFlutterWindowHandle(String title) {
-    return FindWindow(nullptr, title.toNativeUtf16());
+    if (result != WIN32_ERROR.ERROR_SUCCESS) {
+      calloc.free(hKey);
+      //default fallback color
+      return GColors.windowColorFallback;
+    }
+
+    final data = calloc<DWORD>();
+    final dataSize = calloc<DWORD>()..value = sizeOf<DWORD>();
+
+    RegQueryValueEx(hKey.value, 'AccentColor'.toNativeUtf16(), nullptr, nullptr,
+        data.cast<BYTE>(), dataSize);
+
+    int colorValue = data.value;
+    calloc.free(hKey);
+    calloc.free(data);
+    calloc.free(dataSize);
+
+    //extract ARGB color
+    return Color.fromARGB(
+      //alpha
+      (colorValue >> 24) & 0xFF,
+      //blue → red
+      (colorValue >> 0) & 0xFF,
+      //green
+      (colorValue >> 8) & 0xFF,
+      //red → blue
+      (colorValue >> 16) & 0xFF,
+    );
   }
 
-  //makes the window click-through
-  static void setWindowClickThrough(int hwnd) {
-    final int currentStyle =
-        GetWindowLongPtr(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+  /// Watches for system accent color changes in a separate isolate
+  static Stream<Color> watchAccentColor() async* {
+    final ReceivePort receivePort = ReceivePort();
+    await Isolate.spawn(watchColorIsolate, receivePort.sendPort);
 
-    //add WS_EX_LAYERED and WS_EX_TRANSPARENT flags
-    SetWindowLongPtr(
-        hwnd,
-        WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
-        currentStyle |
-            WINDOW_EX_STYLE.WS_EX_LAYERED |
-            WINDOW_EX_STYLE.WS_EX_TRANSPARENT);
+    await for (final color in receivePort) {
+      yield color as Color;
+    }
   }
 
-  static void setWindowClickable(int hwnd) {
-    final int currentStyle =
-        GetWindowLongPtr(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+  /// Runs the registry watcher in a separate isolate
+  static void watchColorIsolate(SendPort sendPort) {
+    final hKey = calloc<HANDLE>();
+    if (RegOpenKeyEx(
+            HKEY_CURRENT_USER,
+            r'SOFTWARE\Microsoft\Windows\DWM'.toNativeUtf16(),
+            0,
+            REG_SAM_FLAGS.KEY_NOTIFY,
+            hKey) !=
+        WIN32_ERROR.ERROR_SUCCESS) {
+      calloc.free(hKey);
+      sendPort.send(GColors.windowColorFallback);
+      return;
+    }
 
-    // Remove WS_EX_TRANSPARENT flag (keep WS_EX_LAYERED)
-    SetWindowLongPtr(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
-        currentStyle & ~WINDOW_EX_STYLE.WS_EX_TRANSPARENT);
+    final event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+
+    while (true) {
+      RegNotifyChangeKeyValue(hKey.value, FALSE,
+          REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_LAST_SET, event, TRUE);
+      WaitForSingleObject(event, INFINITE); // Wait for a change
+
+      sendPort.send(getSystemAccentColor()); // Send updated color
+    }
   }
 }

@@ -13,11 +13,10 @@ void main() async {
     WindowOptions(
       alwaysOnTop: true,
       size: const Size(200, 400),
-      center: true,
-      windowButtonVisibility: false,
+      center: false,
       title: 'WindowsWidgets',
       titleBarStyle: TitleBarStyle.hidden,
-      skipTaskbar: false,
+      skipTaskbar: true,
     ),
     () async {
       // await windowManager.setAsFrameless();
@@ -31,19 +30,14 @@ void main() async {
 
       await WindowUtils.moveWindowToRightEdge();
 
-      runApp(MyApp());
+      runApp(WindowsWidgetsApp());
     },
   );
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class WindowsWidgetsApp extends StatelessWidget {
+  const WindowsWidgetsApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

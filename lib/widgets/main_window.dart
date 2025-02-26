@@ -3,10 +3,13 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:screen_retriever/screen_retriever.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:windows_widgets/utils/global_colors.dart';
-import 'package:windows_widgets/utils/windows/window_utils.dart';
+import 'package:windows_widgets/config/extensions/color_extensions.dart';
+import 'package:windows_widgets/config/utils/global_colors.dart';
+import 'package:windows_widgets/config/utils/windows/window_utils.dart';
+import 'package:windows_widgets/config/utils/file_icon_plugin.dart';
 
 class MainWindow extends StatefulWidget {
   const MainWindow({
@@ -27,8 +30,6 @@ class _MainWindowState extends State<MainWindow>
   Offset originalPosition = Offset.zero;
   Size originalSize = Size.zero;
   String? folderPath;
-
-  StreamSubscription? colorSubscription;
 
   @override
   void initState() {
@@ -57,17 +58,12 @@ class _MainWindowState extends State<MainWindow>
         });
       },
     );
-
-    colorSubscription = WindowUtils.watchAccentColor().listen((color) {
-      setState(() => GColors.windowColor = color);
-    });
   }
 
   @override
   void dispose() {
     positionController?.dispose();
     sizeController?.dispose();
-    colorSubscription?.cancel();
     windowManager.removeListener(this);
     super.dispose();
   }
@@ -155,6 +151,24 @@ class _MainWindowState extends State<MainWindow>
     }
   }
 
+  //! ---------------------icon retrieve---------------
+  Uint8List? iconBytes;
+  String? fileName;
+
+  Future<void> pickFileAndGetIcon() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      String filePath = result.files.single.path!;
+      Uint8List? bytes = await FileIconPlugin.getFileIcon(filePath);
+      setState(() {
+        fileName = result.files.single.name;
+        iconBytes = bytes;
+      });
+    }
+  }
+
+  //!------------------------------------
+
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -163,6 +177,7 @@ class _MainWindowState extends State<MainWindow>
       child: Scaffold(
         backgroundColor: GColors.windowColor.withValues(alpha: 0.5),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             IconButton(
               icon: Icon(
@@ -179,16 +194,29 @@ class _MainWindowState extends State<MainWindow>
               onPressed: pickFolder,
               icon: Icon(
                 Icons.file_open_rounded,
-                color: Colors.white,
+                color: GColors.windowColor.shade600,
               ),
             ),
             IconButton(
               onPressed: openFile,
               icon: Icon(
                 Icons.file_copy_rounded,
-                color: Colors.white,
+                color: Colors.white.shade600,
               ),
-            )
+            ),
+            IconButton(
+              onPressed: pickFileAndGetIcon,
+              icon: Icon(
+                Icons.abc,
+                color: Colors.white.shade600,
+              ),
+            ),
+            const SizedBox(height: 20),
+            if (fileName != null) Text("Selected File: $fileName"),
+            SizedBox(height: 20),
+            iconBytes != null
+                ? Image.memory(iconBytes!, width: 64, height: 64)
+                : Text("Pick a file to see its icon"),
           ],
         ),
       ),

@@ -6,7 +6,7 @@ import 'package:window_manager/window_manager.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:win32/win32.dart';
-import 'package:windows_widgets/utils/global_colors.dart';
+import 'package:windows_widgets/config/utils/global_colors.dart';
 
 class WindowUtils {
   static late final Offset windowsPosition;
@@ -89,6 +89,8 @@ class WindowUtils {
       (colorValue >> 16) & 0xFF,
     );
   }
+
+  //todo might not use
 
   /// Watches for system accent color changes in a separate isolate
   static Stream<Color> watchAccentColor() async* {

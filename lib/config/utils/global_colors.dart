@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:windows_widgets/utils/windows/window_utils.dart';
+import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 
 class GColors {
   static Color windowColor = WindowUtils.getSystemAccentColor();

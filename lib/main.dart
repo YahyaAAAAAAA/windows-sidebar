@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:windows_widgets/utils/windows/window_utils.dart';
+import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 import 'package:windows_widgets/widgets/main_window.dart';
 
 void main() async {
@@ -20,6 +20,7 @@ void main() async {
     ),
     () async {
       // await windowManager.setAsFrameless();
+      await windowManager.setResizable(false);
 
       //apply transparent effect
       await Window.setEffect(effect: WindowEffect.transparent);

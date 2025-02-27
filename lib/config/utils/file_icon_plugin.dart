@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class FileIconPlugin {
@@ -9,7 +10,8 @@ class FileIconPlugin {
           await _channel.invokeMethod('getFileIcon', filePath);
       return iconBytes;
     } catch (e) {
-      print("Error retrieving file icon: $e");
+      debugPrint("Error retrieving file icon: $e");
+      //todo return a placeholder
       return null;
     }
   }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 import 'package:flutter/material.dart';
+import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:screen_retriever/screen_retriever.dart';
 import 'package:window_manager/window_manager.dart';
 import 'dart:ffi';
@@ -9,34 +10,22 @@ import 'package:win32/win32.dart';
 import 'package:windows_widgets/config/utils/global_colors.dart';
 
 class WindowUtils {
-  static late final Offset windowsPosition;
+  static Offset originalPosition = Offset.zero;
 
-  static Future<void> moveWindowToRightEdge() async {
-    //get screen size
-    var screenSize = await screenRetriever.getPrimaryDisplay();
-
-    //get window size
-    var windowSize = await windowManager.getSize();
-
-    //calculate new position
-    int screenWidth = screenSize.size.width.toInt();
-    int screenHeight = screenSize.size.height.toInt();
-    int windowWidth = windowSize.width.toInt();
-    int windowHeight = windowSize.height.toInt();
-
-    int newX = screenWidth - windowWidth;
-    int newY = (screenHeight - windowHeight) ~/ 2;
-
-    int marginFactor = windowWidth - 8;
-
-    //move window to new position
-    await windowManager
-        .setPosition(Offset(newX.toDouble() + marginFactor, newY.toDouble()));
-
-    windowsPosition = await windowManager.getPosition();
+  static Future<void> setUp() async {
+    // await windowManager.setResizable(false);
+    await windowManager.setAsFrameless();
   }
 
-  static Future<void> centerWindowOnY() async {
+  static Future<void> alignRight() async {
+    await windowManager.setAlignment(Alignment.centerRight);
+    Offset position = await windowManager.getPosition();
+    double width = (await windowManager.getSize()).width;
+    await windowManager
+        .setPosition(Offset(position.dx + width - 1, position.dy));
+  }
+
+  static Future<void> centerOnY() async {
     var screenSize = await screenRetriever.getPrimaryDisplay();
     var windowSize = await windowManager.getSize();
     var currentPosition = await windowManager.getPosition();
@@ -126,5 +115,37 @@ class WindowUtils {
 
       sendPort.send(getSystemAccentColor()); // Send updated color
     }
+  }
+
+  static Future<int> getCurrentWindowHandle() async {
+    bool hasFocus = await windowManager.isFocused();
+    if (!hasFocus) {
+      //save current window handle
+      return GetForegroundWindow();
+    }
+    return 0;
+  }
+
+  static void focusPreviousWindow(int hwnd) {
+    //do nothing
+    if (hwnd == 0) {
+      return;
+    }
+
+    //give focus
+    SetForegroundWindow(hwnd);
+  }
+
+  //window effect
+  static Future<void> transparent() async {
+    await Window.setEffect(effect: WindowEffect.transparent);
+  }
+
+  static Future<void> blur() async {
+    await Window.setEffect(effect: WindowEffect.aero);
+  }
+
+  static Future<void> solid() async {
+    await Window.setEffect(effect: WindowEffect.solid);
   }
 }

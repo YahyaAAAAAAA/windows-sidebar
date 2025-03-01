@@ -1,16 +1,15 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:windows_widgets/config/app.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
-import 'package:windows_widgets/widgets/main_window.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize database factory for desktop platforms
+  //initialize database factory for desktop platforms
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
@@ -38,16 +37,4 @@ void main() async {
     },
   );
   runApp(WindowsWidgetsApp());
-}
-
-class WindowsWidgetsApp extends StatelessWidget {
-  const WindowsWidgetsApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const MainWindow(),
-    );
-  }
 }

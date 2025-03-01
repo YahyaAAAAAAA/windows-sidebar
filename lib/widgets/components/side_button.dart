@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/global_colors.dart';
-import 'package:windows_widgets/config/utils/picker.dart';
-import 'package:windows_widgets/models/side_file.dart';
 
-class SideFileCard extends StatelessWidget {
-  final SideFile file;
+class SideButton extends StatelessWidget {
+  final void Function()? onPressed;
+  final IconData icon;
+  final String text;
 
-  const SideFileCard({
+  const SideButton({
     super.key,
-    required this.file,
+    this.onPressed,
+    required this.icon,
+    required this.text,
   });
 
   @override
@@ -18,33 +20,29 @@ class SideFileCard extends StatelessWidget {
     return Row(
       children: [
         IconButton(
+          onPressed: onPressed,
           style: ButtonStyle(
             backgroundColor:
                 WidgetStatePropertyAll(GColors.windowColor.shade600),
             shape: WidgetStatePropertyAll(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(kOutterRadius),
+                borderRadius: BorderRadius.circular(kOuterRadius),
               ),
             ),
           ),
-          onPressed: () {
-            Picker.openFolder(file.path, context);
-          },
-          icon: Transform.scale(
-            scale: 1.7,
-            child: Image.memory(
-              file.icon!,
-              width: 16,
-              height: 16,
-            ),
+          icon: Icon(
+            icon,
+            size: 20,
+            color: GColors.windowColor.shade100,
           ),
         ),
         SizedBox(width: 10),
         Text(
-          file.name,
+          text,
           style: TextStyle(
             color: GColors.windowColor.shade100,
             fontWeight: FontWeight.w600,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

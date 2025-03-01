@@ -1,3 +1,14 @@
 main:
-    ☐ work on UI
-    ☐ search for windows 7 port, maybe ?
+    ✔ work on UI @done(25-03-01 04:43)
+    ✘ search for windows 7 port, maybe ? @cancelled(25-03-01 04:43)
+    ☐ custom icons/ icons on hover
+    ☐ clean up database methods
+    ☐ add id field to side items
+    ☐ handle item no longer available
+    ☐ smooth list scroll
+    ☐ list sort, search (maybe ?)
+    settings:
+        ☐ default theme / dark,light theme / device theme
+        ☐ height resize
+        ☐ transparent / bluer / solid background  
+          

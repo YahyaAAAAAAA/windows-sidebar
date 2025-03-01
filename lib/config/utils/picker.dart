@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/extensions/string_extensions.dart';
-import 'package:windows_widgets/config/utils/file_icon_plugin.dart';
+import 'package:windows_widgets/config/native_plugins/file_icon_plugin.dart';
 import 'package:windows_widgets/models/side_file.dart';
 import 'package:windows_widgets/models/side_folder.dart';
 

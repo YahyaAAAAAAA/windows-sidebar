@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/utils/global_colors.dart';
 
-Future<void> showContextMenu(BuildContext context, Offset position) async {
+Future<String?> showContextMenu(
+  BuildContext context,
+  Offset position, {
+  void Function()? onDelete,
+  void Function()? onEdit, //todo
+}) async {
   final RenderBox overlay =
       Overlay.of(context).context.findRenderObject() as RenderBox;
 
@@ -12,35 +17,37 @@ Future<void> showContextMenu(BuildContext context, Offset position) async {
       Rect.fromPoints(position, position),
       Offset.zero & overlay.size,
     ),
+    popUpAnimationStyle: AnimationStyle(
+      duration: Duration(milliseconds: 150),
+    ),
     constraints: BoxConstraints(
       maxWidth: 40,
-      maxHeight: 80,
+      maxHeight: 120,
     ),
     color: GColors.windowColor.shade100,
     items: [
       PopupMenuItem(
-        padding: EdgeInsets.symmetric(horizontal: 12),
+        onTap: onDelete,
+        padding: EdgeInsets.symmetric(horizontal: 10),
         value: 'copy',
         child: Icon(
-          Icons.delete,
+          Icons.clear,
           size: 20,
           color: GColors.windowColor.shade600,
         ),
       ),
       PopupMenuItem(
+        onTap: onEdit,
+        padding: EdgeInsets.symmetric(horizontal: 10),
         value: 'paste',
         child: Icon(
           Icons.edit,
-          size: 15,
+          size: 20,
           color: GColors.windowColor.shade600,
         ),
       ),
     ],
   );
 
-  if (result != null) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Selected: $result')),
-    );
-  }
+  return result;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
+import 'package:windows_widgets/config/utils/custom_icons.dart';
 import 'package:windows_widgets/config/utils/global_colors.dart';
 
 class HeaderRow extends StatelessWidget {
@@ -36,7 +37,7 @@ class HeaderRow extends StatelessWidget {
                   ),
                 ),
                 icon: Icon(
-                  Icons.face_2_outlined,
+                  Custom.apps,
                   size: 20,
                   color: GColors.windowColor.shade100,
                 ),

@@ -1,11 +1,13 @@
 main:
     ✔ work on UI @done(25-03-01 04:43)
     ✘ search for windows 7 port, maybe ? @cancelled(25-03-01 04:43)
-    ☐ custom icons/ icons on hover
+    ✔ custom icons/ icons on hover @done(25-03-02 01:24)
+    ✔ add id field to side items @done(25-03-02 01:24)
+    ✔ smooth list scroll @done(25-03-02 01:24)
+    ☐ add animated/reorderable list
+    ☐ figure out the cause of lag
     ☐ clean up database methods
-    ☐ add id field to side items
     ☐ handle item no longer available
-    ☐ smooth list scroll
     ☐ list sort, search (maybe ?)
     settings:
         ☐ default theme / dark,light theme / device theme

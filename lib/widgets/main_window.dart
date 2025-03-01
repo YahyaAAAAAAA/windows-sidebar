@@ -2,9 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
+import 'package:windows_widgets/config/utils/custom_icons.dart';
 import 'package:windows_widgets/config/utils/global_colors.dart';
 import 'package:windows_widgets/config/utils/picker.dart';
 import 'package:windows_widgets/config/utils/right_click_menu.dart';
+import 'package:windows_widgets/config/utils/smooth_listview.dart';
 import 'package:windows_widgets/config/utils/windows/window_animation_utils_mixin.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 import 'package:windows_widgets/database/database_helper.dart';
@@ -33,6 +35,7 @@ class MainWindow extends StatefulWidget {
 class _MainWindowState extends State<MainWindow>
     with TickerProviderStateMixin, WindowListener, WindowAnimationUtilsMixin {
   List<SideItem> sideItems = [];
+  IconData folderIcon = Custom.folder;
 
   @override
   void initState() {
@@ -60,8 +63,8 @@ class _MainWindowState extends State<MainWindow>
     _loadSideItems();
   }
 
-  Future<void> _deleteItem(String path) async {
-    await DatabaseHelper.deleteSideItem(path);
+  Future<void> _deleteItem(int id) async {
+    await DatabaseHelper.deleteSideItem(id);
     _loadSideItems();
   }
 
@@ -103,19 +106,25 @@ class _MainWindowState extends State<MainWindow>
 
                 //files & folder list
                 Expanded(
-                  child: ListView.separated(
+                  child: SmoothListView(
                     itemCount: sideItems.length,
-                    separatorBuilder: (context, index) => SizedBox(height: 10),
+                    separatorBuilder: (context, index) => SizedBox(height: 5),
+                    scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       final item = sideItems[index];
                       if (item is SideFolder) {
                         return SideItemCard.folder(
                           folder: item,
+                          icon: folderIcon,
+                          onEnter: (_) => setState(
+                              () => item.icon = Custom.folder_open_fill),
+                          onExit: (_) =>
+                              setState(() => item.icon = Custom.folder_fill),
                           onRightClick: (context, position) async {
                             await showContextMenu(
                               context,
                               position,
-                              onDelete: () => _deleteItem(item.path),
+                              onDelete: () => _deleteItem(item.id!),
                             );
                           },
                         );
@@ -127,7 +136,7 @@ class _MainWindowState extends State<MainWindow>
                             await showContextMenu(
                               context,
                               position,
-                              onDelete: () => _deleteItem(item.path),
+                              onDelete: () => _deleteItem(item.id!),
                             );
                           },
                         );
@@ -144,7 +153,7 @@ class _MainWindowState extends State<MainWindow>
                 Row(
                   children: [
                     SideButton(
-                      icon: Icons.drive_folder_upload,
+                      icon: Custom.add_folder_fill,
                       text: 'Pick a Folder',
                       onPressed: () async {
                         SideFolder? folder = await Picker.pickFolder();
@@ -160,7 +169,7 @@ class _MainWindowState extends State<MainWindow>
                 ),
                 SizedBox(height: 10),
                 SideButton(
-                  icon: Icons.file_upload_outlined,
+                  icon: Custom.add_document_fill,
                   text: 'Pick a File',
                   onPressed: () async {
                     SideFile? file = await Picker.pickFile();

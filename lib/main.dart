@@ -30,8 +30,8 @@ void main() async {
     () async {
       await WindowUtils.setUp();
       // await WindowUtils.transparent();
-      await WindowUtils.alignRight();
-      // await windowManager.setAlignment(Alignment.centerRight);
+      // await WindowUtils.alignRight();
+      await windowManager.setAlignment(Alignment.centerRight);
 
       WindowUtils.originalPosition = await windowManager.getPosition();
     },

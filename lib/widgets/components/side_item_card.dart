@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
+import 'package:windows_widgets/config/utils/custom_icons.dart';
 import 'package:windows_widgets/config/utils/global_colors.dart';
 import 'package:windows_widgets/config/utils/picker.dart';
 import 'package:windows_widgets/models/side_file.dart';
@@ -14,21 +16,30 @@ enum SideItemType {
 }
 
 class SideItemCard extends StatelessWidget {
-  final SideFolder? folder;
-  final SideFile? file;
   final void Function(BuildContext context, Offset position)? onRightClick;
 
+  final SideFolder? folder;
+  final IconData? icon;
+  final void Function(PointerEnterEvent)? onEnter;
+  final void Function(PointerExitEvent)? onExit;
   const SideItemCard.folder({
     super.key,
     required this.folder,
+    required this.icon,
     this.onRightClick,
+    this.onEnter,
+    this.onExit,
   }) : file = null;
 
+  final SideFile? file;
   const SideItemCard.file({
     super.key,
     required this.file,
     this.onRightClick,
-  }) : folder = null;
+  })  : folder = null,
+        icon = null,
+        onEnter = null,
+        onExit = null;
 
   SideItemType decide() {
     if (folder == null) {
@@ -97,23 +108,41 @@ class SideItemCard extends StatelessWidget {
   }
 
   Widget folderBuild() {
-    return Stack(
-      children: [
-        Icon(
-          Icons.folder,
-          color: GColors.windowColor.shade100,
-        ),
-        Padding(
-          padding: EdgeInsets.all(5),
-          child: Text(
-            folder!.name[0].toUpperCase(),
-            style: TextStyle(
-              fontSize: 12,
-              color: GColors.windowColor.shade600,
+    return MouseRegion(
+      onEnter: onEnter,
+      onExit: onExit,
+      child: Stack(
+        children: [
+          Icon(
+            folder!.icon,
+            size: 24,
+            color: GColors.windowColor.shade100,
+          ),
+          Padding(
+            padding: folder!.icon == Custom.folder_fill
+                ? EdgeInsets.only(
+                    left: 4,
+                    top: 7,
+                  )
+                : EdgeInsets.only(
+                    left: 10,
+                    top: 7,
+                  ),
+            child: Transform(
+              transform: folder!.icon == Custom.folder_fill
+                  ? Matrix4.skew(0, 0)
+                  : Matrix4.skew(-0.4, 0),
+              child: Text(
+                folder!.name[0].toUpperCase(),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: GColors.windowColor.shade600,
+                ),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

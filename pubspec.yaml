@@ -43,6 +43,9 @@ flutter:
     - family: Abel
       fonts:       
         - asset: assets/fonts/Abel-Regular.ttf
+    - family: Custom
+      fonts:       
+        - asset: assets/fonts/Custom.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

@@ -5,6 +5,7 @@ class SideFile extends SideItem {
   late final Uint8List? icon;
 
   SideFile({
+    super.id,
     required super.path,
     required super.name,
     required this.icon,
@@ -13,6 +14,7 @@ class SideFile extends SideItem {
   @override
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'type': 'file',
       'path': path,
       'name': name,

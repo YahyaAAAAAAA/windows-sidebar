@@ -4,7 +4,9 @@ main:
     ✔ custom icons/ icons on hover @done(25-03-02 01:24)
     ✔ add id field to side items @done(25-03-02 01:24)
     ✔ smooth list scroll @done(25-03-02 01:24)
-    ☐ add animated/reorderable list
+    ✔ add animated/reorderable list @done(25-03-03 02:43)
+    ☐ Isar instead of sqlite
+    ☐ save list order
     ☐ figure out the cause of lag
     ☐ clean up database methods
     ☐ handle item no longer available

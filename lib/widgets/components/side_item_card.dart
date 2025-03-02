@@ -16,16 +16,19 @@ enum SideItemType {
 }
 
 class SideItemCard extends StatelessWidget {
+  final int index;
   final void Function(BuildContext context, Offset position)? onRightClick;
 
   final SideFolder? folder;
   final IconData? icon;
   final void Function(PointerEnterEvent)? onEnter;
   final void Function(PointerExitEvent)? onExit;
+
   const SideItemCard.folder({
     super.key,
     required this.folder,
     required this.icon,
+    required this.index,
     this.onRightClick,
     this.onEnter,
     this.onExit,
@@ -35,6 +38,7 @@ class SideItemCard extends StatelessWidget {
   const SideItemCard.file({
     super.key,
     required this.file,
+    required this.index,
     this.onRightClick,
   })  : folder = null,
         icon = null,
@@ -65,21 +69,25 @@ class SideItemCard extends StatelessWidget {
               onRightClick!(context, position);
             }
           },
-          child: IconButton(
-            style: ButtonStyle(
-              backgroundColor:
-                  WidgetStatePropertyAll(GColors.windowColor.shade600),
-              shape: WidgetStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(kOuterRadius),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: IconButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    WidgetStatePropertyAll(GColors.windowColor.shade600),
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(kOuterRadius),
+                  ),
                 ),
               ),
+              onPressed: () => decide() == SideItemType.folder
+                  ? Picker.openFolder(folder?.path, context)
+                  //todo openFile method
+                  : Picker.openFolder(file?.path, context),
+              icon:
+                  decide() == SideItemType.folder ? folderBuild() : fileBuild(),
             ),
-            onPressed: () => decide() == SideItemType.folder
-                ? Picker.openFolder(folder?.path, context)
-                //todo openFile method
-                : Picker.openFolder(file?.path, context),
-            icon: decide() == SideItemType.folder ? folderBuild() : fileBuild(),
           ),
         ),
         SizedBox(width: 10),
@@ -116,6 +124,7 @@ class SideItemCard extends StatelessWidget {
           Icon(
             folder!.icon,
             size: 24,
+            key: ValueKey(folder!.icon),
             color: GColors.windowColor.shade100,
           ),
           Padding(

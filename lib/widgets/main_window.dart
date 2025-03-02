@@ -1,12 +1,12 @@
 import 'dart:async';
+import 'package:animated_reorderable_list/animated_reorderable_list.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:windows_widgets/config/extensions/build_context.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/custom_icons.dart';
-import 'package:windows_widgets/config/utils/global_colors.dart';
 import 'package:windows_widgets/config/utils/picker.dart';
 import 'package:windows_widgets/config/utils/right_click_menu.dart';
-import 'package:windows_widgets/config/utils/smooth_listview.dart';
 import 'package:windows_widgets/config/utils/windows/window_animation_utils_mixin.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 import 'package:windows_widgets/database/database_helper.dart';
@@ -17,6 +17,7 @@ import 'package:windows_widgets/widgets/components/header_row.dart';
 import 'package:windows_widgets/widgets/components/side_button.dart';
 import 'package:windows_widgets/widgets/components/side_divider.dart';
 import 'package:windows_widgets/widgets/components/side_item_card.dart';
+import 'package:windows_widgets/widgets/settings_window.dart';
 
 class MainWindow extends StatefulWidget {
   final bool isExpanded;
@@ -35,7 +36,7 @@ class MainWindow extends StatefulWidget {
 class _MainWindowState extends State<MainWindow>
     with TickerProviderStateMixin, WindowListener, WindowAnimationUtilsMixin {
   List<SideItem> sideItems = [];
-  IconData folderIcon = Custom.folder;
+  IconData folderIcon = Custom.folder_fill;
 
   @override
   void initState() {
@@ -79,7 +80,6 @@ class _MainWindowState extends State<MainWindow>
           bottomLeft: Radius.circular(kOuterRadius),
         ),
         child: Scaffold(
-          backgroundColor: GColors.windowColor,
           body: Padding(
             padding: const EdgeInsets.all(6),
             child: Column(
@@ -90,6 +90,7 @@ class _MainWindowState extends State<MainWindow>
                   expandIcon: widget.isExpanded
                       ? Icons.arrow_back_ios_new_outlined
                       : Icons.arrow_forward_ios_rounded,
+                  onSettingsPressed: () => context.push(SettingsWindow()),
                   onExpandPressed: () {
                     widget.toggleExpanded();
                     if (!widget.isExpanded) {
@@ -106,14 +107,24 @@ class _MainWindowState extends State<MainWindow>
 
                 //files & folder list
                 Expanded(
-                  child: SmoothListView(
-                    itemCount: sideItems.length,
-                    separatorBuilder: (context, index) => SizedBox(height: 5),
-                    scrollDirection: Axis.vertical,
+                  child: AnimatedReorderableListView(
+                    items: sideItems,
+                    isSameItem: (a, b) => a.id == b.id,
+                    enterTransition: [SlideInDown()],
+                    exitTransition: [SlideInUp()],
+                    insertDuration: const Duration(milliseconds: 300),
+                    removeDuration: const Duration(milliseconds: 300),
+                    dragStartDelay: const Duration(milliseconds: 300),
+                    onReorder: (int oldIndex, int newIndex) => setState(() {
+                      final user = sideItems.removeAt(oldIndex);
+                      sideItems.insert(newIndex, user);
+                    }),
                     itemBuilder: (context, index) {
                       final item = sideItems[index];
                       if (item is SideFolder) {
                         return SideItemCard.folder(
+                          key: ValueKey(item.id),
+                          index: index,
                           folder: item,
                           icon: folderIcon,
                           onEnter: (_) => setState(
@@ -131,6 +142,8 @@ class _MainWindowState extends State<MainWindow>
                       }
                       if (item is SideFile) {
                         return SideItemCard.file(
+                          key: ValueKey(item.id),
+                          index: index,
                           file: item,
                           onRightClick: (context, position) async {
                             await showContextMenu(

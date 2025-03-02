@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:screen_retriever/screen_retriever.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 
@@ -73,5 +74,36 @@ mixin WindowAnimationUtilsMixin<T extends StatefulWidget>
       });
 
     sizeController!.forward(from: 0);
+  }
+
+  Future<void> animateAlignmentTo(Alignment targetAlignment) async {
+    final screenSize = (await screenRetriever.getPrimaryDisplay()).size;
+    final windowSize = await windowManager.getSize();
+    final currentPosition = await windowManager.getPosition();
+    // final width = windowSize.width;
+
+    var targetOffset = Offset(
+      (screenSize.width - windowSize.width) * (targetAlignment.x + 1) / 2,
+      (screenSize.height - windowSize.height) * (targetAlignment.y + 1) / 2,
+    );
+
+    //extra offset
+    // targetOffset = Offset(targetOffset.dx + width - 1, targetOffset.dy);
+
+    curvedAnimation = CurvedAnimation(
+      parent: positionController!,
+      curve: Curves.easeInOut,
+    );
+
+    positionAnimation = Tween<Offset>(
+      begin:
+          Offset(currentPosition.dx.toDouble(), currentPosition.dy.toDouble()),
+      end: targetOffset,
+    ).animate(curvedAnimation!)
+      ..addListener(() async {
+        await windowManager.setPosition(positionAnimation!.value);
+      });
+
+    positionController!.forward(from: 0);
   }
 }

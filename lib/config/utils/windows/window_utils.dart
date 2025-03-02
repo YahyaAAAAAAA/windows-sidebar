@@ -21,6 +21,7 @@ class WindowUtils {
     await windowManager.setAlignment(Alignment.centerRight);
     Offset position = await windowManager.getPosition();
     double width = (await windowManager.getSize()).width;
+
     await windowManager
         .setPosition(Offset(position.dx + width - 1, position.dy));
   }

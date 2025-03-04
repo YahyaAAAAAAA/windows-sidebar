@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/extensions/color_extensions.dart';
+import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/global_colors.dart';
 
 Future<String?> showContextMenu(
@@ -17,6 +18,7 @@ Future<String?> showContextMenu(
       Rect.fromPoints(position, position),
       Offset.zero & overlay.size,
     ),
+    elevation: 0,
     popUpAnimationStyle: AnimationStyle(
       duration: Duration(milliseconds: 150),
     ),
@@ -25,6 +27,9 @@ Future<String?> showContextMenu(
       maxHeight: 120,
     ),
     color: GColors.windowColor.shade100,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(kOuterRadius),
+    ),
     items: [
       PopupMenuItem(
         onTap: onDelete,

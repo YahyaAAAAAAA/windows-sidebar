@@ -5,9 +5,9 @@ import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/custom_icons.dart';
 import 'package:windows_widgets/config/utils/global_colors.dart';
 import 'package:windows_widgets/config/utils/picker.dart';
-import 'package:windows_widgets/models/side_file.dart';
-import 'package:windows_widgets/models/side_folder.dart';
-import 'package:windows_widgets/config/utils/overflow_tooltip_text.dart';
+import 'package:windows_widgets/features/main_sidebar/domain/models/side_file.dart';
+import 'package:windows_widgets/features/main_sidebar/domain/models/side_folder.dart';
+import 'package:windows_widgets/config/utils/widgets/overflow_tooltip_text.dart';
 
 enum SideItemType {
   folder,
@@ -94,12 +94,15 @@ class SideItemCard extends StatelessWidget {
         //showed only when sidebar is extended
         OverflowTooltipText(
           text: decide() == SideItemType.folder ? folder!.name : file!.name,
+          maxWidth: kMaxTextWidth,
           style: TextStyle(
             color: GColors.windowColor.shade100,
             fontWeight: FontWeight.w600,
             overflow: TextOverflow.ellipsis,
           ),
         ),
+
+        SizedBox(width: 26),
       ],
     );
   }

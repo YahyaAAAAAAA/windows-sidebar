@@ -8,6 +8,6 @@ const double kOnEnterRight = -50;
 
 const double kOnEnterRightExpand = -197;
 
-const double kMaxTextWidth = 119;
+const double kMaxTextWidth = 80;
 
 const double kDividerEndIndent = 145;

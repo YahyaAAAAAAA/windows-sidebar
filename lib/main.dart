@@ -1,19 +1,22 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:windows_widgets/config/app.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:windows_widgets/features/main_sidebar/domain/models/adapters/side_file_adapter.dart';
+import 'package:windows_widgets/features/main_sidebar/domain/models/adapters/side_folder_adapter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  //initialize database factory for desktop platforms
-  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    sqfliteFfiInit();
-    databaseFactory = databaseFactoryFfi;
-  }
+  await Hive.initFlutter();
+
+  // Register adapters
+  Hive.registerAdapter(SideFolderAdapter());
+  Hive.registerAdapter(SideFileAdapter());
+
+  await Hive.openBox('sideItemsBox');
 
   await Window.initialize();
   await windowManager.ensureInitialized();
@@ -29,7 +32,8 @@ void main() async {
     ),
     () async {
       await WindowUtils.setUp();
-      // await WindowUtils.transparent();
+      await WindowUtils.transparent();
+
       await WindowUtils.alignRight();
       // await windowManager.setAlignment(Alignment.centerRight);
 

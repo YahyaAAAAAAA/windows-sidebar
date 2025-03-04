@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:windows_widgets/models/side_item.dart';
+import 'package:windows_widgets/features/main_sidebar/domain/models/side_item.dart';
 
 class SideFile extends SideItem {
   late final Uint8List? icon;

@@ -5,12 +5,12 @@ main:
     ✔ add id field to side items @done(25-03-02 01:24)
     ✔ smooth list scroll @done(25-03-02 01:24)
     ✔ add animated/reorderable list @done(25-03-03 02:43)
-    ☐ Isar instead of sqlite
-    ☐ save list order
-    ☐ figure out the cause of lag
-    ☐ clean up database methods
+    ✔ Hive_ce instead of sqlite @done(25-03-04 00:27)
+    ✔ clean up database methods @done(25-03-04 05:54)
+    ✔ save list order @done(25-03-04 05:54)
     ☐ handle item no longer available
     ☐ list sort, search (maybe ?)
+    ☐ figure out the cause of lag
     settings:
         ☐ default theme / dark,light theme / device theme
         ☐ height resize

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:windows_widgets/config/extensions/build_context.dart';
+import 'package:windows_widgets/config/extensions/build_context_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
-import 'package:windows_widgets/widgets/components/side_button.dart';
+import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_button.dart';
 
 class SettingsWindow extends StatefulWidget {
   const SettingsWindow({super.key});

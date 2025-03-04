@@ -8,14 +8,18 @@ class HeaderRow extends StatelessWidget {
   final void Function()? onLogoPressed;
   final void Function()? onSettingsPressed;
   final void Function()? onExpandPressed;
+  final void Function()? onReorderPressed;
   final IconData expandIcon;
+  final bool canDrag;
 
   const HeaderRow({
     super.key,
     required this.expandIcon,
+    required this.canDrag,
     this.onLogoPressed,
     this.onSettingsPressed,
     this.onExpandPressed,
+    this.onReorderPressed,
   });
 
   @override
@@ -66,7 +70,7 @@ class HeaderRow extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(width: 10),
+          SizedBox(width: 5),
           Text(
             'Windows Sidebar',
             style: TextStyle(
@@ -75,6 +79,7 @@ class HeaderRow extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
+          SizedBox(width: 5),
           ColoredBox(
             color: Colors.transparent,
             child: Column(
@@ -103,7 +108,29 @@ class HeaderRow extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 40),
+                SizedBox(height: 5),
+                SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: IconButton(
+                    onPressed: onReorderPressed,
+                    padding: EdgeInsets.symmetric(horizontal: 0),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStatePropertyAll(GColors.windowColor.shade600),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(kOuterRadius)),
+                      ),
+                    ),
+                    icon: Icon(
+                      canDrag ? Icons.check : Icons.drag_indicator_rounded,
+                      size: 15,
+                      color: GColors.windowColor.shade100,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15),
               ],
             ),
           ),

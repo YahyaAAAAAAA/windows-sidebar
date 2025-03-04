@@ -19,11 +19,13 @@ class SideDivider extends StatelessWidget {
         thickness: 0.5,
         color: GColors.windowColor.shade100,
         endIndent: 0,
+        height: 10,
       ),
       secondChild: Divider(
         thickness: 0.5,
         color: GColors.windowColor.shade100,
         endIndent: kDividerEndIndent,
+        height: 10,
       ),
       crossFadeState:
           isExpanded ? CrossFadeState.showFirst : CrossFadeState.showSecond,

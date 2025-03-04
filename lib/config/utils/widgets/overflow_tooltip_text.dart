@@ -5,11 +5,13 @@ import 'package:windows_widgets/config/utils/global_colors.dart';
 
 class OverflowTooltipText extends StatelessWidget {
   final String text;
+  final double maxWidth;
   final TextStyle? style;
 
   const OverflowTooltipText({
     super.key,
     required this.text,
+    required this.maxWidth,
     this.style,
   });
 
@@ -19,7 +21,7 @@ class OverflowTooltipText extends StatelessWidget {
       text: TextSpan(text: text, style: style ?? const TextStyle()),
       maxLines: 1,
       textDirection: TextDirection.ltr,
-    )..layout(maxWidth: kMaxTextWidth);
+    )..layout(maxWidth: maxWidth);
 
     final bool isOverflowing = textPainter.didExceedMaxLines;
 
@@ -34,7 +36,6 @@ class OverflowTooltipText extends StatelessWidget {
         ? Expanded(
             child: Tooltip(
               message: text,
-              // verticalOffset: -40,
               waitDuration: Duration(milliseconds: 300),
               exitDuration: Duration.zero,
               decoration: BoxDecoration(

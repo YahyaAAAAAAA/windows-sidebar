@@ -4,17 +4,23 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/extensions/string_extensions.dart';
 import 'package:windows_widgets/config/native_plugins/file_icon_plugin.dart';
-import 'package:windows_widgets/models/side_file.dart';
-import 'package:windows_widgets/models/side_folder.dart';
+import 'package:windows_widgets/config/utils/generate.dart';
+import 'package:windows_widgets/features/main_sidebar/domain/models/side_file.dart';
+import 'package:windows_widgets/features/main_sidebar/domain/models/side_folder.dart';
 
 class Picker {
   static Future<SideFolder?> pickFolder() async {
     String? folderPath = await FilePicker.platform.getDirectoryPath();
 
     if (folderPath != null) {
-      String folderName = folderPath.split(Platform.pathSeparator).last;
+      final String folderName = folderPath.split(Platform.pathSeparator).last;
+      final int id = Generate.generateUniqueId();
 
-      return SideFolder(path: folderPath, name: folderName);
+      return SideFolder(
+        id: id,
+        path: folderPath,
+        name: folderName,
+      );
     }
 
     return null;
@@ -28,8 +34,14 @@ class Picker {
       final String path = result.files.single.path ?? '';
       final String name = result.files.single.name.removeExtension();
       final Uint8List? icon = await FileIconPlugin.getFileIcon(path);
+      final int id = Generate.generateUniqueId();
 
-      return SideFile(path: path, name: name, icon: icon);
+      return SideFile(
+        id: id,
+        path: path,
+        name: name,
+        icon: icon,
+      );
     }
     return null;
   }

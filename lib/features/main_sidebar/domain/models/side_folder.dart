@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/utils/custom_icons.dart';
-import 'package:windows_widgets/models/side_item.dart';
+import 'package:windows_widgets/features/main_sidebar/domain/models/side_item.dart';
 
 class SideFolder extends SideItem {
   //local icon no need to store

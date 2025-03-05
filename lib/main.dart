@@ -27,12 +27,11 @@ void main() async {
       size: const Size(200, 400),
       center: false,
       title: 'WindowsWidgets',
-      titleBarStyle: TitleBarStyle.hidden,
+      // titleBarStyle: TitleBarStyle.hidden,
       skipTaskbar: true,
     ),
     () async {
-      await WindowUtils.setUp();
-      await WindowUtils.transparent();
+      // await WindowUtils.setUp();
 
       await WindowUtils.alignRight();
       // await windowManager.setAlignment(Alignment.centerRight);

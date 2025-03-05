@@ -13,8 +13,9 @@ class WindowUtils {
   static Offset originalPosition = Offset.zero;
 
   static Future<void> setUp() async {
-    // await windowManager.setResizable(false);
+    await windowManager.setResizable(false);
     await windowManager.setAsFrameless();
+    await transparent();
   }
 
   static Future<void> alignRight() async {

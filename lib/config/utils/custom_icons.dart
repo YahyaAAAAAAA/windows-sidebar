@@ -7,16 +7,8 @@ class Custom {
   static const _kFontFam = 'Custom';
   static const String? _kFontPkg = null;
 
-  static const IconData folder_open =
-      IconData(0xe86c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData folder =
-      IconData(0xe86d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData apps =
       IconData(0xe86e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData add_document =
-      IconData(0xe86f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData add_folder =
-      IconData(0xe870, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData folder_open_fill =
       IconData(0xe871, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData folder_fill =
@@ -25,4 +17,10 @@ class Custom {
       IconData(0xe873, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData add_folder_fill =
       IconData(0xe874, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData unpin =
+      IconData(0xe875, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData pin =
+      IconData(0xe876, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData apps_sort =
+      IconData(0xe877, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

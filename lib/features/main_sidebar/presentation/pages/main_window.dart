@@ -22,16 +22,20 @@ import 'package:windows_widgets/features/main_sidebar/presentation/pages/compone
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_button.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_divider.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_item_card.dart';
-import 'package:windows_widgets/features/settings_sidebar/settings_window.dart';
+import 'package:windows_widgets/features/settings_sidebar/presentation/pages/settings_window.dart';
 
 class MainWindow extends StatefulWidget {
   final bool isExpanded;
+  final bool isPinned;
   final VoidCallback toggleExpanded;
+  final VoidCallback togglePin;
 
   const MainWindow({
     super.key,
     required this.isExpanded,
+    required this.isPinned,
     required this.toggleExpanded,
+    required this.togglePin,
   });
 
   @override
@@ -70,9 +74,9 @@ class _MainWindowState extends State<MainWindow>
               children: [
                 //logo & settings
                 HeaderRow(
-                  expandIcon: widget.isExpanded
-                      ? Icons.arrow_back_ios_new_outlined
-                      : Icons.arrow_forward_ios_rounded,
+                  isExpanded: widget.isExpanded,
+                  isPinned: widget.isPinned,
+                  onPinPressed: widget.togglePin,
                   onReorderPressed: () async {
                     setState(() => canDrag = !canDrag);
 
@@ -91,8 +95,9 @@ class _MainWindowState extends State<MainWindow>
                   canDrag: canDrag,
                   onSettingsPressed: () => context.push(SettingsWindow(),
                       transitionBuilder: TransitionAnimations.slideFromRight),
-                  onExpandPressed: () {
+                  onExpandPressed: () async {
                     widget.toggleExpanded();
+
                     if (!widget.isExpanded) {
                       animatePositionTo(WindowUtils.originalPosition +
                           Offset(kOnEnterRightExpand, 0));
@@ -142,6 +147,7 @@ class _MainWindowState extends State<MainWindow>
                                     await showContextMenu(
                                       context,
                                       position,
+                                      widget.isExpanded,
                                       onDelete: () =>
                                           sideItemsCubit.removeItem(item.id!),
                                     );
@@ -157,6 +163,7 @@ class _MainWindowState extends State<MainWindow>
                                     await showContextMenu(
                                       context,
                                       position,
+                                      widget.isExpanded,
                                       onDelete: () =>
                                           sideItemsCubit.removeItem(item.id!),
                                     );

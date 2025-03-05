@@ -71,7 +71,16 @@ mixin WindowAnimationUtilsMixin<T extends StatefulWidget>
       ..addListener(() async {
         await windowManager.setSize(sizeAnimation!.value);
         await WindowUtils.centerOnY();
-      });
+      })
+      ..addStatusListener(
+        (status) async {
+          if (status == AnimationStatus.completed) {
+            WindowUtils.originalPosition = Offset(
+                WindowUtils.originalPosition.dx,
+                (await windowManager.getPosition()).dy);
+          }
+        },
+      );
 
     sizeController!.forward(from: 0);
   }

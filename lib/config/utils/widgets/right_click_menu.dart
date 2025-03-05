@@ -5,7 +5,8 @@ import 'package:windows_widgets/config/utils/global_colors.dart';
 
 Future<String?> showContextMenu(
   BuildContext context,
-  Offset position, {
+  Offset position,
+  bool isExpanded, {
   void Function()? onDelete,
   void Function()? onEdit, //todo
 }) async {
@@ -23,7 +24,7 @@ Future<String?> showContextMenu(
       duration: Duration(milliseconds: 150),
     ),
     constraints: BoxConstraints(
-      maxWidth: 40,
+      maxWidth: isExpanded ? 100 : 40,
       maxHeight: 120,
     ),
     color: GColors.windowColor.shade100,
@@ -32,27 +33,61 @@ Future<String?> showContextMenu(
     ),
     items: [
       PopupMenuItem(
-        onTap: onDelete,
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        value: 'copy',
-        child: Icon(
-          Icons.clear,
-          size: 20,
-          color: GColors.windowColor.shade600,
-        ),
-      ),
-      PopupMenuItem(
         onTap: onEdit,
         padding: EdgeInsets.symmetric(horizontal: 10),
-        value: 'paste',
-        child: Icon(
-          Icons.edit,
-          size: 20,
-          color: GColors.windowColor.shade600,
-        ),
+        value: 'edit',
+        child: isExpanded
+            ? expandedBuild(
+                icon: Icons.edit_note_rounded,
+                text: 'Edit',
+              )
+            : shrunkBuild(icon: Icons.edit_note_rounded),
+      ),
+      PopupMenuItem(
+        onTap: onDelete,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        value: 'delete',
+        child: isExpanded
+            ? expandedBuild(
+                icon: Icons.delete_sweep_rounded,
+                text: 'Delete',
+              )
+            : shrunkBuild(icon: Icons.delete_sweep_rounded),
       ),
     ],
   );
 
   return result;
+}
+
+Widget shrunkBuild({
+  required IconData icon,
+}) {
+  return Icon(
+    icon,
+    size: 24,
+    color: GColors.windowColor.shade600,
+  );
+}
+
+Widget expandedBuild({
+  required IconData icon,
+  required String text,
+}) {
+  return Row(
+    spacing: 5,
+    children: [
+      Icon(
+        icon,
+        size: 24,
+        color: GColors.windowColor.shade600,
+      ),
+      Text(
+        text,
+        style: TextStyle(
+          color: GColors.windowColor.shade600,
+        ),
+      ),
+    ],
+  );
 }

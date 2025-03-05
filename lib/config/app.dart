@@ -23,13 +23,13 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
   final itemsRepo = HiveSideItemsRepo();
 
   bool isExpanded = false;
+  bool isPinned = false;
+
   int focusHandle = 0;
 
-  void toggleExpanded() {
-    setState(() {
-      isExpanded = !isExpanded;
-    });
-  }
+  void toggleExpand() => setState(() => isExpanded = !isExpanded);
+
+  void togglePin() => setState(() => isPinned = !isPinned);
 
   @override
   Widget build(BuildContext context) {
@@ -39,22 +39,27 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
       ],
       child: MouseRegion(
         onEnter: (_) async {
-          //todo save handle
-          // focusHandle = await WindowUtils.getCurrentWindowHandle();
+          focusHandle = await WindowUtils.getCurrentWindowHandle();
+
+          if (isPinned) {
+            return;
+          }
 
           //animate
           if (!isExpanded) {
-            await animatePositionTo(
+            animatePositionTo(
                 WindowUtils.originalPosition + Offset(kOnEnterRight, 0));
           } else {
-            await animatePositionTo(
+            animatePositionTo(
                 WindowUtils.originalPosition + Offset(kOnEnterRightExpand, 0));
           }
         },
         onExit: (_) {
-          //todo gave focus to previous window
-          // WindowUtils.focusPreviousWindow(focusHandle);
+          WindowUtils.focusPreviousWindow(focusHandle);
 
+          if (isPinned) {
+            return;
+          }
           //animate
           animatePositionTo(WindowUtils.originalPosition);
         },
@@ -62,11 +67,14 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
           debugShowCheckedModeBanner: false,
           home: MainWindow(
             isExpanded: isExpanded,
-            toggleExpanded: toggleExpanded,
+            isPinned: isPinned,
+            toggleExpanded: toggleExpand,
+            togglePin: togglePin,
           ),
           theme: ThemeData(
               fontFamily: 'Nova',
-              scaffoldBackgroundColor: GColors.windowColor,
+              scaffoldBackgroundColor: GColors.windowColor
+                  .withValues(alpha: GColors.windowColorOpacity),
               iconTheme: IconThemeData(
                 color: GColors.windowColor.shade100,
               )),

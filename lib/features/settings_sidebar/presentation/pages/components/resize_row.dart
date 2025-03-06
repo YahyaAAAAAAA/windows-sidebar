@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
-import 'package:windows_widgets/config/utils/global_colors.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_small_button.dart';
 
 class ResizeRow extends StatelessWidget {
@@ -26,14 +24,12 @@ class ResizeRow extends StatelessWidget {
         children: [
           Text(
             'Resize Sidebar',
-            style: TextStyle(
-              color: GColors.windowColor.shade100,
-            ),
+            style: Theme.of(context).textTheme.labelMedium,
           ),
           SizedBox(width: 5),
           Container(
             decoration: BoxDecoration(
-              color: GColors.windowColor.shade600,
+              color: Theme.of(context).secondaryHeaderColor,
               borderRadius: BorderRadius.circular(kOuterRadius),
             ),
             child: Row(
@@ -52,9 +48,7 @@ class ResizeRow extends StatelessWidget {
                 ),
                 Text(
                   windowHeight.ceil().toInt().toString(),
-                  style: TextStyle(
-                    color: GColors.windowColor.shade100,
-                  ),
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
                 SizedBox(width: 5),
               ],

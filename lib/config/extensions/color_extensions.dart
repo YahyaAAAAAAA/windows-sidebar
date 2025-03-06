@@ -28,4 +28,20 @@ extension ColorExtensions on Color {
         hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
     return darkened.toColor();
   }
+
+  bool isDark() {
+    final double luminance = computeLuminance();
+
+    //return true if the color is dark (luminance < 0.5)
+    return luminance < 0.5;
+  }
+
+  Color adjustBrightness(double targetBrightness) {
+    final hsvColor = HSVColor.fromColor(this);
+
+    //adjust the brightness
+    final adjustedColor = hsvColor.withValue(targetBrightness);
+
+    return adjustedColor.toColor();
+  }
 }

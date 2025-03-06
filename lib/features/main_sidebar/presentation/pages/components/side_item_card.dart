@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/custom_icons.dart';
-import 'package:windows_widgets/config/utils/global_colors.dart';
 import 'package:windows_widgets/config/utils/picker.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_file.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_folder.dart';
@@ -72,21 +70,13 @@ class SideItemCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 5),
             child: IconButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStatePropertyAll(GColors.windowColor.shade600),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(kOuterRadius),
-                  ),
-                ),
-              ),
               onPressed: () => decide() == SideItemType.folder
                   ? Picker.openFolder(folder?.path, context)
                   //todo openFile method
                   : Picker.openFolder(file?.path, context),
-              icon:
-                  decide() == SideItemType.folder ? folderBuild() : fileBuild(),
+              icon: decide() == SideItemType.folder
+                  ? folderBuild(context)
+                  : fileBuild(),
             ),
           ),
         ),
@@ -95,11 +85,7 @@ class SideItemCard extends StatelessWidget {
         OverflowTooltipText(
           text: decide() == SideItemType.folder ? folder!.name : file!.name,
           maxWidth: kMaxTextWidth,
-          style: TextStyle(
-            color: GColors.windowColor.shade100,
-            fontWeight: FontWeight.w600,
-            overflow: TextOverflow.ellipsis,
-          ),
+          style: Theme.of(context).textTheme.labelMedium,
         ),
 
         SizedBox(width: 26),
@@ -118,7 +104,7 @@ class SideItemCard extends StatelessWidget {
     );
   }
 
-  Widget folderBuild() {
+  Widget folderBuild(BuildContext context) {
     return MouseRegion(
       onEnter: onEnter,
       onExit: onExit,
@@ -128,7 +114,6 @@ class SideItemCard extends StatelessWidget {
             folder!.icon,
             size: 24,
             key: ValueKey(folder!.icon),
-            color: GColors.windowColor.shade100,
           ),
           Padding(
             padding: folder!.icon == Custom.folder_fill
@@ -146,10 +131,7 @@ class SideItemCard extends StatelessWidget {
                   : Matrix4.skew(-0.4, 0),
               child: Text(
                 folder!.name[0].toUpperCase(),
-                style: TextStyle(
-                  fontSize: 12,
-                  color: GColors.windowColor.shade600,
-                ),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
           ),

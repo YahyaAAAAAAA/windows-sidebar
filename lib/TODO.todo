@@ -9,13 +9,19 @@ main:
     ✔ clean up database methods @done(25-03-04 05:54)
     ✔ save list order @done(25-03-04 05:54)
     ✔ add pin @done(25-03-05 01:38)
-    ☐ color/opacity change 
+    ✔ color/opacity change @done(25-03-06 05:57)
+    ☐ maybe mesh background ?
+    ☐ add withBorder to prefs (also add it to settings window)
+    ☐ add pin to prefs
+    ☐ add window height to prefs
+    ☐ add didUserUpdate
+    ☐ safe positioning on startup
     ☐ handle item no longer available
     ☐ list sort, search (maybe ?)
     ☐ system tray
     ☐ figure out the cause of lag
     settings:
-        ☐ default theme / dark,light theme / device theme
-        ☐ height resize
-        ☐ transparent / bluer / solid background  
+        ✔ default theme / dark,light theme / device theme @done(25-03-06 05:57)
+        ✔ height resize @done(25-03-06 05:57)
+        ✔ transparent / bluer / solid background @done(25-03-06 05:57)
           

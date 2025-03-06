@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:windows_widgets/config/extensions/color_extensions.dart';
-import 'package:windows_widgets/config/utils/constants.dart';
-import 'package:windows_widgets/config/utils/global_colors.dart';
 
 class SideSmallButton extends StatelessWidget {
   final void Function()? onPressed;
@@ -32,18 +29,9 @@ class SideSmallButton extends StatelessWidget {
         onPressed: onPressed,
         padding: padding,
         tooltip: tooltip,
-        style: ButtonStyle(
-          backgroundColor: WidgetStatePropertyAll(GColors.windowColor.shade600),
-          shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(kOuterRadius),
-            ),
-          ),
-        ),
         icon: Icon(
           icon,
           size: iconSize,
-          color: GColors.windowColor.shade100,
         ),
       ),
     );

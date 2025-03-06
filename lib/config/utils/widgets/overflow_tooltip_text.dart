@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:windows_widgets/config/extensions/color_extensions.dart';
-import 'package:windows_widgets/config/utils/constants.dart';
-import 'package:windows_widgets/config/utils/global_colors.dart';
 
 class OverflowTooltipText extends StatelessWidget {
   final String text;
@@ -36,17 +33,6 @@ class OverflowTooltipText extends StatelessWidget {
         ? Expanded(
             child: Tooltip(
               message: text,
-              waitDuration: Duration(milliseconds: 300),
-              exitDuration: Duration.zero,
-              decoration: BoxDecoration(
-                color: GColors.windowColor.shade600,
-                borderRadius: BorderRadius.circular(kOuterRadius),
-              ),
-              textStyle: TextStyle(
-                color: GColors.windowColor.shade100,
-                fontWeight: FontWeight.w600,
-                overflow: TextOverflow.ellipsis,
-              ),
               child: textWidget,
             ),
           )

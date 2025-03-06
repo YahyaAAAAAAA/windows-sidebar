@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
-import 'package:windows_widgets/config/utils/global_colors.dart';
 
 Future<String?> showContextMenu(
   BuildContext context,
@@ -27,7 +25,7 @@ Future<String?> showContextMenu(
       maxWidth: isExpanded ? 100 : 40,
       maxHeight: 120,
     ),
-    color: GColors.windowColor.shade100,
+    color: Theme.of(context).secondaryHeaderColor,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(kOuterRadius),
     ),
@@ -38,6 +36,7 @@ Future<String?> showContextMenu(
         value: 'edit',
         child: isExpanded
             ? expandedBuild(
+                context,
                 icon: Icons.edit_note_rounded,
                 text: 'Edit',
               )
@@ -49,6 +48,7 @@ Future<String?> showContextMenu(
         value: 'delete',
         child: isExpanded
             ? expandedBuild(
+                context,
                 icon: Icons.delete_sweep_rounded,
                 text: 'Delete',
               )
@@ -66,11 +66,11 @@ Widget shrunkBuild({
   return Icon(
     icon,
     size: 24,
-    color: GColors.windowColor.shade600,
   );
 }
 
-Widget expandedBuild({
+Widget expandedBuild(
+  BuildContext context, {
   required IconData icon,
   required String text,
 }) {
@@ -80,13 +80,10 @@ Widget expandedBuild({
       Icon(
         icon,
         size: 24,
-        color: GColors.windowColor.shade600,
       ),
       Text(
         text,
-        style: TextStyle(
-          color: GColors.windowColor.shade600,
-        ),
+        style: Theme.of(context).textTheme.labelMedium,
       ),
     ],
   );

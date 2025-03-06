@@ -17,6 +17,7 @@ void main() async {
   Hive.registerAdapter(SideFileAdapter());
 
   await Hive.openBox('sideItemsBox');
+  await Hive.openBox('prefsBox');
 
   await Window.initialize();
   await windowManager.ensureInitialized();
@@ -31,7 +32,7 @@ void main() async {
       skipTaskbar: true,
     ),
     () async {
-      // await WindowUtils.setUp();
+      await WindowUtils.setUp();
 
       await WindowUtils.alignRight();
       // await windowManager.setAlignment(Alignment.centerRight);

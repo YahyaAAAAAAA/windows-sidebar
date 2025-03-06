@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/custom_icons.dart';
-import 'package:windows_widgets/config/utils/global_colors.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_small_button.dart';
 
 class HeaderRow extends StatelessWidget {
@@ -36,19 +34,9 @@ class HeaderRow extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: onLogoPressed,
-                style: ButtonStyle(
-                  backgroundColor:
-                      WidgetStatePropertyAll(GColors.windowColor.shade600),
-                  shape: WidgetStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(kOuterRadius),
-                    ),
-                  ),
-                ),
                 icon: Icon(
                   Custom.apps,
                   size: 20,
-                  color: GColors.windowColor.shade100,
                 ),
               ),
               SizedBox(height: 3),
@@ -58,20 +46,11 @@ class HeaderRow extends StatelessWidget {
                 child: IconButton(
                   onPressed: onExpandPressed,
                   padding: EdgeInsets.symmetric(horizontal: 8),
-                  style: ButtonStyle(
-                    backgroundColor:
-                        WidgetStatePropertyAll(GColors.windowColor.shade600),
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(kOuterRadius)),
-                    ),
-                  ),
                   icon: Icon(
                     isExpanded
                         ? Icons.arrow_back_ios_new_outlined
                         : Icons.arrow_forward_ios_rounded,
                     size: 15,
-                    color: GColors.windowColor.shade100,
                   ),
                 ),
               ),
@@ -80,16 +59,12 @@ class HeaderRow extends StatelessWidget {
           SizedBox(width: 5),
           Text(
             'Windows Sidebar',
-            style: TextStyle(
-              color: GColors.windowColor.shade100,
-              fontWeight: FontWeight.bold,
-              overflow: TextOverflow.ellipsis,
-            ),
+            style: Theme.of(context).textTheme.labelLarge,
           ),
           SizedBox(width: 5),
           Container(
             decoration: BoxDecoration(
-              color: GColors.windowColor.shade600,
+              color: Theme.of(context).secondaryHeaderColor,
               borderRadius: BorderRadius.circular(kOuterRadius),
             ),
             child: Column(

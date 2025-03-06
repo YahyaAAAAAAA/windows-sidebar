@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:windows_widgets/config/extensions/color_extensions.dart';
+import 'package:windows_widgets/config/sidebar_theme.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
-import 'package:windows_widgets/config/utils/global_colors.dart';
 import 'package:windows_widgets/config/utils/windows/window_animation_utils_mixin.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 import 'package:windows_widgets/features/main_sidebar/data/hive_side_items_repo.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/cubits/side_items_cubit.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/main_window.dart';
+import 'package:windows_widgets/features/settings_sidebar/data/hive_prefs_repo.dart';
+import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_cubit.dart';
+import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_states.dart';
 
 class WindowsWidgetsApp extends StatefulWidget {
   const WindowsWidgetsApp({super.key});
@@ -21,6 +23,7 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
     with TickerProviderStateMixin, WindowListener, WindowAnimationUtilsMixin {
   //repos
   final itemsRepo = HiveSideItemsRepo();
+  final prefsRepo = HivePrefsRepo();
 
   bool isExpanded = false;
   bool isPinned = false;
@@ -36,6 +39,8 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => SideItemsCubit(itemsRepo: itemsRepo)),
+        BlocProvider(
+            create: (context) => PrefsCubit(prefsRepo: prefsRepo)..getPrefs()),
       ],
       child: MouseRegion(
         onEnter: (_) async {
@@ -63,21 +68,27 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
           //animate
           animatePositionTo(WindowUtils.originalPosition);
         },
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: MainWindow(
-            isExpanded: isExpanded,
-            isPinned: isPinned,
-            toggleExpanded: toggleExpand,
-            togglePin: togglePin,
-          ),
-          theme: ThemeData(
-              fontFamily: 'Nova',
-              scaffoldBackgroundColor: GColors.windowColor
-                  .withValues(alpha: GColors.windowColorOpacity),
-              iconTheme: IconThemeData(
-                color: GColors.windowColor.shade100,
-              )),
+        child: BlocBuilder<PrefsCubit, PrefsStates>(
+          builder: (context, state) {
+            if (state is PrefsLoaded) {
+              final prefs = state.prefs;
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                home: MainWindow(
+                  isExpanded: isExpanded,
+                  isPinned: isPinned,
+                  toggleExpanded: toggleExpand,
+                  togglePin: togglePin,
+                ),
+                theme: sidebarTheme(
+                  mainColor: themeDecider(prefs.selectedTheme),
+                  opacity: prefs.backgroundOpacity,
+                ),
+              );
+            }
+            //todo global
+            return CircularProgressIndicator();
+          },
         ),
       ),
     );

@@ -77,6 +77,9 @@ class SideItemCard extends StatelessWidget {
               icon: decide() == SideItemType.folder
                   ? folderBuild(context)
                   : fileBuild(),
+              style: ButtonStyle(
+                elevation: WidgetStatePropertyAll(2),
+              ),
             ),
           ),
         ),

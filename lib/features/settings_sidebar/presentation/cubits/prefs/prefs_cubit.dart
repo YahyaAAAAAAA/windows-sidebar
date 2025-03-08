@@ -6,25 +6,38 @@ import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/pr
 
 class PrefsCubit extends Cubit<PrefsStates> {
   final PrefsRepo prefsRepo;
+  Prefs? prefs;
 
   PrefsCubit({
     required this.prefsRepo,
-  }) : super(PrefsInit()) {
-    getPrefs();
+  }) : super(PrefsInit());
+
+  Future<void> init() async {
+    try {
+      await prefsRepo.init();
+      getPrefs();
+    } catch (e) {
+      emit(PrefsError(message: e.toString()));
+    }
   }
 
   Future<void> getPrefs() async {
     emit(PrefsLoading());
     try {
-      final prefs = await prefsRepo.load();
+      prefs = await prefsRepo.load();
 
-      if (prefs.isBlurred) {
+      if (prefs == null) {
+        Future.error('prefs is null');
+        return;
+      }
+
+      if (prefs!.isBlurred) {
         await WindowUtils.blur();
       } else {
         await WindowUtils.transparent();
       }
 
-      emit(PrefsLoaded(prefs: prefs));
+      emit(PrefsLoaded(prefs: prefs!));
     } catch (e) {
       emit(PrefsError(message: e.toString()));
     }
@@ -51,6 +64,15 @@ class PrefsCubit extends Cubit<PrefsStates> {
   }
 
   Future<void> setTheme(Prefs prefs) async {
+    emit(PrefsLoading());
+    try {
+      emit(PrefsLoaded(prefs: prefs));
+    } catch (e) {
+      emit(PrefsError(message: e.toString()));
+    }
+  }
+
+  Future<void> setBorder(Prefs prefs) async {
     emit(PrefsLoading());
     try {
       emit(PrefsLoaded(prefs: prefs));

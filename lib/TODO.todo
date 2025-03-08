@@ -10,18 +10,27 @@ main:
     ✔ save list order @done(25-03-04 05:54)
     ✔ add pin @done(25-03-05 01:38)
     ✔ color/opacity change @done(25-03-06 05:57)
-    ☐ maybe mesh background ?
-    ☐ add withBorder to prefs (also add it to settings window)
-    ☐ add pin to prefs
-    ☐ add window height to prefs
-    ☐ add didUserUpdate
+    ✘ maybe mesh background ? @cancelled(25-03-08 00:40)
+    ✔ add withBorder to prefs (also add it to settings window) @done(25-03-08 01:28)
+    ✘ add pin to prefs @cancelled(25-03-08 01:29)
+    ✘ add window height to prefs @cancelled(25-03-08 01:56)
+    ☐ better init settings
     ☐ safe positioning on startup
+    ☐ add height limit
+    ☐ add didUserUpdate
+    ☐ edit items rename
+    ☐ edit folder open command -> explorer/start
     ☐ handle item no longer available
-    ☐ list sort, search (maybe ?)
+    ☐ media play/pause
+    ☐ This PC shortcut
     ☐ system tray
     ☐ figure out the cause of lag
+    ☐ list sort, search (maybe ?)
     settings:
         ✔ default theme / dark,light theme / device theme @done(25-03-06 05:57)
         ✔ height resize @done(25-03-06 05:57)
         ✔ transparent / bluer / solid background @done(25-03-06 05:57)
+    future plans:
+        ☐ replace Hive with SP for side items
+        ☐ add left alignment
           

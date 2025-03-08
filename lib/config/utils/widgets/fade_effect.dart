@@ -18,10 +18,10 @@ class FadeEffect extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            GColors.windowColor,
+            Theme.of(context).scaffoldBackgroundColor,
             GColors.transparent,
             GColors.transparent,
-            GColors.windowColor,
+            Theme.of(context).scaffoldBackgroundColor,
           ],
           stops: [
             0.0,

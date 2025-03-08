@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/extensions/color_extensions.dart';
+import 'package:windows_widgets/config/extensions/theme_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 
@@ -17,6 +18,7 @@ Color themeDecider(int selectedTheme) {
 ThemeData sidebarTheme({
   required Color mainColor,
   required double opacity,
+  required bool hasBorder,
 }) {
   //todo clean up a lil bit
   return ThemeData(
@@ -36,6 +38,12 @@ ThemeData sidebarTheme({
         overflow: TextOverflow.ellipsis,
       ),
     ),
+    extensions: [
+      BorderExtension(
+        globalBorderWidth: 1,
+        color: hasBorder ? mainColor : mainColor.withValues(alpha: 0),
+      ),
+    ],
     textTheme: TextTheme(
       labelLarge: TextStyle(
         color: mainColor.shade100,
@@ -63,6 +71,20 @@ ThemeData sidebarTheme({
       inactiveTrackColor: mainColor.shade300,
       activeTrackColor: mainColor.shade100,
     ),
+    checkboxTheme: CheckboxThemeData(
+      checkColor: WidgetStatePropertyAll(mainColor.shade600),
+      fillColor:
+          WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.selected)) {
+          return mainColor.shade100;
+        }
+        return mainColor.withValues(alpha: 0);
+      }),
+      side: BorderSide(
+        color: mainColor.shade100,
+        width: 2,
+      ),
+    ),
     radioTheme: RadioThemeData(
       fillColor: WidgetStatePropertyAll(mainColor.shade100),
     ),
@@ -73,10 +95,9 @@ ThemeData sidebarTheme({
     ),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(
-          mainColor.shade600,
-        ),
-        elevation: WidgetStatePropertyAll(3),
+        backgroundColor: WidgetStatePropertyAll(mainColor.shade600),
+        elevation: WidgetStatePropertyAll(0),
+        shadowColor: WidgetStatePropertyAll(mainColor.shade800),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(kOuterRadius),

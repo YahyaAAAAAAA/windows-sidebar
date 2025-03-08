@@ -11,3 +11,7 @@ const double kOnEnterRightExpand = -197;
 const double kMaxTextWidth = 80;
 
 const double kDividerEndIndent = 145;
+
+const double kWindowHeight = 400;
+
+const double kWindowWidth = 200;

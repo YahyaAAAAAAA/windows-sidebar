@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:windows_widgets/config/sidebar_theme.dart';
+import 'package:windows_widgets/config/theme/sidebar_theme.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/windows/window_animation_utils_mixin.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 import 'package:windows_widgets/features/main_sidebar/data/hive_side_items_repo.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/cubits/side_items_cubit.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/main_window.dart';
-import 'package:windows_widgets/features/settings_sidebar/data/hive_prefs_repo.dart';
+import 'package:windows_widgets/features/settings_sidebar/data/shared_preferences_prefs_repo.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_cubit.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_states.dart';
 
@@ -23,7 +23,7 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
     with TickerProviderStateMixin, WindowListener, WindowAnimationUtilsMixin {
   //repos
   final itemsRepo = HiveSideItemsRepo();
-  final prefsRepo = HivePrefsRepo();
+  final prefsRepo = SharedPrefsRepo();
 
   bool isExpanded = false;
   bool isPinned = false;
@@ -40,7 +40,8 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
       providers: [
         BlocProvider(create: (context) => SideItemsCubit(itemsRepo: itemsRepo)),
         BlocProvider(
-            create: (context) => PrefsCubit(prefsRepo: prefsRepo)..getPrefs()),
+          create: (context) => PrefsCubit(prefsRepo: prefsRepo)..init(),
+        ),
       ],
       child: MouseRegion(
         onEnter: (_) async {
@@ -83,6 +84,7 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
                 theme: sidebarTheme(
                   mainColor: themeDecider(prefs.selectedTheme),
                   opacity: prefs.backgroundOpacity,
+                  hasBorder: prefs.hasBorder,
                 ),
               );
             }

@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_divider.dart';
 
 class BlurRow extends StatelessWidget {
-  final bool radioValue;
-  final void Function(bool?)? onBlur;
-  final void Function(bool?)? onNoBlur;
+  final bool blurValue;
+  final bool borderValue;
+  final void Function(bool?)? onBlurChanged;
+  final void Function(bool?)? onBorderChanged;
 
   const BlurRow({
     super.key,
-    required this.radioValue,
-    this.onBlur,
-    this.onNoBlur,
+    required this.blurValue,
+    required this.borderValue,
+    this.onBlurChanged,
+    this.onBorderChanged,
   });
 
   @override
@@ -39,19 +41,17 @@ class BlurRow extends StatelessWidget {
               'Blur',
               style: Theme.of(context).textTheme.labelMedium,
             ),
-            Radio(
-              value: radioValue,
-              groupValue: true,
-              onChanged: onBlur,
+            Checkbox(
+              value: blurValue,
+              onChanged: onBlurChanged,
             ),
             Text(
-              'No Blur',
+              'Border',
               style: Theme.of(context).textTheme.labelMedium,
             ),
-            Radio(
-              value: radioValue,
-              groupValue: false,
-              onChanged: onNoBlur,
+            Checkbox(
+              value: borderValue,
+              onChanged: onBorderChanged,
             ),
           ],
         ),

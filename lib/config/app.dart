@@ -27,6 +27,7 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
 
   bool isExpanded = false;
   bool isPinned = false;
+  ThemeData? currentTheme;
 
   int focusHandle = 0;
 
@@ -35,21 +36,29 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
   void togglePin() => setState(() => isPinned = !isPinned);
 
   @override
+  void initState() {
+    super.initState();
+
+    currentTheme = sidebarTheme(
+      mainColor: themeDecider(kInitSelectedTheme),
+      opacity: kInitBackgroundOpacity,
+      hasBorder: kInitHasBorder,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => SideItemsCubit(itemsRepo: itemsRepo)),
         BlocProvider(
-          create: (context) => PrefsCubit(prefsRepo: prefsRepo)..init(),
-        ),
+            create: (context) => PrefsCubit(prefsRepo: prefsRepo)..init()),
       ],
       child: MouseRegion(
         onEnter: (_) async {
           focusHandle = await WindowUtils.getCurrentWindowHandle();
 
-          if (isPinned) {
-            return;
-          }
+          if (isPinned) return;
 
           //animate
           if (!isExpanded) {
@@ -63,33 +72,33 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
         onExit: (_) {
           WindowUtils.focusPreviousWindow(focusHandle);
 
-          if (isPinned) {
-            return;
-          }
+          if (isPinned) return;
+
           //animate
           animatePositionTo(WindowUtils.originalPosition);
         },
-        child: BlocBuilder<PrefsCubit, PrefsStates>(
-          builder: (context, state) {
+        child: BlocConsumer<PrefsCubit, PrefsStates>(
+          listener: (context, state) {
             if (state is PrefsLoaded) {
               final prefs = state.prefs;
-              return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                home: MainWindow(
-                  isExpanded: isExpanded,
-                  isPinned: isPinned,
-                  toggleExpanded: toggleExpand,
-                  togglePin: togglePin,
-                ),
-                theme: sidebarTheme(
-                  mainColor: themeDecider(prefs.selectedTheme),
-                  opacity: prefs.backgroundOpacity,
-                  hasBorder: prefs.hasBorder,
-                ),
+              currentTheme = sidebarTheme(
+                mainColor: themeDecider(prefs.selectedTheme),
+                opacity: prefs.backgroundOpacity,
+                hasBorder: prefs.hasBorder,
               );
             }
-            //todo global
-            return CircularProgressIndicator();
+          },
+          builder: (context, state) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: MainWindow(
+                isExpanded: isExpanded,
+                isPinned: isPinned,
+                toggleExpanded: toggleExpand,
+                togglePin: togglePin,
+              ),
+              theme: currentTheme,
+            );
           },
         ),
       ),

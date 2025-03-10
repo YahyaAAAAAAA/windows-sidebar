@@ -31,6 +31,8 @@ void main() async {
     WindowOptions(
       alwaysOnTop: true,
       size: Size(kWindowWidth, windowHeight),
+      maximumSize: Size(kWindowWidth, kWindowMaxHeight),
+      minimumSize: Size(kWindowWidth, kWindowMinHeight),
       center: false,
       title: 'WindowsSidebar',
       skipTaskbar: true,
@@ -41,7 +43,8 @@ void main() async {
       await WindowUtils.alignRight();
 
       WindowUtils.originalPosition = await windowManager.getPosition();
+
+      runApp(WindowsWidgetsApp());
     },
   );
-  runApp(WindowsWidgetsApp());
 }

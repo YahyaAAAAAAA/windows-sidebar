@@ -27,22 +27,42 @@ class ResizeRow extends StatelessWidget {
             style: Theme.of(context).textTheme.labelMedium,
           ),
           SizedBox(width: 5),
-          Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).secondaryHeaderColor,
-              borderRadius: BorderRadius.circular(kOuterRadius),
-            ),
+          //note elevation on a Container
+          PhysicalModel(
+            color: Theme.of(context).secondaryHeaderColor,
+            elevation: Theme.of(context)
+                    .iconButtonTheme
+                    .style
+                    ?.elevation
+                    ?.resolve({}) ??
+                0,
+            borderRadius: BorderRadius.circular(kOuterRadius),
             child: Row(
               children: [
                 Column(
                   children: [
                     SideSmallButton(
-                      onPressed: onUpPressed,
-                      icon: Icons.arrow_drop_up_rounded,
+                      onPressed:
+                          windowHeight >= kWindowMaxHeight ? null : onUpPressed,
+                      icon: windowHeight >= kWindowMaxHeight
+                          ? Icons.horizontal_rule_rounded
+                          : Icons.arrow_drop_up_rounded,
+                      buttonStyle: Theme.of(context)
+                          .iconButtonTheme
+                          .style
+                          ?.copyWith(elevation: WidgetStatePropertyAll(0)),
                     ),
                     SideSmallButton(
-                      onPressed: onDownPressed,
-                      icon: Icons.arrow_drop_down_rounded,
+                      onPressed: windowHeight <= kWindowMinHeight
+                          ? null
+                          : onDownPressed,
+                      icon: windowHeight <= kWindowMinHeight
+                          ? Icons.horizontal_rule_rounded
+                          : Icons.arrow_drop_down_rounded,
+                      buttonStyle: Theme.of(context)
+                          .iconButtonTheme
+                          .style
+                          ?.copyWith(elevation: WidgetStatePropertyAll(0)),
                     ),
                   ],
                 ),

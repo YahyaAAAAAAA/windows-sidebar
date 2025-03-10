@@ -18,8 +18,8 @@ class Shadows {
     return [
       BoxShadow(
         color: color,
-        offset: Offset(0.0, 1),
-        blurRadius: 2,
+        offset: Offset(0, 1),
+        blurRadius: 1,
       ),
     ];
   }

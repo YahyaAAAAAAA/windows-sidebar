@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:windows_widgets/config/extensions/build_context_extensions.dart';
-import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/custom_icons.dart';
 import 'package:windows_widgets/config/utils/widgets/fade_effect.dart';
-import 'package:windows_widgets/config/utils/global_colors.dart';
 import 'package:windows_widgets/config/utils/picker.dart';
 import 'package:windows_widgets/config/utils/widgets/app_scaffold.dart';
 import 'package:windows_widgets/config/utils/widgets/right_click_menu.dart';
@@ -179,8 +177,8 @@ class _MainWindowState extends State<MainWindow>
                       ? Alignment.center
                       : Alignment.centerLeft,
                   child: CircularProgressIndicator(
-                    color: GColors.windowColor.shade100,
-                  ),
+                      // color: GColors.windowColor.shade100,
+                      ),
                 ),
               );
             },

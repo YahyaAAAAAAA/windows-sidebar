@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/extensions/theme_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
+import 'package:windows_widgets/config/utils/global_colors.dart';
 
 class AppScaffold extends StatelessWidget {
   final Widget body;
@@ -22,6 +24,13 @@ class AppScaffold extends StatelessWidget {
       padding: const EdgeInsets.all(1),
       child: Container(
         decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Theme.of(context).scaffoldBackgroundColor,
+              Theme.of(context).scaffoldBackgroundColor.shade600,
+              Theme.of(context).scaffoldBackgroundColor.shade700,
+            ],
+          ),
           border: Border.all(
             color: Theme.of(context).extension<BorderExtension>()!.color,
             width: Theme.of(context)
@@ -39,6 +48,7 @@ class AppScaffold extends StatelessWidget {
             bottomLeft: Radius.circular(kOuterRadius),
           ),
           child: Scaffold(
+            backgroundColor: GColors.transparent,
             body: Padding(
               padding: const EdgeInsets.all(6),
               child: body,

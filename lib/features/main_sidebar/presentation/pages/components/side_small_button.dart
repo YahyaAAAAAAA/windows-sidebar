@@ -8,6 +8,7 @@ class SideSmallButton extends StatelessWidget {
   final double? height;
   final String? tooltip;
   final EdgeInsets? padding;
+  final ButtonStyle? buttonStyle;
 
   const SideSmallButton({
     super.key,
@@ -17,6 +18,7 @@ class SideSmallButton extends StatelessWidget {
     this.width = 20,
     this.height = 20,
     this.tooltip,
+    this.buttonStyle,
     this.padding = const EdgeInsets.symmetric(horizontal: 0),
   });
 
@@ -29,6 +31,7 @@ class SideSmallButton extends StatelessWidget {
         onPressed: onPressed,
         padding: padding,
         tooltip: tooltip,
+        style: buttonStyle,
         icon: Icon(
           icon,
           size: iconSize,

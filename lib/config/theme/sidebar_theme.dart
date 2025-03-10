@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/extensions/theme_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
+import 'package:windows_widgets/config/utils/global_colors.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 
 Color themeDecider(int selectedTheme) {
   if (selectedTheme == 0) {
-    return const Color(0xFFd9d9d9).adjustBrightness(0.8);
+    return GColors.mainThemeColor.adjustBrightness(0.8);
   }
   if (selectedTheme == 1) {
-    return const Color.fromARGB(255, 0, 0, 0).adjustBrightness(0.2);
+    return GColors.darkThemeColor.adjustBrightness(0.2);
   } else {
     return WindowUtils.getSystemAccentColor().adjustBrightness(0.7);
   }
@@ -96,7 +97,7 @@ ThemeData sidebarTheme({
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
         backgroundColor: WidgetStatePropertyAll(mainColor.shade600),
-        elevation: WidgetStatePropertyAll(0),
+        elevation: WidgetStatePropertyAll(1),
         shadowColor: WidgetStatePropertyAll(mainColor.shade800),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(

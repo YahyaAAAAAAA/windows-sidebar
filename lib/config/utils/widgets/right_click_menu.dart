@@ -17,7 +17,7 @@ Future<String?> showContextMenu(
       Rect.fromPoints(position, position),
       Offset.zero & overlay.size,
     ),
-    elevation: 0,
+    elevation: 1,
     popUpAnimationStyle: AnimationStyle(
       duration: Duration(milliseconds: 150),
     ),

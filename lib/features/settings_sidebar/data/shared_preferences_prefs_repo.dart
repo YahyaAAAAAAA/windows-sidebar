@@ -13,10 +13,11 @@ class SharedPrefsRepo implements PrefsRepo {
 
   @override
   Future<Prefs> load() async {
-    final backgroundOpacity = prefs.getDouble('backgroundOpacity') ?? 1.0;
-    final selectedTheme = prefs.getInt('selectedTheme') ?? 0;
-    final isBlurred = prefs.getBool('isBlurred') ?? false;
-    final hasBorder = prefs.getBool('hasBorder') ?? false;
+    final backgroundOpacity =
+        prefs.getDouble('backgroundOpacity') ?? kInitBackgroundOpacity;
+    final selectedTheme = prefs.getInt('selectedTheme') ?? kInitSelectedTheme;
+    final isBlurred = prefs.getBool('isBlurred') ?? kInitIsBlurred;
+    final hasBorder = prefs.getBool('hasBorder') ?? kInitHasBorder;
     final windowHeight = prefs.getDouble('windowHeight') ?? kWindowHeight;
 
     return Prefs(
@@ -30,7 +31,6 @@ class SharedPrefsRepo implements PrefsRepo {
 
   @override
   Future<void> update(Prefs preferences) async {
-    print(preferences.windowHeight);
     await prefs.setDouble('backgroundOpacity', preferences.backgroundOpacity);
     await prefs.setInt('selectedTheme', preferences.selectedTheme);
     await prefs.setBool('isBlurred', preferences.isBlurred);

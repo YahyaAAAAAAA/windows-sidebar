@@ -43,39 +43,24 @@ class PrefsCubit extends Cubit<PrefsStates> {
     }
   }
 
-  Future<void> updatePrefs(Prefs prefs) async {
+  Future<void> updatePrefsToDB(Prefs newPrefs) async {
     emit(PrefsLoading());
     try {
-      await prefsRepo.update(prefs);
+      prefs = newPrefs;
+      await Future.delayed(Duration(milliseconds: 300));
+      await prefsRepo.update(newPrefs);
 
-      emit(PrefsLoaded(prefs: prefs));
+      emit(PrefsLoaded(prefs: newPrefs));
     } catch (e) {
       emit(PrefsError(message: e.toString()));
     }
   }
 
-  Future<void> setOpacity(Prefs prefs) async {
+  Future<void> updatePrefs(Prefs newPrefs) async {
     emit(PrefsLoading());
     try {
-      emit(PrefsLoaded(prefs: prefs));
-    } catch (e) {
-      emit(PrefsError(message: e.toString()));
-    }
-  }
-
-  Future<void> setTheme(Prefs prefs) async {
-    emit(PrefsLoading());
-    try {
-      emit(PrefsLoaded(prefs: prefs));
-    } catch (e) {
-      emit(PrefsError(message: e.toString()));
-    }
-  }
-
-  Future<void> setBorder(Prefs prefs) async {
-    emit(PrefsLoading());
-    try {
-      emit(PrefsLoaded(prefs: prefs));
+      prefs = newPrefs;
+      emit(PrefsLoaded(prefs: newPrefs));
     } catch (e) {
       emit(PrefsError(message: e.toString()));
     }

@@ -13,24 +13,28 @@ main:
     ✘ maybe mesh background ? @cancelled(25-03-08 00:40)
     ✔ add withBorder to prefs (also add it to settings window) @done(25-03-08 01:28)
     ✘ add pin to prefs @cancelled(25-03-08 01:29)
-    ✘ add window height to prefs @cancelled(25-03-08 01:56)
-    ☐ better init settings
-    ☐ safe positioning on startup
-    ☐ add height limit
-    ☐ add didUserUpdate
+    ✔ add window height to prefs @done(25-03-09 23:18)
+    ✔ default theme / dark,light theme / device theme @done(25-03-06 05:57)
+    ✔ height resize @done(25-03-06 05:57)
+    ✔ transparent / bluer / solid background @done(25-03-06 05:57)
+    ✔ safe positioning on startup @started(25-03-09 22:07) @done(25-03-09 23:18) @lasted(1h11m34s)
+    ✔ better init settings @started(25-03-09 23:22) @done(25-03-10 01:16) @lasted(1h54m27s)
+    ✔ add height limit @done(25-03-10 01:18)
+    ✔ add didUserUpdate @done(25-03-10 04:30)
+    ☐ test didUserUpdate & design dialog
+    ☐ add light theme, change current light theme -> default
+    ☐ handle not losing focus while pick folder/file
     ☐ edit items rename
     ☐ edit folder open command -> explorer/start
     ☐ handle item no longer available
     ☐ media play/pause
     ☐ This PC shortcut
+    ☐ app icon
     ☐ system tray
     ☐ figure out the cause of lag
     ☐ list sort, search (maybe ?)
-    settings:
-        ✔ default theme / dark,light theme / device theme @done(25-03-06 05:57)
-        ✔ height resize @done(25-03-06 05:57)
-        ✔ transparent / bluer / solid background @done(25-03-06 05:57)
-    future plans:
-        ☐ replace Hive with SP for side items
-        ☐ add left alignment
+
+future plans:
+    ☐ replace Hive with SP for side items
+    ☐ add left alignment
           

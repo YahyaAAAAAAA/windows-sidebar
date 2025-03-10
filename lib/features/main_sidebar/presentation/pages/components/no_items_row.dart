@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:windows_widgets/config/extensions/color_extensions.dart';
-import 'package:windows_widgets/config/utils/global_colors.dart';
 
 class NoItemsRow extends StatelessWidget {
   final bool isExpanded;
@@ -24,12 +22,10 @@ class NoItemsRow extends StatelessWidget {
               Icons.keyboard_double_arrow_down_rounded,
               size: 30,
             ),
-            SizedBox(width: 9),
+            SizedBox(width: 10),
             Text(
               'Add Shortcuts',
-              style: TextStyle(
-                color: GColors.windowColor.shade100,
-              ),
+              style: Theme.of(context).textTheme.labelLarge,
             ),
           ],
         ),

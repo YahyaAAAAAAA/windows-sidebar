@@ -25,10 +25,10 @@ class FadeEffect extends StatelessWidget {
           ],
           stops: [
             0.0,
-            0.1,
+            0.05,
             0.9,
-            1.0
-          ], // 10% purple, 80% transparent, 10% purple
+            1.0,
+          ],
         ).createShader(rect);
       },
       blendMode: BlendMode.dstOut,

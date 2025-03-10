@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 
 class GColors {
-  static Color windowColor = WindowUtils.getSystemAccentColor();
-  static double windowColorOpacity = 1;
-
+  static Color mainThemeColor = const Color(0xFFb392ac);
+  static Color darkThemeColor = const Color(0xFF000000);
+  static Color lightThemeColor = const Color(0xFFFFFFFF);
   static Color transparent = Colors.transparent;
 
-  //todo incase of errors getting windows color
   static Color windowColorFallback = Colors.black;
 }

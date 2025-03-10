@@ -3,12 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:windows_widgets/config/extensions/build_context_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
+import 'package:windows_widgets/config/utils/identical.dart';
 import 'package:windows_widgets/config/utils/widgets/app_scaffold.dart';
+import 'package:windows_widgets/config/utils/widgets/global_loading.dart';
 import 'package:windows_widgets/config/utils/windows/window_animation_utils_mixin.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_button.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_divider.dart';
+import 'package:windows_widgets/features/settings_sidebar/domain/models/prefs.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_cubit.dart';
+import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_states.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/blur_row.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/resize_row.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/opacity_row.dart';
@@ -26,13 +30,16 @@ class SettingsWindow extends StatefulWidget {
 class _SettingsWindowState extends State<SettingsWindow>
     with TickerProviderStateMixin, WindowListener, WindowAnimationUtilsMixin {
   late final PrefsCubit prefsCubit;
+  Prefs? initPrefs;
   double windowHeight = 0;
+  bool didUserUpdate = false;
 
   @override
   void initState() {
     super.initState();
 
     prefsCubit = context.read<PrefsCubit>();
+    initPrefs = prefsCubit.prefs?.copyWith();
 
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
@@ -51,14 +58,25 @@ class _SettingsWindowState extends State<SettingsWindow>
           SideButton(
             icon: Icons.arrow_back_ios_new_rounded,
             text: 'Sidebar Settings',
-            onPressed: () => context.pop(),
+            onPressed: () async {
+              if (!prefsIdentical(prefsCubit.prefs!, initPrefs!)) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    content: Text('you sure you want to exit?'),
+                  ),
+                );
+                return;
+              }
+              context.pop();
+            },
           ),
 
           SideDivider(isExpanded: true),
 
           //resize
           ResizeRow(
-            windowHeight: windowHeight,
+            windowHeight: windowHeight.ceilToDouble(),
             onUpPressed: () => setState(() => windowHeight += 10),
             onDownPressed: () => setState(() => windowHeight -= 10),
             onDonePressed: () async {
@@ -75,7 +93,7 @@ class _SettingsWindowState extends State<SettingsWindow>
             sliderValue: prefsCubit.prefs!.backgroundOpacity,
             onChanged: (value) {
               prefsCubit.prefs!.backgroundOpacity = value;
-              prefsCubit.setOpacity(prefsCubit.prefs!);
+              prefsCubit.updatePrefs(prefsCubit.prefs!);
               setState(() {});
             },
           ),
@@ -100,7 +118,7 @@ class _SettingsWindowState extends State<SettingsWindow>
             onBorderChanged: (value) async {
               prefsCubit.prefs!.hasBorder = value!;
 
-              prefsCubit.setBorder(prefsCubit.prefs!);
+              prefsCubit.updatePrefs(prefsCubit.prefs!);
               setState(() {});
             },
           ),
@@ -112,17 +130,17 @@ class _SettingsWindowState extends State<SettingsWindow>
             selectedTheme: prefsCubit.prefs!.selectedTheme,
             onLightSelected: (value) {
               prefsCubit.prefs!.selectedTheme = 0;
-              prefsCubit.setTheme(prefsCubit.prefs!);
+              prefsCubit.updatePrefs(prefsCubit.prefs!);
               setState(() {});
             },
             onDarkSelected: (value) {
               prefsCubit.prefs!.selectedTheme = 1;
-              prefsCubit.setTheme(prefsCubit.prefs!);
+              prefsCubit.updatePrefs(prefsCubit.prefs!);
               setState(() {});
             },
             onDeviceSelected: (value) {
               prefsCubit.prefs!.selectedTheme = 2;
-              prefsCubit.setTheme(prefsCubit.prefs!);
+              prefsCubit.updatePrefs(prefsCubit.prefs!);
               setState(() {});
             },
           ),
@@ -133,6 +151,7 @@ class _SettingsWindowState extends State<SettingsWindow>
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 5,
             children: [
               Text(
                 'Apply Settings',
@@ -140,10 +159,17 @@ class _SettingsWindowState extends State<SettingsWindow>
               ),
               IconButton(
                 onPressed: () async {
-                  await prefsCubit.updatePrefs(prefsCubit.prefs!);
+                  await prefsCubit.updatePrefsToDB(prefsCubit.prefs!);
+                  initPrefs = prefsCubit.prefs;
                 },
-                icon: Icon(
-                  Icons.check,
+                icon: BlocBuilder<PrefsCubit, PrefsStates>(
+                  builder: (context, state) {
+                    return state is PrefsLoaded
+                        ? Icon(
+                            Icons.check,
+                          )
+                        : GlobalLoading();
+                  },
                 ),
               ),
             ],

@@ -19,11 +19,19 @@ class WindowUtils {
 
   static Future<void> alignRight() async {
     await windowManager.setAlignment(Alignment.centerRight);
-    Offset position = await windowManager.getPosition();
-    double width = (await windowManager.getSize()).width;
 
-    await windowManager
-        .setPosition(Offset(position.dx + width - 1, position.dy));
+    var screenSize = await screenRetriever.getPrimaryDisplay();
+    var windowSize = await windowManager.getSize();
+    var currentPosition = await windowManager.getPosition();
+
+    int screenHeight = screenSize.size.height.toInt();
+    int windowHeight = windowSize.height.toInt();
+    double newY = (screenHeight - windowHeight) / 2;
+
+    int windowWidth = windowSize.width.toInt();
+    double newX = currentPosition.dx + windowWidth - 1;
+
+    await windowManager.setPosition(Offset(newX, newY));
   }
 
   static Future<void> centerOnY() async {
@@ -33,10 +41,9 @@ class WindowUtils {
 
     int screenHeight = screenSize.size.height.toInt();
     int windowHeight = windowSize.height.toInt();
-    int newY = (screenHeight - windowHeight) ~/ 2;
+    double newY = (screenHeight - windowHeight) / 2;
 
-    await windowManager
-        .setPosition(Offset(currentPosition.dx, newY.toDouble()));
+    await windowManager.setPosition(Offset(currentPosition.dx, newY));
   }
 
   //reads windows system accent color from the registry

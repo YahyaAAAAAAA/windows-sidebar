@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/custom_icons.dart';
+import 'package:windows_widgets/config/utils/shadows.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_small_button.dart';
 
 class HeaderRow extends StatelessWidget {
@@ -34,11 +37,25 @@ class HeaderRow extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: onLogoPressed,
-                icon: Icon(
-                  Custom.apps,
-                  size: 20,
+                padding: EdgeInsets.zero,
+                icon: Lottie.asset(
+                  'assets/animations/logo.json',
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                  frameRate: FrameRate(60),
+                  //note lottie color change
+                  delegates: LottieDelegates(
+                    values: [
+                      ValueDelegate.color(
+                        const ['**'],
+                        value: Theme.of(context).iconTheme.color,
+                      ),
+                    ],
+                  ),
                 ),
               ),
+
               SizedBox(height: 3),
               //small button
               SizedBox(
@@ -64,6 +81,9 @@ class HeaderRow extends StatelessWidget {
           SizedBox(width: 5),
           Container(
             decoration: BoxDecoration(
+              boxShadow: Shadows.elevation(
+                color: Theme.of(context).secondaryHeaderColor.shade800,
+              ),
               color: Theme.of(context).secondaryHeaderColor,
               borderRadius: BorderRadius.circular(kOuterRadius),
             ),
@@ -76,18 +96,30 @@ class HeaderRow extends StatelessWidget {
                 SideSmallButton(
                   onPressed: onSettingsPressed,
                   icon: Icons.settings,
+                  buttonStyle: Theme.of(context)
+                      .iconButtonTheme
+                      .style
+                      ?.copyWith(elevation: WidgetStatePropertyAll(0)),
                 ),
                 SideSmallButton(
                   onPressed: onReorderPressed,
                   icon: canDrag ? Icons.check : Custom.apps_sort,
                   tooltip: 'Reorder Items',
                   iconSize: 12,
+                  buttonStyle: Theme.of(context)
+                      .iconButtonTheme
+                      .style
+                      ?.copyWith(elevation: WidgetStatePropertyAll(0)),
                 ),
                 SideSmallButton(
                   onPressed: onPinPressed,
                   icon: isPinned ? Custom.unpin : Custom.pin,
                   tooltip: isPinned ? 'Unpin Sidebar' : 'Pin Sidebar',
                   iconSize: 12,
+                  buttonStyle: Theme.of(context)
+                      .iconButtonTheme
+                      .style
+                      ?.copyWith(elevation: WidgetStatePropertyAll(0)),
                 ),
               ],
             ),

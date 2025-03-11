@@ -22,20 +22,15 @@ extension BuildContextExtension on BuildContext {
   void replace(
     Widget child, {
     Duration? duration,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transitionBuilder,
   }) {
     Navigator.of(this).pushReplacement(
       PageRouteBuilder(
         transitionDuration: duration ?? Duration(milliseconds: 500),
         reverseTransitionDuration: duration ?? Duration(milliseconds: 500),
         pageBuilder: (context, animation, secondaryAnimation) => child,
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          final tween = Tween(begin: 0.0, end: 1.0);
-          final fadeAnimation = animation.drive(tween);
-          return FadeTransition(
-            opacity: fadeAnimation,
-            child: child,
-          );
-        },
+        transitionsBuilder: transitionBuilder ?? TransitionAnimations.fade,
       ),
     );
   }
@@ -65,6 +60,25 @@ extension BuildContextExtension on BuildContext {
         ),
         duration: duration ?? const Duration(seconds: 2),
       ),
+    );
+  }
+
+  //animated dialog
+  Future<Object?> dialog({
+    required Widget Function(BuildContext, Animation<double>, Animation<double>)
+        pageBuilder,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transitionBuilder,
+    bool? barrierDismissible,
+    Duration? transitionDuration,
+  }) async {
+    return showGeneralDialog(
+      context: this,
+      pageBuilder: pageBuilder,
+      barrierLabel: '',
+      barrierDismissible: barrierDismissible ?? true,
+      transitionDuration: transitionDuration ?? Duration(milliseconds: 200),
+      transitionBuilder: transitionBuilder ?? TransitionAnimations.fade,
     );
   }
 }

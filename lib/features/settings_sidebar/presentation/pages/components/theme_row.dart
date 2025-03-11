@@ -6,6 +6,7 @@ class ThemeRow extends StatelessWidget {
   final void Function(int?)? onLightSelected;
   final void Function(int?)? onDarkSelected;
   final void Function(int?)? onDeviceSelected;
+  final void Function(int?)? onDefaultSelected;
 
   const ThemeRow({
     super.key,
@@ -13,6 +14,7 @@ class ThemeRow extends StatelessWidget {
     this.onLightSelected,
     this.onDarkSelected,
     this.onDeviceSelected,
+    this.onDefaultSelected,
   });
 
   @override
@@ -30,39 +32,59 @@ class ThemeRow extends StatelessWidget {
             Expanded(flex: 5, child: SideDivider(isExpanded: true)),
           ],
         ),
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Row(
-            children: [
-              Text(
-                'Light',
-                style: Theme.of(context).textTheme.labelMedium,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(
+                  children: [
+                    Text(
+                      'Default',
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                    Radio(
+                      value: selectedTheme,
+                      groupValue: 0,
+                      onChanged: onDefaultSelected,
+                    ),
+                    Text(
+                      'Device',
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                    Radio(
+                      value: selectedTheme,
+                      groupValue: 1,
+                      onChanged: onDeviceSelected,
+                    ),
+                  ],
+                )),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Row(
+                children: [
+                  Text(
+                    'Light',
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                  Radio(
+                    value: selectedTheme,
+                    groupValue: 2,
+                    onChanged: onLightSelected,
+                  ),
+                  Text(
+                    'Dark',
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                  Radio(
+                    value: selectedTheme,
+                    groupValue: 3,
+                    onChanged: onDarkSelected,
+                  ),
+                ],
               ),
-              Radio(
-                value: selectedTheme,
-                groupValue: 0,
-                onChanged: onLightSelected,
-              ),
-              Text(
-                'Dark',
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-              Radio(
-                value: selectedTheme,
-                groupValue: 1,
-                onChanged: onDarkSelected,
-              ),
-              Text(
-                'Device',
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-              Radio(
-                value: selectedTheme,
-                groupValue: 2,
-                onChanged: onDeviceSelected,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

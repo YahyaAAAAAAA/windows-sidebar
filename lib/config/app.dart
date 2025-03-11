@@ -25,6 +25,7 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
   final itemsRepo = HiveSideItemsRepo();
   final prefsRepo = SharedPrefsRepo();
 
+  bool shouldLoseFoucs = true;
   bool isExpanded = false;
   bool isPinned = false;
   ThemeData? currentTheme;
@@ -35,6 +36,9 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
 
   void togglePin() => setState(() => isPinned = !isPinned);
 
+  void toggleShouldLoseFocus() =>
+      setState(() => shouldLoseFoucs = !shouldLoseFoucs);
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +47,7 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
       mainColor: themeDecider(kInitSelectedTheme),
       opacity: kInitBackgroundOpacity,
       hasBorder: kInitHasBorder,
+      scaffoldPadding: kInitScaffoldPadding,
     );
   }
 
@@ -70,7 +75,9 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
           }
         },
         onExit: (_) {
-          WindowUtils.focusPreviousWindow(focusHandle);
+          if (shouldLoseFoucs) {
+            WindowUtils.focusPreviousWindow(focusHandle);
+          }
 
           if (isPinned) return;
 
@@ -85,6 +92,7 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
                 mainColor: themeDecider(prefs.selectedTheme),
                 opacity: prefs.backgroundOpacity,
                 hasBorder: prefs.hasBorder,
+                scaffoldPadding: prefs.scaffoldPadding,
               );
             }
           },
@@ -96,6 +104,8 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
                 isPinned: isPinned,
                 toggleExpanded: toggleExpand,
                 togglePin: togglePin,
+                shouldLoseFoucs: shouldLoseFoucs,
+                toggleShouldLoseFocus: toggleShouldLoseFocus,
               ),
               theme: currentTheme,
             );

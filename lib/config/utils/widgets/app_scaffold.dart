@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/extensions/color_extensions.dart';
-import 'package:windows_widgets/config/extensions/theme_extensions.dart';
+import 'package:windows_widgets/config/extensions/sidebar_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/global_colors.dart';
 
@@ -21,20 +21,20 @@ class AppScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(1),
+      padding: EdgeInsets.all(
+          Theme.of(context).extension<SidebarExtensions>()!.scaffoldPadding),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Theme.of(context).scaffoldBackgroundColor,
               Theme.of(context).scaffoldBackgroundColor.shade600,
-              Theme.of(context).scaffoldBackgroundColor.shade700,
             ],
           ),
           border: Border.all(
-            color: Theme.of(context).extension<BorderExtension>()!.color,
+            color: Theme.of(context).extension<SidebarExtensions>()!.color,
             width: Theme.of(context)
-                .extension<BorderExtension>()!
+                .extension<SidebarExtensions>()!
                 .globalBorderWidth,
           ),
           borderRadius: BorderRadius.only(
@@ -57,17 +57,5 @@ class AppScaffold extends StatelessWidget {
         ),
       ),
     );
-    // return Scaffold(
-    //   appBar: appBar,
-    //   body: MeshGradient(
-    //     options: MeshGradientOptions(
-    //       noiseIntensity: 0,
-    //     ),
-    //     points: points,
-    //     child: body,
-    //   ),
-    //   backgroundColor: backgroundColor,
-    //   bottomNavigationBar: bottomNavigationBar,
-    // );
   }
 }

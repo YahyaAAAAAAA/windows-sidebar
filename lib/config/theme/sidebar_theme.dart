@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/extensions/color_extensions.dart';
-import 'package:windows_widgets/config/extensions/theme_extensions.dart';
+import 'package:windows_widgets/config/extensions/sidebar_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/global_colors.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 
 Color themeDecider(int selectedTheme) {
+  //default
   if (selectedTheme == 0) {
     return GColors.mainThemeColor.adjustBrightness(0.8);
   }
-  if (selectedTheme == 1) {
-    return GColors.darkThemeColor.adjustBrightness(0.2);
-  } else {
+  //device
+  else if (selectedTheme == 1) {
     return WindowUtils.getSystemAccentColor().adjustBrightness(0.7);
+  }
+  //light
+  else if (selectedTheme == 2) {
+    return GColors.lightThemeColor.adjustBrightness(0.7);
+  }
+  //dark
+  else {
+    return GColors.darkThemeColor.adjustBrightness(0.2);
   }
 }
 
@@ -20,6 +28,7 @@ ThemeData sidebarTheme({
   required Color mainColor,
   required double opacity,
   required bool hasBorder,
+  required double scaffoldPadding,
 }) {
   //todo clean up a lil bit
   return ThemeData(
@@ -40,9 +49,10 @@ ThemeData sidebarTheme({
       ),
     ),
     extensions: [
-      BorderExtension(
+      SidebarExtensions(
         globalBorderWidth: 1,
         color: hasBorder ? mainColor : mainColor.withValues(alpha: 0),
+        scaffoldPadding: scaffoldPadding,
       ),
     ],
     textTheme: TextTheme(
@@ -71,6 +81,17 @@ ThemeData sidebarTheme({
       thumbColor: mainColor.shade100,
       inactiveTrackColor: mainColor.shade300,
       activeTrackColor: mainColor.shade100,
+      valueIndicatorColor: mainColor,
+      valueIndicatorTextStyle: TextStyle(
+        color: mainColor.shade100,
+      ),
+    ),
+    dialogTheme: DialogTheme(
+      backgroundColor: mainColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(kOuterRadius),
+      ),
+      insetPadding: EdgeInsets.all(10),
     ),
     checkboxTheme: CheckboxThemeData(
       checkColor: WidgetStatePropertyAll(mainColor.shade600),
@@ -105,6 +126,53 @@ ThemeData sidebarTheme({
           ),
         ),
         iconColor: WidgetStatePropertyAll(mainColor.shade100),
+      ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(kOuterRadius),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: mainColor.shade600,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(kOuterRadius),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: mainColor.shade200,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(kOuterRadius),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: mainColor.shade100,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(kOuterRadius),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: mainColor.shade100,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(kOuterRadius),
+      ),
+      filled: true,
+      fillColor: mainColor.shade600,
+      labelStyle: TextStyle(
+        color: mainColor.shade100,
+        fontSize: 12,
+      ),
+      hintStyle: TextStyle(
+        color: mainColor.shade200,
+        fontSize: 12,
+      ),
+      errorStyle: TextStyle(
+        color: mainColor.shade100,
+        fontSize: 12,
       ),
     ),
   );

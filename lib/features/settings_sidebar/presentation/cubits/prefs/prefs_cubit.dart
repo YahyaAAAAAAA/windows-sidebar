@@ -15,13 +15,13 @@ class PrefsCubit extends Cubit<PrefsStates> {
   Future<void> init() async {
     try {
       await prefsRepo.init();
-      getPrefs();
+      load();
     } catch (e) {
       emit(PrefsError(message: e.toString()));
     }
   }
 
-  Future<void> getPrefs() async {
+  Future<void> load() async {
     emit(PrefsLoading());
     try {
       prefs = await prefsRepo.load();
@@ -43,7 +43,8 @@ class PrefsCubit extends Cubit<PrefsStates> {
     }
   }
 
-  Future<void> updatePrefsToDB(Prefs newPrefs) async {
+  //save prefs to local db
+  Future<void> save(Prefs newPrefs) async {
     emit(PrefsLoading());
     try {
       prefs = newPrefs;
@@ -56,7 +57,8 @@ class PrefsCubit extends Cubit<PrefsStates> {
     }
   }
 
-  Future<void> updatePrefs(Prefs newPrefs) async {
+  //update locally
+  Future<void> update(Prefs newPrefs) async {
     emit(PrefsLoading());
     try {
       prefs = newPrefs;

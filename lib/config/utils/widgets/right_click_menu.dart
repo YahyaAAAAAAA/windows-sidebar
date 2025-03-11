@@ -6,7 +6,8 @@ Future<String?> showContextMenu(
   Offset position,
   bool isExpanded, {
   void Function()? onDelete,
-  void Function()? onEdit, //todo
+  void Function()? onNameEdit,
+  void Function()? onCommandEdit,
 }) async {
   final RenderBox overlay =
       Overlay.of(context).context.findRenderObject() as RenderBox;
@@ -22,8 +23,8 @@ Future<String?> showContextMenu(
       duration: Duration(milliseconds: 150),
     ),
     constraints: BoxConstraints(
-      maxWidth: isExpanded ? 100 : 40,
-      maxHeight: 120,
+      maxWidth: isExpanded ? 150 : 40,
+      maxHeight: 150,
     ),
     color: Theme.of(context).secondaryHeaderColor,
     shape: RoundedRectangleBorder(
@@ -31,16 +32,28 @@ Future<String?> showContextMenu(
     ),
     items: [
       PopupMenuItem(
-        onTap: onEdit,
+        onTap: onNameEdit,
         padding: EdgeInsets.symmetric(horizontal: 10),
         value: 'edit',
         child: isExpanded
             ? expandedBuild(
                 context,
                 icon: Icons.edit_note_rounded,
-                text: 'Edit',
+                text: 'Edit Name',
               )
             : shrunkBuild(icon: Icons.edit_note_rounded),
+      ),
+      PopupMenuItem(
+        onTap: onCommandEdit,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        value: 'command',
+        child: isExpanded
+            ? expandedBuild(
+                context,
+                icon: Icons.terminal_rounded,
+                text: 'Open Command',
+              )
+            : shrunkBuild(icon: Icons.terminal_rounded),
       ),
       PopupMenuItem(
         onTap: onDelete,

@@ -29,7 +29,7 @@ class WindowUtils {
     double newY = (screenHeight - windowHeight) / 2;
 
     int windowWidth = windowSize.width.toInt();
-    double newX = currentPosition.dx + windowWidth - 1;
+    double newX = currentPosition.dx + windowWidth - 0.5;
 
     await windowManager.setPosition(Offset(newX, newY));
   }

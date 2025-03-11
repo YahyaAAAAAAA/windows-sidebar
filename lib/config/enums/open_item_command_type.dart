@@ -1,0 +1,4 @@
+enum SideItemOpenCommandType {
+  explorer,
+  start,
+}

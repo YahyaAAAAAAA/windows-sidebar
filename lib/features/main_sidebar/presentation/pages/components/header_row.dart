@@ -93,7 +93,7 @@ class HeaderRow extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               spacing: 2,
               children: [
-                SideSmallButton(
+                SideSmallButton.icon(
                   onPressed: onSettingsPressed,
                   icon: Icons.settings,
                   buttonStyle: Theme.of(context)
@@ -101,7 +101,7 @@ class HeaderRow extends StatelessWidget {
                       .style
                       ?.copyWith(elevation: WidgetStatePropertyAll(0)),
                 ),
-                SideSmallButton(
+                SideSmallButton.icon(
                   onPressed: onReorderPressed,
                   icon: canDrag ? Icons.check : Custom.apps_sort,
                   tooltip: 'Reorder Items',
@@ -111,7 +111,7 @@ class HeaderRow extends StatelessWidget {
                       .style
                       ?.copyWith(elevation: WidgetStatePropertyAll(0)),
                 ),
-                SideSmallButton(
+                SideSmallButton.icon(
                   onPressed: onPinPressed,
                   icon: isPinned ? Custom.unpin : Custom.pin,
                   tooltip: isPinned ? 'Unpin Sidebar' : 'Pin Sidebar',

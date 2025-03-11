@@ -7,8 +7,8 @@ class TransitionAnimations {
       Animation<double> animation,
       Animation<double> secondaryAnimation,
       Widget child) {
-    const begin = Offset(1.0, 0.0); //slide from the right
-    const end = Offset.zero; //slide to the center
+    const begin = Offset(1.0, 0.0);
+    const end = Offset.zero;
     const curve = Curves.easeInOut;
 
     final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
@@ -23,8 +23,8 @@ class TransitionAnimations {
   //slide transition from the left
   static Widget slideFromLeft(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
-    const begin = Offset(-1.0, 0.0); //slide from the left
-    const end = Offset.zero; //slide to the center
+    const begin = Offset(-1.0, 0.0);
+    const end = Offset.zero;
     const curve = Curves.easeInOut;
 
     final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
@@ -42,8 +42,24 @@ class TransitionAnimations {
       Animation<double> animation,
       Animation<double> secondaryAnimation,
       Widget child) {
-    const begin = Offset(0.0, 1.0); //slide from the bottom
-    const end = Offset.zero; //slide to the center
+    const begin = Offset(0.0, 1.0);
+    const end = Offset.zero;
+    const curve = Curves.easeInOut;
+
+    final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+    final offsetAnimation = animation.drive(tween);
+
+    return SlideTransition(
+      position: offsetAnimation,
+      child: child,
+    );
+  }
+
+  //slide transition from the top
+  static Widget slideFromTop(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    const begin = Offset(0.0, -1.0);
+    const end = Offset.zero;
     const curve = Curves.easeInOut;
 
     final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));

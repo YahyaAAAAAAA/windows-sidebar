@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:windows_widgets/config/extensions/bool_exensions.dart';
 import 'package:windows_widgets/config/extensions/build_context_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/identical.dart';
+import 'package:windows_widgets/config/utils/transition_animation.dart';
 import 'package:windows_widgets/config/utils/widgets/app_scaffold.dart';
+import 'package:windows_widgets/config/utils/widgets/fade_effect.dart';
 import 'package:windows_widgets/config/utils/widgets/global_loading.dart';
 import 'package:windows_widgets/config/utils/windows/window_animation_utils_mixin.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
@@ -14,6 +17,8 @@ import 'package:windows_widgets/features/settings_sidebar/domain/models/prefs.da
 import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_cubit.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_states.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/blur_row.dart';
+import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/padding_row.dart';
+import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/dialogs/prefs_save_dialog.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/resize_row.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/opacity_row.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/theme_row.dart';
@@ -32,7 +37,6 @@ class _SettingsWindowState extends State<SettingsWindow>
   late final PrefsCubit prefsCubit;
   Prefs? initPrefs;
   double windowHeight = 0;
-  bool didUserUpdate = false;
 
   @override
   void initState() {
@@ -40,14 +44,7 @@ class _SettingsWindowState extends State<SettingsWindow>
 
     prefsCubit = context.read<PrefsCubit>();
     initPrefs = prefsCubit.prefs?.copyWith();
-
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) async {
-        windowHeight = (await windowManager.getSize()).height;
-
-        setState(() {});
-      },
-    );
+    windowHeight = prefsCubit.prefs!.windowHeight;
   }
 
   @override
@@ -59,15 +56,15 @@ class _SettingsWindowState extends State<SettingsWindow>
             icon: Icons.arrow_back_ios_new_rounded,
             text: 'Sidebar Settings',
             onPressed: () async {
+              //user changed prefs, show confirmation dialog
               if (!prefsIdentical(prefsCubit.prefs!, initPrefs!)) {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    content: Text('you sure you want to exit?'),
-                  ),
+                context.dialog(
+                  transitionBuilder: TransitionAnimations.slideFromBottom,
+                  pageBuilder: (context, _, __) => PrefsSaveDialog(),
                 );
                 return;
               }
+              //prefs stayed the same
               context.pop();
             },
           ),
@@ -75,80 +72,103 @@ class _SettingsWindowState extends State<SettingsWindow>
           SideDivider(isExpanded: true),
 
           //resize
-          ResizeRow(
-            windowHeight: windowHeight.ceilToDouble(),
-            onUpPressed: () => setState(() => windowHeight += 10),
-            onDownPressed: () => setState(() => windowHeight -= 10),
-            onDonePressed: () async {
-              await animateSizeTo(
-                  Size(kWindowWidth, windowHeight.ceilToDouble()));
-              prefsCubit.prefs!.windowHeight = windowHeight.ceilToDouble();
-            },
+          Expanded(
+            child: FadeEffect(
+              child: ListView(
+                children: [
+                  ResizeRow(
+                    windowHeight: windowHeight.ceilToDouble(),
+                    onUpPressed: () => setState(() => windowHeight += 10),
+                    onDownPressed: () => setState(() => windowHeight -= 10),
+                    onDonePressed: () async {
+                      await animateSizeTo(
+                          Size(kWindowWidth, windowHeight.ceilToDouble()));
+                      prefsCubit.prefs!.windowHeight =
+                          windowHeight.ceilToDouble();
+                    },
+                  ),
+
+                  SizedBox(height: 10),
+
+                  //opacity
+                  OpacityRow(
+                    sliderValue: prefsCubit.prefs!.backgroundOpacity,
+                    onChanged: (value) {
+                      prefsCubit.prefs!.backgroundOpacity = value;
+                      prefsCubit.update(prefsCubit.prefs!);
+                      setState(() {});
+                    },
+                  ),
+
+                  SizedBox(height: 10),
+
+                  //blur, border boxes
+                  BlurRow(
+                    blurValue: prefsCubit.prefs!.isBlurred,
+                    borderValue: prefsCubit.prefs!.hasBorder,
+                    onBlurChanged: (value) async {
+                      prefsCubit.prefs!.isBlurred = value!;
+
+                      if (value) {
+                        await WindowUtils.blur();
+                      } else {
+                        await WindowUtils.transparent();
+                      }
+
+                      setState(() {});
+                    },
+                    onBorderChanged: (value) async {
+                      prefsCubit.prefs!.hasBorder = value!;
+
+                      prefsCubit.update(prefsCubit.prefs!);
+                      setState(() {});
+                    },
+                  ),
+
+                  SizedBox(height: 10),
+
+                  //theme
+                  ThemeRow(
+                    selectedTheme: prefsCubit.prefs!.selectedTheme,
+                    onDefaultSelected: (value) {
+                      prefsCubit.prefs!.selectedTheme = 0;
+                      prefsCubit.update(prefsCubit.prefs!);
+                      setState(() {});
+                    },
+                    onDeviceSelected: (value) {
+                      prefsCubit.prefs!.selectedTheme = 1;
+                      prefsCubit.update(prefsCubit.prefs!);
+                      setState(() {});
+                    },
+                    onLightSelected: (value) {
+                      prefsCubit.prefs!.selectedTheme = 2;
+                      prefsCubit.update(prefsCubit.prefs!);
+                      setState(() {});
+                    },
+                    onDarkSelected: (value) {
+                      prefsCubit.prefs!.selectedTheme = 3;
+                      prefsCubit.update(prefsCubit.prefs!);
+                      setState(() {});
+                    },
+                  ),
+
+                  SizedBox(height: 10),
+
+                  PaddingRow(
+                    scaffoldPadding: prefsCubit.prefs!.scaffoldPadding,
+                    onChanged: (value) => setState(() =>
+                        prefsCubit.prefs!.scaffoldPadding = value!.toDouble()),
+                  ),
+                ],
+              ),
+            ),
           ),
 
-          SizedBox(height: 10),
-
-          //opacity slider
-          OpacityRow(
-            sliderValue: prefsCubit.prefs!.backgroundOpacity,
-            onChanged: (value) {
-              prefsCubit.prefs!.backgroundOpacity = value;
-              prefsCubit.updatePrefs(prefsCubit.prefs!);
-              setState(() {});
-            },
-          ),
-
-          SizedBox(height: 10),
-
-          //blur, solid radios
-          BlurRow(
-            blurValue: prefsCubit.prefs!.isBlurred,
-            borderValue: prefsCubit.prefs!.hasBorder,
-            onBlurChanged: (value) async {
-              prefsCubit.prefs!.isBlurred = value!;
-
-              if (value) {
-                await WindowUtils.blur();
-              } else {
-                await WindowUtils.transparent();
-              }
-
-              setState(() {});
-            },
-            onBorderChanged: (value) async {
-              prefsCubit.prefs!.hasBorder = value!;
-
-              prefsCubit.updatePrefs(prefsCubit.prefs!);
-              setState(() {});
-            },
-          ),
-
-          SizedBox(height: 10),
-
-          //sidebar theme
-          ThemeRow(
-            selectedTheme: prefsCubit.prefs!.selectedTheme,
-            onLightSelected: (value) {
-              prefsCubit.prefs!.selectedTheme = 0;
-              prefsCubit.updatePrefs(prefsCubit.prefs!);
-              setState(() {});
-            },
-            onDarkSelected: (value) {
-              prefsCubit.prefs!.selectedTheme = 1;
-              prefsCubit.updatePrefs(prefsCubit.prefs!);
-              setState(() {});
-            },
-            onDeviceSelected: (value) {
-              prefsCubit.prefs!.selectedTheme = 2;
-              prefsCubit.updatePrefs(prefsCubit.prefs!);
-              setState(() {});
-            },
-          ),
-
-          Spacer(),
+          // Spacer(),
 
           SideDivider(isExpanded: true),
 
+          //save to db
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             spacing: 5,
@@ -159,7 +179,7 @@ class _SettingsWindowState extends State<SettingsWindow>
               ),
               IconButton(
                 onPressed: () async {
-                  await prefsCubit.updatePrefsToDB(prefsCubit.prefs!);
+                  await prefsCubit.save(prefsCubit.prefs!);
                   initPrefs = prefsCubit.prefs;
                 },
                 icon: BlocBuilder<PrefsCubit, PrefsStates>(

@@ -11,12 +11,14 @@ class SideFileAdapter extends TypeAdapter<SideFile> {
     final path = reader.read();
     final name = reader.read();
     final icon = reader.read();
+    final command = reader.read();
 
     return SideFile(
       id: id,
       path: path,
       name: name,
       icon: icon,
+      command: command,
     );
   }
 
@@ -26,5 +28,6 @@ class SideFileAdapter extends TypeAdapter<SideFile> {
     writer.write(obj.path);
     writer.write(obj.name);
     writer.write(obj.icon);
+    writer.write(obj.command);
   }
 }

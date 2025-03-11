@@ -19,6 +19,8 @@ class SharedPrefsRepo implements PrefsRepo {
     final isBlurred = prefs.getBool('isBlurred') ?? kInitIsBlurred;
     final hasBorder = prefs.getBool('hasBorder') ?? kInitHasBorder;
     final windowHeight = prefs.getDouble('windowHeight') ?? kWindowHeight;
+    final scaffoldPadding =
+        prefs.getDouble('scaffoldPadding') ?? kInitScaffoldPadding;
 
     return Prefs(
       backgroundOpacity: backgroundOpacity,
@@ -26,6 +28,7 @@ class SharedPrefsRepo implements PrefsRepo {
       isBlurred: isBlurred,
       hasBorder: hasBorder,
       windowHeight: windowHeight,
+      scaffoldPadding: scaffoldPadding,
     );
   }
 
@@ -36,5 +39,6 @@ class SharedPrefsRepo implements PrefsRepo {
     await prefs.setBool('isBlurred', preferences.isBlurred);
     await prefs.setBool('hasBorder', preferences.hasBorder);
     await prefs.setDouble('windowHeight', preferences.windowHeight);
+    await prefs.setDouble('scaffoldPadding', preferences.scaffoldPadding);
   }
 }

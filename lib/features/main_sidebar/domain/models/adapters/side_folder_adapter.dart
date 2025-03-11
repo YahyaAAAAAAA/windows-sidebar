@@ -10,11 +10,13 @@ class SideFolderAdapter extends TypeAdapter<SideFolder> {
     final id = reader.read();
     final path = reader.read();
     final name = reader.read();
+    final command = reader.read();
 
     return SideFolder(
       id: id,
       path: path,
       name: name,
+      command: command,
     );
   }
 
@@ -23,5 +25,6 @@ class SideFolderAdapter extends TypeAdapter<SideFolder> {
     writer.write(obj.id);
     writer.write(obj.path);
     writer.write(obj.name);
+    writer.write(obj.command);
   }
 }

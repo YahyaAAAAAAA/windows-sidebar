@@ -41,7 +41,7 @@ class ResizeRow extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    SideSmallButton(
+                    SideSmallButton.icon(
                       onPressed:
                           windowHeight >= kWindowMaxHeight ? null : onUpPressed,
                       icon: windowHeight >= kWindowMaxHeight
@@ -52,7 +52,7 @@ class ResizeRow extends StatelessWidget {
                           .style
                           ?.copyWith(elevation: WidgetStatePropertyAll(0)),
                     ),
-                    SideSmallButton(
+                    SideSmallButton.icon(
                       onPressed: windowHeight <= kWindowMinHeight
                           ? null
                           : onDownPressed,
@@ -75,7 +75,7 @@ class ResizeRow extends StatelessWidget {
             ),
           ),
           SizedBox(width: 5),
-          SideSmallButton(
+          SideSmallButton.icon(
             onPressed: onDonePressed,
             icon: Icons.check,
             height: 40,

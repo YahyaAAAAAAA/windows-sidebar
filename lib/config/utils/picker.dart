@@ -2,11 +2,13 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:windows_widgets/config/enums/open_item_command_type.dart';
 import 'package:windows_widgets/config/extensions/string_extensions.dart';
 import 'package:windows_widgets/config/native_plugins/file_icon_plugin.dart';
 import 'package:windows_widgets/config/utils/generate.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_file.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_folder.dart';
+import 'package:windows_widgets/features/main_sidebar/domain/models/side_item.dart';
 
 class Picker {
   static Future<SideFolder?> pickFolder() async {
@@ -20,6 +22,7 @@ class Picker {
         id: id,
         path: folderPath,
         name: folderName,
+        command: SideItemOpenCommandType.explorer.name,
       );
     }
 
@@ -41,16 +44,31 @@ class Picker {
         path: path,
         name: name,
         icon: icon,
+        command: SideItemOpenCommandType.explorer.name,
       );
     }
     return null;
   }
 
-  static void openFolder(String? folderPath, BuildContext context) {
-    if (folderPath != null) {
-      Process.run('explorer', [folderPath], runInShell: true);
+  static void openItem(SideItem? item, BuildContext context) {
+    if (item != null) {
+      if (item.command == SideItemOpenCommandType.explorer.name) {
+        Process.run(
+          SideItemOpenCommandType.explorer.name,
+          [item.path],
+          runInShell: true,
+        );
+      }
+      if (item.command == SideItemOpenCommandType.start.name) {
+        Process.start(
+          item.path,
+          [],
+          workingDirectory: item.path.cutFileName(),
+          runInShell: true,
+        );
+      }
     } else {
-      //show a message to the user that no file is selected
+      //todo show a message to the user that no file is selected
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('No file selected')),
       );

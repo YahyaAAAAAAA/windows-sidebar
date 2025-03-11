@@ -20,6 +20,10 @@ const double kWindowMinHeight = 400;
 
 const double kWindowMaxHeight = 750;
 
+const double kScaffoldMaxPadding = 1;
+
+const double kScaffoldMinPadding = 0;
+
 //init prefs
 
 const double kInitBackgroundOpacity = 0.5;
@@ -29,3 +33,6 @@ const int kInitSelectedTheme = 0;
 const bool kInitIsBlurred = true;
 
 const bool kInitHasBorder = false;
+
+//for now this is treated as bool in the app
+const double kInitScaffoldPadding = 0;

@@ -8,6 +8,7 @@ import 'package:windows_widgets/config/utils/custom_icons.dart';
 import 'package:windows_widgets/config/utils/widgets/fade_effect.dart';
 import 'package:windows_widgets/config/utils/picker.dart';
 import 'package:windows_widgets/config/utils/widgets/app_scaffold.dart';
+import 'package:windows_widgets/config/utils/widgets/global_loading.dart';
 import 'package:windows_widgets/config/utils/widgets/right_click_menu.dart';
 import 'package:windows_widgets/config/utils/windows/window_animation_utils_mixin.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
@@ -26,8 +27,10 @@ import 'package:windows_widgets/features/settings_sidebar/presentation/pages/set
 class MainWindow extends StatefulWidget {
   final bool isExpanded;
   final bool isPinned;
+  final bool shouldLoseFoucs;
   final VoidCallback toggleExpanded;
   final VoidCallback togglePin;
+  final VoidCallback toggleShouldLoseFocus;
 
   const MainWindow({
     super.key,
@@ -35,6 +38,8 @@ class MainWindow extends StatefulWidget {
     required this.isPinned,
     required this.toggleExpanded,
     required this.togglePin,
+    required this.shouldLoseFoucs,
+    required this.toggleShouldLoseFocus,
   });
 
   @override
@@ -44,8 +49,9 @@ class MainWindow extends StatefulWidget {
 class _MainWindowState extends State<MainWindow>
     with TickerProviderStateMixin, WindowListener, WindowAnimationUtilsMixin {
   late final SideItemsCubit sideItemsCubit;
-  IconData folderIcon = Custom.folder_fill;
+  final TextEditingController itemNameController = TextEditingController();
   bool canDrag = false;
+  double fileIconScale = 1.7;
 
   @override
   void initState() {
@@ -53,6 +59,12 @@ class _MainWindowState extends State<MainWindow>
 
     //cubits
     sideItemsCubit = context.read<SideItemsCubit>();
+  }
+
+  @override
+  void dispose() {
+    itemNameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -131,20 +143,30 @@ class _MainWindowState extends State<MainWindow>
                             key: ValueKey(item.id),
                             index: index,
                             folder: item,
-                            icon: folderIcon,
                             onEnter: (_) => setState(
-                                () => item.icon = Custom.folder_open_fill),
-                            onExit: (_) =>
-                                setState(() => item.icon = Custom.folder_fill),
-                            onRightClick: (context, position) async {
-                              await showContextMenu(
-                                context,
-                                position,
-                                widget.isExpanded,
-                                onDelete: () =>
-                                    sideItemsCubit.removeItem(item.id!),
-                              );
-                            },
+                                () => item.localIcon = Custom.folder_open_fill),
+                            onExit: (_) => setState(
+                                () => item.localIcon = Custom.folder_fill),
+                            onRightClick: (context, position) async =>
+                                await showContextMenu(
+                              context,
+                              position,
+                              widget.isExpanded,
+                              onDelete: () =>
+                                  sideItemsCubit.removeItem(item.id!),
+                              onNameEdit: () {
+                                sideItemsCubit.editItemNameDialog(
+                                  context: context,
+                                  controller: itemNameController,
+                                  item: item,
+                                );
+                              },
+                              onCommandEdit: () =>
+                                  sideItemsCubit.editItemOpenCommandDialog(
+                                context: context,
+                                item: item,
+                              ),
+                            ),
                           );
                         }
                         if (item is SideFile) {
@@ -152,15 +174,28 @@ class _MainWindowState extends State<MainWindow>
                             key: ValueKey(item.id),
                             index: index,
                             file: item,
-                            onRightClick: (context, position) async {
-                              await showContextMenu(
-                                context,
-                                position,
-                                widget.isExpanded,
-                                onDelete: () =>
-                                    sideItemsCubit.removeItem(item.id!),
-                              );
-                            },
+                            fileIconScale: item.scale,
+                            onEnter: (_) => setState(() => item.scale = 2),
+                            onExit: (_) => setState(() => item.scale = 1.7),
+                            onRightClick: (context, position) async =>
+                                await showContextMenu(
+                              context,
+                              position,
+                              widget.isExpanded,
+                              onDelete: () =>
+                                  sideItemsCubit.removeItem(item.id!),
+                              onNameEdit: () =>
+                                  sideItemsCubit.editItemNameDialog(
+                                context: context,
+                                controller: itemNameController,
+                                item: item,
+                              ),
+                              onCommandEdit: () =>
+                                  sideItemsCubit.editItemOpenCommandDialog(
+                                context: context,
+                                item: item,
+                              ),
+                            ),
                           );
                         }
 
@@ -170,15 +205,11 @@ class _MainWindowState extends State<MainWindow>
                   ),
                 );
               }
-              //todo global loading
               return Expanded(
-                child: Align(
+                child: GlobalLoading(
                   alignment: widget.isExpanded
                       ? Alignment.center
                       : Alignment.centerLeft,
-                  child: CircularProgressIndicator(
-                      // color: GColors.windowColor.shade100,
-                      ),
                 ),
               );
             },
@@ -189,7 +220,6 @@ class _MainWindowState extends State<MainWindow>
               }
             },
           ),
-
           SideDivider(isExpanded: widget.isExpanded),
 
           //bottom
@@ -199,10 +229,13 @@ class _MainWindowState extends State<MainWindow>
                 icon: Custom.add_folder_fill,
                 text: 'Pick a Folder',
                 onPressed: () async {
+                  widget.toggleShouldLoseFocus();
+
                   SideFolder? folder = await Picker.pickFolder();
                   if (folder != null) {
                     sideItemsCubit.addItem(folder);
                   }
+                  widget.toggleShouldLoseFocus();
                 },
               ),
               SizedBox(width: 10),
@@ -213,10 +246,13 @@ class _MainWindowState extends State<MainWindow>
             icon: Custom.add_document_fill,
             text: 'Pick a File',
             onPressed: () async {
+              widget.toggleShouldLoseFocus();
+
               SideFile? file = await Picker.pickFile();
               if (file != null) {
                 sideItemsCubit.addItem(file);
               }
+              widget.toggleShouldLoseFocus();
             },
           ),
         ],

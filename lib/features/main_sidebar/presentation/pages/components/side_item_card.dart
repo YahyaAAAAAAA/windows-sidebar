@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:windows_widgets/config/enums/side_item_type.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/custom_icons.dart';
 import 'package:windows_widgets/config/utils/picker.dart';
@@ -7,41 +8,34 @@ import 'package:windows_widgets/features/main_sidebar/domain/models/side_file.da
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_folder.dart';
 import 'package:windows_widgets/config/utils/widgets/overflow_tooltip_text.dart';
 
-enum SideItemType {
-  folder,
-  file,
-  none,
-}
-
 class SideItemCard extends StatelessWidget {
   final int index;
   final void Function(BuildContext context, Offset position)? onRightClick;
-
-  final SideFolder? folder;
-  final IconData? icon;
   final void Function(PointerEnterEvent)? onEnter;
   final void Function(PointerExitEvent)? onExit;
 
+  final SideFolder? folder;
   const SideItemCard.folder({
     super.key,
     required this.folder,
-    required this.icon,
     required this.index,
     this.onRightClick,
     this.onEnter,
     this.onExit,
-  }) : file = null;
+  })  : file = null,
+        fileIconScale = null;
 
   final SideFile? file;
+  final double? fileIconScale;
   const SideItemCard.file({
     super.key,
     required this.file,
     required this.index,
     this.onRightClick,
-  })  : folder = null,
-        icon = null,
-        onEnter = null,
-        onExit = null;
+    this.fileIconScale,
+    this.onEnter,
+    this.onExit,
+  }) : folder = null;
 
   SideItemType decide() {
     if (folder == null) {
@@ -55,25 +49,21 @@ class SideItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onSecondaryTapDown: (details) async {
-            if (onRightClick != null) {
-              final RenderBox renderBox =
-                  context.findRenderObject() as RenderBox;
-              var position = renderBox.localToGlobal(details.localPosition);
-              position = Offset(0, position.dy);
-              onRightClick!(context, position);
-            }
-          },
-          child: Padding(
+    return GestureDetector(
+      onSecondaryTapDown: (details) async {
+        if (onRightClick != null) {
+          final RenderBox renderBox = context.findRenderObject() as RenderBox;
+          var position = renderBox.localToGlobal(details.localPosition);
+          position = Offset(0, position.dy);
+          onRightClick!(context, position);
+        }
+      },
+      child: Row(
+        children: [
+          Padding(
             padding: const EdgeInsets.only(bottom: 5),
             child: IconButton(
-              onPressed: () => decide() == SideItemType.folder
-                  ? Picker.openFolder(folder?.path, context)
-                  //todo openFile method
-                  : Picker.openFolder(file?.path, context),
+              onPressed: () => Picker.openItem(folder ?? file, context),
               icon: decide() == SideItemType.folder
                   ? folderBuild(context)
                   : fileBuild(),
@@ -82,27 +72,32 @@ class SideItemCard extends StatelessWidget {
               ),
             ),
           ),
-        ),
-        SizedBox(width: 10),
-        //showed only when sidebar is extended
-        OverflowTooltipText(
-          text: decide() == SideItemType.folder ? folder!.name : file!.name,
-          maxWidth: kMaxTextWidth,
-          style: Theme.of(context).textTheme.labelMedium,
-        ),
+          SizedBox(width: 10),
+          //showed only when sidebar is extended
+          OverflowTooltipText(
+            text: decide() == SideItemType.folder ? folder!.name : file!.name,
+            maxWidth: kMaxTextWidth,
+            style: Theme.of(context).textTheme.labelMedium,
+          ),
 
-        SizedBox(width: 26),
-      ],
+          SizedBox(width: 26),
+        ],
+      ),
     );
   }
 
   Widget fileBuild() {
-    return Transform.scale(
-      scale: 1.7,
-      child: Image.memory(
-        file!.icon!,
-        width: 16,
-        height: 16,
+    return MouseRegion(
+      onEnter: onEnter,
+      onExit: onExit,
+      child: AnimatedScale(
+        duration: Duration(milliseconds: 200),
+        scale: fileIconScale ?? 1.7,
+        child: Image.memory(
+          file!.icon!,
+          width: 16,
+          height: 16,
+        ),
       ),
     );
   }
@@ -114,12 +109,12 @@ class SideItemCard extends StatelessWidget {
       child: Stack(
         children: [
           Icon(
-            folder!.icon,
+            folder!.localIcon,
             size: 24,
-            key: ValueKey(folder!.icon),
+            key: ValueKey(folder!.localIcon),
           ),
           Padding(
-            padding: folder!.icon == Custom.folder_fill
+            padding: folder!.localIcon == Custom.folder_fill
                 ? EdgeInsets.only(
                     left: 4,
                     top: 7,
@@ -129,7 +124,7 @@ class SideItemCard extends StatelessWidget {
                     top: 7,
                   ),
             child: Transform(
-              transform: folder!.icon == Custom.folder_fill
+              transform: folder!.localIcon == Custom.folder_fill
                   ? Matrix4.skew(0, 0)
                   : Matrix4.skew(-0.4, 0),
               child: Text(

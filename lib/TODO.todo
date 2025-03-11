@@ -21,14 +21,18 @@ main:
     ✔ better init settings @started(25-03-09 23:22) @done(25-03-10 01:16) @lasted(1h54m27s)
     ✔ add height limit @done(25-03-10 01:18)
     ✔ add didUserUpdate @done(25-03-10 04:30)
-    ☐ test didUserUpdate & design dialog
-    ☐ add light theme, change current light theme -> default
-    ☐ handle not losing focus while pick folder/file
-    ☐ edit items rename
-    ☐ edit folder open command -> explorer/start
+    ✔ test didUserUpdate & design dialog @done(25-03-10 23:40)
+    ✔ add "pixels when hidden" to prefs @done(25-03-11 01:08)
+    ✔ add light theme, change current light theme -> default @done(25-03-11 01:08)
+    ✔ handle not losing focus while pick folder/file @done(25-03-11 01:48)
+    ✔ edit items rename @started(25-03-11 02:32) @done(25-03-11 02:43) @lasted(11m39s)
+    ✔ edit name dialog @done(25-03-11 05:44)
+    ✔ edit folder open command -> explorer/start @done(25-03-11 07:18)
+    ☐ take another look at prefs with Hive this time add adapter
     ☐ handle item no longer available
     ☐ media play/pause
-    ☐ This PC shortcut
+    ☐ This PC shortcut (expandable widget would be nice)
+    ☐ open links in browser
     ☐ app icon
     ☐ system tray
     ☐ figure out the cause of lag

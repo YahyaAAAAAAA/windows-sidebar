@@ -35,6 +35,8 @@ class OpacityRow extends StatelessWidget {
           scale: 0.7,
           alignment: Alignment.centerLeft,
           child: Slider(
+            divisions: 10,
+            label: sliderValue.toString(),
             value: sliderValue,
             max: 1,
             min: 0,

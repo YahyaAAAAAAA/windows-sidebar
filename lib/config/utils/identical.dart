@@ -5,5 +5,6 @@ bool prefsIdentical(Prefs oldPrefs, Prefs newPrefs) {
       oldPrefs.backgroundOpacity == newPrefs.backgroundOpacity &&
       oldPrefs.windowHeight == newPrefs.windowHeight &&
       oldPrefs.isBlurred == newPrefs.isBlurred &&
-      oldPrefs.hasBorder == newPrefs.hasBorder;
+      oldPrefs.hasBorder == newPrefs.hasBorder &&
+      oldPrefs.scaffoldPadding == newPrefs.scaffoldPadding;
 }

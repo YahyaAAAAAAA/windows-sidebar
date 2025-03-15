@@ -1,0 +1,123 @@
+Date : 2025-03-11 07:39:13
+Directory : d:\Flutterrrr\FlutterProjects\windows_widgets\lib
+Total : 59 files,  3083 codes, 97 comments, 418 blanks, all 3598 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Dart     |         58 |      3,041 |         97 |        416 |      3,554 |
+| Todo     |          1 |         42 |          0 |          2 |         44 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                                               | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                                  |         59 |      3,083 |         97 |        418 |      3,598 |
+| . (Files)                                                                                                                                          |          2 |         80 |          2 |         13 |         95 |
+| config                                                                                                                                             |         27 |      1,212 |         51 |        193 |      1,456 |
+| config (Files)                                                                                                                                     |          1 |         99 |          3 |         16 |        118 |
+| config\enums                                                                                                                                       |          2 |          9 |          0 |          2 |         11 |
+| config\extensions                                                                                                                                  |          6 |        185 |         10 |         30 |        225 |
+| config\native_plugins                                                                                                                              |          1 |         15 |          1 |          3 |         19 |
+| config\theme                                                                                                                                       |          1 |        171 |          6 |          3 |        180 |
+| config\utils                                                                                                                                       |         16 |        733 |         31 |        139 |        903 |
+| config\utils (Files)                                                                                                                               |          8 |        230 |         12 |         59 |        301 |
+| config\utils\widgets                                                                                                                               |          6 |        293 |          1 |         29 |        323 |
+| config\utils\windows                                                                                                                               |          2 |        210 |         18 |         51 |        279 |
+| features                                                                                                                                           |         30 |      1,791 |         44 |        212 |      2,047 |
+| features\main_sidebar                                                                                                                              |         18 |      1,099 |         33 |        132 |      1,264 |
+| features\main_sidebar\data                                                                                                                         |          1 |         37 |          6 |         10 |         53 |
+| features\main_sidebar\domain                                                                                                                       |          6 |        133 |          2 |         29 |        164 |
+| features\main_sidebar\domain (Files)                                                                                                               |          1 |          9 |          0 |          7 |         16 |
+| features\main_sidebar\domain\models                                                                                                                |          5 |        124 |          2 |         22 |        148 |
+| features\main_sidebar\domain\models (Files)                                                                                                        |          3 |         69 |          2 |         12 |         83 |
+| features\main_sidebar\domain\models\adapters                                                                                                       |          2 |         55 |          0 |         10 |         65 |
+| features\main_sidebar\presentation                                                                                                                 |         11 |        929 |         25 |         93 |      1,047 |
+| features\main_sidebar\presentation\cubits                                                                                                          |          2 |        174 |         15 |         33 |        222 |
+| features\main_sidebar\presentation\pages                                                                                                           |          9 |        755 |         10 |         60 |        825 |
+| features\main_sidebar\presentation\pages (Files)                                                                                                   |          1 |        237 |          7 |         19 |        263 |
+| features\main_sidebar\presentation\pages\components                                                                                                |          8 |        518 |          3 |         41 |        562 |
+| features\main_sidebar\presentation\pages\components (Files)                                                                                        |          6 |        410 |          3 |         33 |        446 |
+| features\main_sidebar\presentation\pages\components\dialogs                                                                                        |          2 |        108 |          0 |          8 |        116 |
+| features\settings_sidebar                                                                                                                          |         12 |        692 |         11 |         80 |        783 |
+| features\settings_sidebar\data                                                                                                                     |          1 |         39 |          0 |          6 |         45 |
+| features\settings_sidebar\domain                                                                                                                   |          2 |         49 |          0 |          7 |         56 |
+| features\settings_sidebar\domain (Files)                                                                                                           |          1 |          6 |          0 |          3 |          9 |
+| features\settings_sidebar\domain\models                                                                                                            |          1 |         43 |          0 |          4 |         47 |
+| features\settings_sidebar\presentation                                                                                                             |          9 |        604 |         11 |         67 |        682 |
+| features\settings_sidebar\presentation\cubits                                                                                                      |          2 |         70 |          2 |         19 |         91 |
+| features\settings_sidebar\presentation\cubits\prefs                                                                                                |          2 |         70 |          2 |         19 |         91 |
+| features\settings_sidebar\presentation\pages                                                                                                       |          7 |        534 |          9 |         48 |        591 |
+| features\settings_sidebar\presentation\pages (Files)                                                                                               |          1 |        172 |          8 |         24 |        204 |
+| features\settings_sidebar\presentation\pages\components                                                                                            |          6 |        362 |          1 |         24 |        387 |
+| features\settings_sidebar\presentation\pages\components (Files)                                                                                    |          5 |        323 |          1 |         21 |        345 |
+| features\settings_sidebar\presentation\pages\components\dialogs                                                                                    |          1 |         39 |          0 |          3 |         42 |
++----------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                                                           | language | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\TODO.todo                                                                                        | Todo     |         42 |          0 |          2 |         44 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\app.dart                                                                                  | Dart     |         99 |          3 |         16 |        118 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\enums\open_item_command_type.dart                                                         | Dart     |          4 |          0 |          1 |          5 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\enums\side_item_type.dart                                                                 | Dart     |          5 |          0 |          1 |          6 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\extensions\bool_exensions.dart                                                            | Dart     |          9 |          0 |          1 |         10 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\extensions\build_context_extensions.dart                                                  | Dart     |         77 |          2 |          6 |         85 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\extensions\color_extensions.dart                                                          | Dart     |         34 |          5 |          9 |         48 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\extensions\double_exensions.dart                                                          | Dart     |          9 |          0 |          1 |         10 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\extensions\sidebar_extensions.dart                                                        | Dart     |         37 |          0 |          6 |         43 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\extensions\string_extensions.dart                                                         | Dart     |         19 |          3 |          7 |         29 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\native_plugins\file_icon_plugin.dart                                                      | Dart     |         15 |          1 |          3 |         19 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\theme\sidebar_theme.dart                                                                  | Dart     |        171 |          6 |          3 |        180 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\constants.dart                                                                      | Dart     |         18 |          2 |         19 |         39 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\custom_icons.dart                                                                   | Dart     |         22 |          1 |          4 |         27 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\generate.dart                                                                       | Dart     |          8 |          0 |          2 |         10 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\global_colors.dart                                                                  | Dart     |          8 |          0 |          3 |         11 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\identical.dart                                                                      | Dart     |          9 |          0 |          2 |         11 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\picker.dart                                                                         | Dart     |         68 |          1 |          9 |         78 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\shadows.dart                                                                        | Dart     |         22 |          2 |          3 |         27 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\transition_animation.dart                                                           | Dart     |         75 |          6 |         17 |         98 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\widgets\app_scaffold.dart                                                           | Dart     |         58 |          0 |          4 |         62 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\widgets\dialog_button.dart                                                          | Dart     |         41 |          0 |          4 |         45 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\widgets\fade_effect.dart                                                            | Dart     |         34 |          1 |          4 |         39 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\widgets\global_loading.dart                                                         | Dart     |         27 |          0 |          4 |         31 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\widgets\overflow_tooltip_text.dart                                                  | Dart     |         35 |          0 |          7 |         42 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\widgets\right_click_menu.dart                                                       | Dart     |         98 |          0 |          6 |        104 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\windows\window_animation_utils_mixin.dart                                           | Dart     |         95 |          3 |         21 |        119 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\config\utils\windows\window_utils.dart                                                           | Dart     |        115 |         15 |         30 |        160 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\data\hive_side_items_repo.dart                                             | Dart     |         37 |          6 |         10 |         53 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\domain\models\adapters\side_file_adapter.dart                              | Dart     |         29 |          0 |          5 |         34 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\domain\models\adapters\side_folder_adapter.dart                            | Dart     |         26 |          0 |          5 |         31 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\domain\models\side_file.dart                                               | Dart     |         27 |          0 |          4 |         31 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\domain\models\side_folder.dart                                             | Dart     |         26 |          2 |          4 |         32 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\domain\models\side_item.dart                                               | Dart     |         16 |          0 |          4 |         20 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\domain\side_items_repo.dart                                                | Dart     |          9 |          0 |          7 |         16 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\presentation\cubits\side_items_cubit.dart                                  | Dart     |        162 |         15 |         25 |        202 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\presentation\cubits\side_items_states.dart                                 | Dart     |         12 |          0 |          8 |         20 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\presentation\pages\components\dialogs\change_item_name_dialog.dart         | Dart     |         50 |          0 |          4 |         54 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\presentation\pages\components\dialogs\change_item_open_command_dialog.dart | Dart     |         58 |          0 |          4 |         62 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\presentation\pages\components\header_row.dart                              | Dart     |        125 |          2 |          5 |        132 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\presentation\pages\components\no_items_row.dart                            | Dart     |         32 |          0 |          4 |         36 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\presentation\pages\components\side_button.dart                             | Dart     |         31 |          0 |          4 |         35 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\presentation\pages\components\side_divider.dart                            | Dart     |         27 |          0 |          4 |         31 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\presentation\pages\components\side_item_card.dart                          | Dart     |        131 |          1 |          9 |        141 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\presentation\pages\components\side_small_button.dart                       | Dart     |         64 |          0 |          7 |         71 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\main_sidebar\presentation\pages\main_window.dart                                        | Dart     |        237 |          7 |         19 |        263 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\settings_sidebar\data\shared_preferences_prefs_repo.dart                                | Dart     |         39 |          0 |          6 |         45 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\settings_sidebar\domain\models\prefs.dart                                               | Dart     |         43 |          0 |          4 |         47 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\settings_sidebar\domain\prefs_repo.dart                                                 | Dart     |          6 |          0 |          3 |          9 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\settings_sidebar\presentation\cubits\prefs\prefs_cubit.dart                             | Dart     |         58 |          2 |         11 |         71 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\settings_sidebar\presentation\cubits\prefs\prefs_states.dart                            | Dart     |         12 |          0 |          8 |         20 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\settings_sidebar\presentation\pages\components\blur_row.dart                            | Dart     |         58 |          0 |          4 |         62 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\settings_sidebar\presentation\pages\components\dialogs\prefs_save_dialog.dart           | Dart     |         39 |          0 |          3 |         42 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\settings_sidebar\presentation\pages\components\opacity_row.dart                         | Dart     |         46 |          0 |          4 |         50 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\settings_sidebar\presentation\pages\components\padding_row.dart                         | Dart     |         46 |          0 |          5 |         51 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\settings_sidebar\presentation\pages\components\resize_row.dart                          | Dart     |         84 |          1 |          4 |         89 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\settings_sidebar\presentation\pages\components\theme_row.dart                           | Dart     |         89 |          0 |          4 |         93 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\features\settings_sidebar\presentation\pages\settings_window.dart                                | Dart     |        172 |          8 |         24 |        204 |
+| d:\Flutterrrr\FlutterProjects\windows_widgets\lib\main.dart                                                                                        | Dart     |         38 |          2 |         11 |         51 |
+| Total                                                                                                                                              |          |      3,083 |         97 |        418 |      3,598 |
++----------------------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

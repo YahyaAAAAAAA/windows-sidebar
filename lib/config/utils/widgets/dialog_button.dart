@@ -9,6 +9,7 @@ class DialogButton extends StatelessWidget {
   final EdgeInsets? padding;
   final double? fontSize;
   final double? elevation;
+  final bool? isFilled;
 
   const DialogButton({
     super.key,
@@ -19,6 +20,7 @@ class DialogButton extends StatelessWidget {
     this.padding = const EdgeInsets.all(2),
     this.fontSize = 10,
     this.elevation = 0,
+    this.isFilled = false,
   });
 
   @override
@@ -28,15 +30,20 @@ class DialogButton extends StatelessWidget {
       height: height,
       padding: padding,
       onPressed: onPressed,
-      buttonStyle: Theme.of(context)
-          .iconButtonTheme
-          .style
-          ?.copyWith(elevation: WidgetStatePropertyAll(elevation)),
+      buttonStyle: Theme.of(context).iconButtonTheme.style?.copyWith(
+            elevation: WidgetStatePropertyAll(elevation),
+            backgroundColor: isFilled == false
+                ? null
+                : WidgetStatePropertyAll(Theme.of(context).canvasColor),
+            side: isFilled == false
+                ? null
+                : WidgetStatePropertyAll(BorderSide.none),
+          ),
       text: Text(
         text,
         style: Theme.of(context)
-            .textTheme
-            .labelSmall
+            .dialogTheme
+            .contentTextStyle
             ?.copyWith(fontSize: fontSize),
       ),
     );

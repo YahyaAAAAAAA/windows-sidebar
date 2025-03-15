@@ -34,12 +34,15 @@ class PaddingRow extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                'Hide Sidebar By 1 Pixel',
-                style: Theme.of(context).textTheme.labelMedium,
+                'Completely hide sidebar',
+                style: Theme.of(context).textTheme.labelSmall,
               ),
-              Checkbox(
-                value: scaffoldPadding.toBool(),
-                onChanged: onChanged,
+              Transform.scale(
+                scale: 0.7,
+                child: Switch(
+                  value: scaffoldPadding.toBool(),
+                  onChanged: onChanged,
+                ),
               ),
             ],
           ),

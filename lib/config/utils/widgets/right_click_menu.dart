@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:windows_widgets/config/utils/constants.dart';
 
 Future<String?> showContextMenu(
   BuildContext context,
@@ -9,6 +8,8 @@ Future<String?> showContextMenu(
   void Function()? onNameEdit,
   void Function()? onCommandEdit,
 }) async {
+  if (!isExpanded) return null;
+
   final RenderBox overlay =
       Overlay.of(context).context.findRenderObject() as RenderBox;
 
@@ -18,68 +19,54 @@ Future<String?> showContextMenu(
       Rect.fromPoints(position, position),
       Offset.zero & overlay.size,
     ),
-    elevation: 1,
     popUpAnimationStyle: AnimationStyle(
-      duration: Duration(milliseconds: 150),
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
     ),
     constraints: BoxConstraints(
       maxWidth: isExpanded ? 150 : 40,
       maxHeight: 150,
     ),
-    color: Theme.of(context).secondaryHeaderColor,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(kOuterRadius),
-    ),
+    elevation: Theme.of(context).popupMenuTheme.elevation,
+    shape: Theme.of(context).popupMenuTheme.shape,
     items: [
       PopupMenuItem(
         onTap: onNameEdit,
         padding: EdgeInsets.symmetric(horizontal: 10),
         value: 'edit',
-        child: isExpanded
-            ? expandedBuild(
-                context,
-                icon: Icons.edit_note_rounded,
-                text: 'Edit Name',
-              )
-            : shrunkBuild(icon: Icons.edit_note_rounded),
+        textStyle: Theme.of(context).popupMenuTheme.textStyle,
+        child: expandedBuild(
+          context,
+          icon: Icons.edit_note_rounded,
+          text: 'Edit Name',
+        ),
       ),
       PopupMenuItem(
         onTap: onCommandEdit,
         padding: EdgeInsets.symmetric(horizontal: 10),
         value: 'command',
-        child: isExpanded
-            ? expandedBuild(
-                context,
-                icon: Icons.terminal_rounded,
-                text: 'Open Command',
-              )
-            : shrunkBuild(icon: Icons.terminal_rounded),
+        textStyle: Theme.of(context).popupMenuTheme.textStyle,
+        child: expandedBuild(
+          context,
+          icon: Icons.terminal_rounded,
+          text: 'Open Command',
+        ),
       ),
       PopupMenuItem(
         onTap: onDelete,
         padding: EdgeInsets.symmetric(horizontal: 10),
         value: 'delete',
-        child: isExpanded
-            ? expandedBuild(
-                context,
-                icon: Icons.delete_sweep_rounded,
-                text: 'Delete',
-              )
-            : shrunkBuild(icon: Icons.delete_sweep_rounded),
+        textStyle: Theme.of(context).popupMenuTheme.textStyle,
+        child: expandedBuild(
+          context,
+          icon: Icons.delete_sweep_rounded,
+          text: 'Delete',
+        ),
       ),
     ],
   );
 
   return result;
-}
-
-Widget shrunkBuild({
-  required IconData icon,
-}) {
-  return Icon(
-    icon,
-    size: 24,
-  );
 }
 
 Widget expandedBuild(
@@ -92,11 +79,12 @@ Widget expandedBuild(
     children: [
       Icon(
         icon,
-        size: 24,
+        size: 20,
+        color: Theme.of(context).popupMenuTheme.textStyle?.color,
       ),
       Text(
         text,
-        style: Theme.of(context).textTheme.labelMedium,
+        style: Theme.of(context).popupMenuTheme.textStyle,
       ),
     ],
   );

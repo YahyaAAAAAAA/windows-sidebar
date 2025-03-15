@@ -5,7 +5,6 @@ import 'package:window_manager/window_manager.dart';
 import 'package:windows_widgets/config/extensions/build_context_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/custom_icons.dart';
-import 'package:windows_widgets/config/utils/widgets/fade_effect.dart';
 import 'package:windows_widgets/config/utils/picker.dart';
 import 'package:windows_widgets/config/utils/widgets/app_scaffold.dart';
 import 'package:windows_widgets/config/utils/widgets/global_loading.dart';
@@ -17,9 +16,9 @@ import 'package:windows_widgets/features/main_sidebar/domain/models/side_folder.
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_item.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/cubits/side_items_cubit.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/cubits/side_items_states.dart';
+import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/footer_row.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/header_row.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/no_items_row.dart';
-import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_button.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_divider.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_item_card.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/settings_window.dart';
@@ -121,87 +120,83 @@ class _MainWindowState extends State<MainWindow>
                   return NoItemsRow(isExpanded: widget.isExpanded);
                 }
                 return Expanded(
-                  child: FadeEffect(
-                    child: AnimatedReorderableListView(
-                      items: items,
-                      isSameItem: (a, b) => a.id == b.id,
-                      enterTransition: [SlideInDown()],
-                      exitTransition: [SlideInUp()],
-                      insertDuration: const Duration(milliseconds: 300),
-                      removeDuration: const Duration(milliseconds: 300),
-                      dragStartDelay: const Duration(milliseconds: 300),
-                      buildDefaultDragHandles: canDrag,
-                      longPressDraggable: false,
-                      nonDraggableItems:
-                          canDrag ? List<SideItem>.empty() : items,
-                      onReorder: (int oldIndex, int newIndex) =>
-                          sideItemsCubit.onReorder(oldIndex, newIndex),
-                      itemBuilder: (context, index) {
-                        final item = items[index];
-                        if (item is SideFolder) {
-                          return SideItemCard.folder(
-                            key: ValueKey(item.id),
-                            index: index,
-                            folder: item,
-                            onEnter: (_) => setState(
-                                () => item.localIcon = Custom.folder_open_fill),
-                            onExit: (_) => setState(
-                                () => item.localIcon = Custom.folder_fill),
-                            onRightClick: (context, position) async =>
-                                await showContextMenu(
-                              context,
-                              position,
-                              widget.isExpanded,
-                              onDelete: () =>
-                                  sideItemsCubit.removeItem(item.id!),
-                              onNameEdit: () {
-                                sideItemsCubit.editItemNameDialog(
-                                  context: context,
-                                  controller: itemNameController,
-                                  item: item,
-                                );
-                              },
-                              onCommandEdit: () =>
-                                  sideItemsCubit.editItemOpenCommandDialog(
-                                context: context,
-                                item: item,
-                              ),
-                            ),
-                          );
-                        }
-                        if (item is SideFile) {
-                          return SideItemCard.file(
-                            key: ValueKey(item.id),
-                            index: index,
-                            file: item,
-                            fileIconScale: item.scale,
-                            onEnter: (_) => setState(() => item.scale = 2),
-                            onExit: (_) => setState(() => item.scale = 1.7),
-                            onRightClick: (context, position) async =>
-                                await showContextMenu(
-                              context,
-                              position,
-                              widget.isExpanded,
-                              onDelete: () =>
-                                  sideItemsCubit.removeItem(item.id!),
-                              onNameEdit: () =>
-                                  sideItemsCubit.editItemNameDialog(
+                  child: AnimatedReorderableListView(
+                    items: items,
+                    isSameItem: (a, b) => a.id == b.id,
+                    enterTransition: [SlideInDown()],
+                    exitTransition: [SlideInUp()],
+                    insertDuration: const Duration(milliseconds: 300),
+                    removeDuration: const Duration(milliseconds: 300),
+                    dragStartDelay: const Duration(milliseconds: 300),
+                    buildDefaultDragHandles: canDrag,
+                    longPressDraggable: false,
+                    nonDraggableItems: canDrag ? List<SideItem>.empty() : items,
+                    onReorder: (int oldIndex, int newIndex) =>
+                        sideItemsCubit.onReorder(oldIndex, newIndex),
+                    itemBuilder: (context, index) {
+                      final item = items[index];
+                      if (item is SideFolder) {
+                        return SideItemCard.folder(
+                          key: ValueKey(item.id),
+                          isExpanded: widget.isExpanded,
+                          index: index,
+                          folder: item,
+                          onEnter: (_) => setState(
+                              () => item.localIcon = Custom.folder_open_fill),
+                          onExit: (_) => setState(
+                              () => item.localIcon = Custom.folder_fill),
+                          onRightClick: (context, position) async =>
+                              await showContextMenu(
+                            context,
+                            position,
+                            widget.isExpanded,
+                            onDelete: () => sideItemsCubit.removeItem(item.id!),
+                            onNameEdit: () {
+                              sideItemsCubit.editItemNameDialog(
                                 context: context,
                                 controller: itemNameController,
                                 item: item,
-                              ),
-                              onCommandEdit: () =>
-                                  sideItemsCubit.editItemOpenCommandDialog(
-                                context: context,
-                                item: item,
-                              ),
+                              );
+                            },
+                            onCommandEdit: () =>
+                                sideItemsCubit.editItemOpenCommandDialog(
+                              context: context,
+                              item: item,
                             ),
-                          );
-                        }
+                          ),
+                        );
+                      }
+                      if (item is SideFile) {
+                        return SideItemCard.file(
+                          key: ValueKey(item.id),
+                          isExpanded: widget.isExpanded,
+                          index: index,
+                          file: item,
+                          fileIconScale: item.scale,
+                          onEnter: (_) => setState(() => item.scale = 1.8),
+                          onExit: (_) => setState(() => item.scale = 1.7),
+                          onRightClick: (context, position) async =>
+                              await showContextMenu(
+                            context,
+                            position,
+                            widget.isExpanded,
+                            onDelete: () => sideItemsCubit.removeItem(item.id!),
+                            onNameEdit: () => sideItemsCubit.editItemNameDialog(
+                              context: context,
+                              controller: itemNameController,
+                              item: item,
+                            ),
+                            onCommandEdit: () =>
+                                sideItemsCubit.editItemOpenCommandDialog(
+                              context: context,
+                              item: item,
+                            ),
+                          ),
+                        );
+                      }
 
-                        return Text('!');
-                      },
-                    ),
+                      return Text('!');
+                    },
                   ),
                 );
               }
@@ -223,29 +218,18 @@ class _MainWindowState extends State<MainWindow>
           SideDivider(isExpanded: widget.isExpanded),
 
           //bottom
-          Row(
-            children: [
-              SideButton(
-                icon: Custom.add_folder_fill,
-                text: 'Pick a Folder',
-                onPressed: () async {
-                  widget.toggleShouldLoseFocus();
+          FooterRow(
+            isExpanded: widget.isExpanded,
+            onPickFolderPressed: () async {
+              widget.toggleShouldLoseFocus();
 
-                  SideFolder? folder = await Picker.pickFolder();
-                  if (folder != null) {
-                    sideItemsCubit.addItem(folder);
-                  }
-                  widget.toggleShouldLoseFocus();
-                },
-              ),
-              SizedBox(width: 10),
-            ],
-          ),
-          SizedBox(height: 10),
-          SideButton(
-            icon: Custom.add_document_fill,
-            text: 'Pick a File',
-            onPressed: () async {
+              SideFolder? folder = await Picker.pickFolder();
+              if (folder != null) {
+                sideItemsCubit.addItem(folder);
+              }
+              widget.toggleShouldLoseFocus();
+            },
+            onPickFilePressed: () async {
               widget.toggleShouldLoseFocus();
 
               SideFile? file = await Picker.pickFile();

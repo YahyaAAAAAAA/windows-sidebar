@@ -39,7 +39,7 @@ class BlurRow extends StatelessWidget {
           children: [
             Text(
               'Blur',
-              style: Theme.of(context).textTheme.labelMedium,
+              style: Theme.of(context).textTheme.labelSmall,
             ),
             Checkbox(
               value: blurValue,
@@ -47,7 +47,7 @@ class BlurRow extends StatelessWidget {
             ),
             Text(
               'Border',
-              style: Theme.of(context).textTheme.labelMedium,
+              style: Theme.of(context).textTheme.labelSmall,
             ),
             Checkbox(
               value: borderValue,

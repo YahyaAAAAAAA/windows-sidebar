@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:windows_widgets/config/extensions/color_extensions.dart';
-import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/custom_icons.dart';
-import 'package:windows_widgets/config/utils/shadows.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_small_button.dart';
 
 class HeaderRow extends StatelessWidget {
@@ -30,102 +28,107 @@ class HeaderRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      child: Row(
-        children: [
-          Column(
+    return Row(
+      children: [
+        Column(
+          children: [
+            Lottie.asset(
+              'assets/animations/logo.json',
+              width: 40,
+              height: 40,
+              fit: BoxFit.cover,
+              frameRate: FrameRate(60),
+              //note lottie color change
+              delegates: LottieDelegates(
+                values: [
+                  ValueDelegate.color(
+                    const ['**'],
+                    value: Theme.of(context).iconTheme.color,
+                  ),
+                ],
+              ),
+            ),
+            SideSmallButton.icon(
+              onPressed: onExpandPressed,
+              width: 40,
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              icon: isExpanded
+                  ? Icons.arrow_back_ios_new_outlined
+                  : Icons.arrow_forward_ios_rounded,
+              iconSize: 15,
+              buttonStyle: Theme.of(context).iconButtonTheme.style?.copyWith(
+                  backgroundColor: WidgetStatePropertyAll(
+                      Theme.of(context).scaffoldBackgroundColor.shade600),
+                  side: WidgetStatePropertyAll(
+                    BorderSide(
+                      color: Theme.of(context).primaryColor.shade400,
+                      width: 1,
+                    ),
+                  )),
+            ),
+          ],
+        ),
+        Expanded(
+          child: Column(
             children: [
-              IconButton(
-                onPressed: onLogoPressed,
-                padding: EdgeInsets.zero,
-                icon: Lottie.asset(
-                  'assets/animations/logo.json',
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
-                  frameRate: FrameRate(60),
-                  //note lottie color change
-                  delegates: LottieDelegates(
-                    values: [
-                      ValueDelegate.color(
-                        const ['**'],
-                        value: Theme.of(context).iconTheme.color,
-                      ),
-                    ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SideSmallButton.icon(
+                    onPressed: onPinPressed,
+                    icon: isPinned ? Custom.unpin : Custom.pin,
+                    tooltip: isPinned ? 'Unpin Sidebar' : 'Pin Sidebar',
+                    iconSize: 12,
+                    buttonStyle: Theme.of(context)
+                        .iconButtonTheme
+                        .style
+                        ?.copyWith(
+                            backgroundColor:
+                                WidgetStatePropertyAll(Colors.transparent),
+                            side: WidgetStatePropertyAll(BorderSide.none)),
                   ),
-                ),
-              ),
-
-              SizedBox(height: 3),
-              //small button
-              SizedBox(
-                height: 20,
-                child: IconButton(
-                  onPressed: onExpandPressed,
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  icon: Icon(
-                    isExpanded
-                        ? Icons.arrow_back_ios_new_outlined
-                        : Icons.arrow_forward_ios_rounded,
-                    size: 15,
+                  SideSmallButton.icon(
+                    onPressed: onReorderPressed,
+                    icon: canDrag ? Icons.check : Custom.apps_sort,
+                    tooltip: 'Reorder Items',
+                    iconSize: 12,
+                    buttonStyle: Theme.of(context)
+                        .iconButtonTheme
+                        .style
+                        ?.copyWith(
+                            backgroundColor:
+                                WidgetStatePropertyAll(Colors.transparent),
+                            side: WidgetStatePropertyAll(BorderSide.none)),
                   ),
-                ),
+                  SideSmallButton.icon(
+                    onPressed: onSettingsPressed,
+                    icon: Icons.settings,
+                    buttonStyle: Theme.of(context)
+                        .iconButtonTheme
+                        .style
+                        ?.copyWith(
+                            backgroundColor:
+                                WidgetStatePropertyAll(Colors.transparent),
+                            side: WidgetStatePropertyAll(BorderSide.none)),
+                  ),
+                ],
               ),
+              SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Windows Sidebar',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  //small button
+                ],
+              ),
+              SizedBox(height: 15),
             ],
           ),
-          SizedBox(width: 5),
-          Text(
-            'Windows Sidebar',
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
-          SizedBox(width: 5),
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: Shadows.elevation(
-                color: Theme.of(context).secondaryHeaderColor.shade800,
-              ),
-              color: Theme.of(context).secondaryHeaderColor,
-              borderRadius: BorderRadius.circular(kOuterRadius),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              spacing: 2,
-              children: [
-                SideSmallButton.icon(
-                  onPressed: onSettingsPressed,
-                  icon: Icons.settings,
-                  buttonStyle: Theme.of(context)
-                      .iconButtonTheme
-                      .style
-                      ?.copyWith(elevation: WidgetStatePropertyAll(0)),
-                ),
-                SideSmallButton.icon(
-                  onPressed: onReorderPressed,
-                  icon: canDrag ? Icons.check : Custom.apps_sort,
-                  tooltip: 'Reorder Items',
-                  iconSize: 12,
-                  buttonStyle: Theme.of(context)
-                      .iconButtonTheme
-                      .style
-                      ?.copyWith(elevation: WidgetStatePropertyAll(0)),
-                ),
-                SideSmallButton.icon(
-                  onPressed: onPinPressed,
-                  icon: isPinned ? Custom.unpin : Custom.pin,
-                  tooltip: isPinned ? 'Unpin Sidebar' : 'Pin Sidebar',
-                  iconSize: 12,
-                  buttonStyle: Theme.of(context)
-                      .iconButtonTheme
-                      .style
-                      ?.copyWith(elevation: WidgetStatePropertyAll(0)),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:windows_widgets/config/extensions/color_extensions.dart';
 
 class GlobalLoading extends StatelessWidget {
   final double? width;
@@ -22,7 +21,7 @@ class GlobalLoading extends StatelessWidget {
         width: width,
         height: height,
         child: CircularProgressIndicator(
-          color: Theme.of(context).primaryColor.shade100,
+          color: Theme.of(context).iconTheme.color,
         ),
       ),
     );

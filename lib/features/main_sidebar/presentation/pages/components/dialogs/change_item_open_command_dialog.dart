@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/enums/open_item_command_type.dart';
+import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/widgets/dialog_button.dart';
 
 class ChangeItemOpenCommandDialog extends StatelessWidget {
@@ -21,31 +22,58 @@ class ChangeItemOpenCommandDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Row(
-        children: [
-          Text(
-            'Explorer',
-            style: Theme.of(context).textTheme.labelSmall,
+      content: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Theme.of(context).secondaryHeaderColor,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(kOuterRadius),
+            topRight: Radius.circular(kOuterRadius),
           ),
-          Radio(
-            value: commandType,
-            groupValue: SideItemOpenCommandType.explorer.name,
-            onChanged: onExplorerSelected,
-          ),
-          Text(
-            'Start',
-            style: Theme.of(context).textTheme.labelSmall,
-          ),
-          Radio(
-            value: commandType,
-            groupValue: SideItemOpenCommandType.start.name,
-            onChanged: onStartSelected,
-          ),
-        ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Change Command',
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  'Explorer',
+                ),
+                Transform.scale(
+                  scale: 0.8,
+                  child: Radio(
+                    value: commandType,
+                    groupValue: SideItemOpenCommandType.explorer.name,
+                    onChanged: onExplorerSelected,
+                  ),
+                ),
+                Text(
+                  'Start',
+                ),
+                Transform.scale(
+                  scale: 0.8,
+                  child: Radio(
+                    value: commandType,
+                    groupValue: SideItemOpenCommandType.start.name,
+                    onChanged: onStartSelected,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
       actionsPadding: EdgeInsets.all(10),
-      contentPadding: EdgeInsets.all(10),
-      actionsAlignment: MainAxisAlignment.end,
+      contentPadding: EdgeInsets.all(0),
+      actionsAlignment: MainAxisAlignment.spaceAround,
       actions: [
         DialogButton(
           text: 'Save',
@@ -54,6 +82,7 @@ class ChangeItemOpenCommandDialog extends StatelessWidget {
         DialogButton(
           text: 'Cancel',
           onPressed: onCancelPressed,
+          isFilled: true,
         ),
       ],
     );

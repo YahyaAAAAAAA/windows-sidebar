@@ -39,6 +39,8 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
   void toggleShouldLoseFocus() =>
       setState(() => shouldLoseFoucs = !shouldLoseFoucs);
 
+  Color accentColor = Color(0xFF4ca0e0);
+
   @override
   void initState() {
     super.initState();

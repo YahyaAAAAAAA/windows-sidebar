@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/extensions/color_extensions.dart';
-import 'package:windows_widgets/config/extensions/sidebar_extensions.dart';
-import 'package:windows_widgets/config/utils/constants.dart';
+import 'package:windows_widgets/config/theme/themes/sidebar_checkbox_theme.dart';
+import 'package:windows_widgets/config/theme/themes/sidebar_dialog_theme.dart';
+import 'package:windows_widgets/config/theme/themes/sidebar_divider_theme.dart';
+import 'package:windows_widgets/config/theme/themes/sidebar_extensions_theme.dart';
+import 'package:windows_widgets/config/theme/themes/sidebar_icon_button_theme.dart';
+import 'package:windows_widgets/config/theme/themes/sidebar_icon_theme.dart';
+import 'package:windows_widgets/config/theme/themes/sidebar_input_decoration_theme.dart';
+import 'package:windows_widgets/config/theme/themes/sidebar_popup_menu_theme.dart';
+import 'package:windows_widgets/config/theme/themes/sidebar_radio_theme.dart';
+import 'package:windows_widgets/config/theme/themes/sidebar_slider_theme.dart';
+import 'package:windows_widgets/config/theme/themes/sidebar_switch_theme.dart';
+import 'package:windows_widgets/config/theme/themes/sidebar_text_theme.dart';
 import 'package:windows_widgets/config/utils/global_colors.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 
@@ -16,11 +26,11 @@ Color themeDecider(int selectedTheme) {
   }
   //light
   else if (selectedTheme == 2) {
-    return GColors.lightThemeColor.adjustBrightness(0.7);
+    return Color(0xFFf3f3f3).adjustBrightness(0.9);
   }
   //dark
   else {
-    return GColors.darkThemeColor.adjustBrightness(0.2);
+    return Color(0xFF282828);
   }
 }
 
@@ -30,150 +40,34 @@ ThemeData sidebarTheme({
   required bool hasBorder,
   required double scaffoldPadding,
 }) {
-  //todo clean up a lil bit
+  Color textColor =
+      mainColor.isDark() ? mainColor.lighten(1) : mainColor.darken(1);
+
+  Color dialogColor =
+      mainColor.isDark() ? mainColor.lighten(1) : mainColor.darken(1);
+
+  if (!mainColor.isDark() && opacity <= 0.5) {
+    textColor = mainColor.lighten(1);
+  }
+
   return ThemeData(
     fontFamily: 'Nova',
     scaffoldBackgroundColor: mainColor.withValues(alpha: opacity),
-    brightness: Brightness.dark,
-    iconTheme: IconThemeData(color: mainColor.shade100),
-    tooltipTheme: TooltipThemeData(
-      exitDuration: Duration.zero,
-      decoration: BoxDecoration(
-        color: mainColor.shade600,
-        borderRadius: BorderRadius.circular(kOuterRadius),
-      ),
-      textStyle: TextStyle(
-        color: mainColor.shade100,
-        fontWeight: FontWeight.w600,
-        overflow: TextOverflow.ellipsis,
-      ),
-    ),
-    extensions: [
-      SidebarExtensions(
-        globalBorderWidth: 1,
-        color: hasBorder ? mainColor : mainColor.withValues(alpha: 0),
-        scaffoldPadding: scaffoldPadding,
-      ),
-    ],
-    textTheme: TextTheme(
-      labelLarge: TextStyle(
-        color: mainColor.shade100,
-        fontWeight: FontWeight.bold,
-        overflow: TextOverflow.ellipsis,
-      ),
-      labelMedium: TextStyle(
-        color: mainColor.shade100,
-        fontWeight: FontWeight.w600,
-        overflow: TextOverflow.ellipsis,
-      ),
-      labelSmall: TextStyle(
-        color: mainColor.shade100,
-        overflow: TextOverflow.ellipsis,
-      ),
-      //on top of folder icon
-      bodySmall: TextStyle(
-        color: mainColor.shade600,
-        overflow: TextOverflow.ellipsis,
-        fontSize: 12,
-      ),
-    ),
-    sliderTheme: SliderThemeData(
-      thumbColor: mainColor.shade100,
-      inactiveTrackColor: mainColor.shade300,
-      activeTrackColor: mainColor.shade100,
-      valueIndicatorColor: mainColor,
-      valueIndicatorTextStyle: TextStyle(
-        color: mainColor.shade100,
-      ),
-    ),
-    dialogTheme: DialogTheme(
-      backgroundColor: mainColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(kOuterRadius),
-      ),
-      insetPadding: EdgeInsets.all(10),
-    ),
-    checkboxTheme: CheckboxThemeData(
-      checkColor: WidgetStatePropertyAll(mainColor.shade600),
-      fillColor:
-          WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
-        if (states.contains(WidgetState.selected)) {
-          return mainColor.shade100;
-        }
-        return mainColor.withValues(alpha: 0);
-      }),
-      side: BorderSide(
-        color: mainColor.shade100,
-        width: 2,
-      ),
-    ),
-    radioTheme: RadioThemeData(
-      fillColor: WidgetStatePropertyAll(mainColor.shade100),
-    ),
+    canvasColor: mainColor.shade600,
+    hoverColor: textColor.withValues(alpha: 0.1),
+    iconTheme: sidebarIconTheme(textColor),
+    extensions: sidebarExtensionsTheme(hasBorder, mainColor, scaffoldPadding),
+    popupMenuTheme: sidebarPopupMenuTheme(mainColor, dialogColor),
+    textTheme: sidebarTextTheme(mainColor, textColor),
+    sliderTheme: sidebarSliderTheme(textColor),
+    dialogTheme: sidebarDialogTheme(mainColor, dialogColor),
+    checkboxTheme: sidebarCheckboxTheme(mainColor, textColor, opacity),
     primaryColor: mainColor,
     secondaryHeaderColor: mainColor.shade600,
-    dividerTheme: DividerThemeData(
-      color: mainColor.shade100,
-    ),
-    iconButtonTheme: IconButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(mainColor.shade600),
-        elevation: WidgetStatePropertyAll(1),
-        shadowColor: WidgetStatePropertyAll(mainColor.shade800),
-        shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(kOuterRadius),
-          ),
-        ),
-        iconColor: WidgetStatePropertyAll(mainColor.shade100),
-      ),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(kOuterRadius),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(
-          color: mainColor.shade600,
-          width: 1,
-        ),
-        borderRadius: BorderRadius.circular(kOuterRadius),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(
-          color: mainColor.shade200,
-          width: 1,
-        ),
-        borderRadius: BorderRadius.circular(kOuterRadius),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderSide: BorderSide(
-          color: mainColor.shade100,
-          width: 1,
-        ),
-        borderRadius: BorderRadius.circular(kOuterRadius),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderSide: BorderSide(
-          color: mainColor.shade100,
-          width: 1,
-        ),
-        borderRadius: BorderRadius.circular(kOuterRadius),
-      ),
-      filled: true,
-      fillColor: mainColor.shade600,
-      labelStyle: TextStyle(
-        color: mainColor.shade100,
-        fontSize: 12,
-      ),
-      hintStyle: TextStyle(
-        color: mainColor.shade200,
-        fontSize: 12,
-      ),
-      errorStyle: TextStyle(
-        color: mainColor.shade100,
-        fontSize: 12,
-      ),
-    ),
+    dividerTheme: sidebarDividerTheme(mainColor),
+    radioTheme: sidebarRadioTheme(dialogColor),
+    iconButtonTheme: sidebarIconButtonTheme(mainColor, textColor),
+    inputDecorationTheme: sidebarInputDecorationTheme(mainColor),
+    switchTheme: sidebarSwitchTheme(mainColor, textColor, opacity),
   );
 }

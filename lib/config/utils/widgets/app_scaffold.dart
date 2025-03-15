@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/extensions/sidebar_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/global_colors.dart';
@@ -21,14 +20,18 @@ class AppScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(
-          Theme.of(context).extension<SidebarExtensions>()!.scaffoldPadding),
+      padding: EdgeInsets.only(
+          left: Theme.of(context)
+              .extension<SidebarExtensions>()!
+              .scaffoldPadding),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Theme.of(context).scaffoldBackgroundColor,
-              Theme.of(context).scaffoldBackgroundColor.shade600,
+              Theme.of(context).scaffoldBackgroundColor,
+              //TODO
+              // Theme.of(context).scaffoldBackgroundColor.shade600,
             ],
           ),
           border: Border.all(

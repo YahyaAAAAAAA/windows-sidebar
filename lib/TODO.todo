@@ -28,6 +28,9 @@ main:
     ✔ edit items rename @started(25-03-11 02:32) @done(25-03-11 02:43) @lasted(11m39s)
     ✔ edit name dialog @done(25-03-11 05:44)
     ✔ edit folder open command -> explorer/start @done(25-03-11 07:18)
+    ✔ super context menu or dropdownmenu2 or keep it as is @done(25-03-15 06:54)
+    ☐ file/folder pngs instead of icons ?
+    ☐ bring back picker methods
     ☐ take another look at prefs with Hive this time add adapter
     ☐ handle item no longer available
     ☐ media play/pause

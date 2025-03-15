@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_divider.dart';
+import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/side_slider.dart';
 
 class OpacityRow extends StatelessWidget {
   final double sliderValue;
@@ -31,16 +32,19 @@ class OpacityRow extends StatelessWidget {
             ),
           ],
         ),
-        Transform.scale(
-          scale: 0.7,
-          alignment: Alignment.centerLeft,
-          child: Slider(
-            divisions: 10,
-            label: sliderValue.toString(),
-            value: sliderValue,
-            max: 1,
-            min: 0,
-            onChanged: onChanged,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Transform.scale(
+            scale: 0.8,
+            alignment: Alignment.centerLeft,
+            child: SideSlider(
+              divisions: 10,
+              label: sliderValue.toString(),
+              value: sliderValue,
+              max: 1,
+              min: 0,
+              onChanged: onChanged,
+            ),
           ),
         ),
       ],

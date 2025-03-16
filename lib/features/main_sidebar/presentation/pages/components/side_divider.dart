@@ -11,7 +11,7 @@ class SideDivider extends StatelessWidget {
   const SideDivider({
     super.key,
     required this.isExpanded,
-    this.thickness = 0.5,
+    this.thickness = 1,
     this.height = 10,
     this.indent = 0,
     this.endIndent = 0,

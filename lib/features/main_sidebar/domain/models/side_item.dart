@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/enums/side_item_type.dart';
 
 abstract class SideItem {
@@ -14,6 +15,8 @@ abstract class SideItem {
     required this.type,
     required this.command,
   });
+
+  Future<bool> exists(BuildContext context);
 
   Map<String, dynamic> toMap();
 }

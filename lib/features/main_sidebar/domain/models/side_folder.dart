@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/enums/side_item_type.dart';
+import 'package:windows_widgets/config/extensions/build_context_extensions.dart';
+import 'package:windows_widgets/config/extensions/string_extensions.dart';
 import 'package:windows_widgets/config/utils/custom_icons.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_item.dart';
 
@@ -27,5 +31,17 @@ class SideFolder extends SideItem {
       //Unit8List for files only
       'icon': null,
     };
+  }
+
+  @override
+  Future<bool> exists(BuildContext context) async {
+    if (!Directory(path).existsSync()) {
+      if (!context.mounted) return false;
+      context.showSnackBar(
+          '${type.name.capitalize()} doesn\'t exist in directory');
+      return false;
+    }
+
+    return true;
   }
 }

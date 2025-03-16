@@ -10,15 +10,8 @@ class PrefsCubit extends Cubit<PrefsStates> {
 
   PrefsCubit({
     required this.prefsRepo,
-  }) : super(PrefsInit());
-
-  Future<void> init() async {
-    try {
-      await prefsRepo.init();
-      load();
-    } catch (e) {
-      emit(PrefsError(message: e.toString()));
-    }
+  }) : super(PrefsInit()) {
+    load();
   }
 
   Future<void> load() async {

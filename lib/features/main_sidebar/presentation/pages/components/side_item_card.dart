@@ -94,12 +94,7 @@ class SideItemCard extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                    top: 5,
-                    bottom: 5,
-                    right: 5,
-                    left: 2,
-                  ),
+                  padding: const EdgeInsets.all(5),
                   child: decide() == SideItemType.folder
                       ? folderBuild(context)
                       : fileBuild(),
@@ -131,8 +126,8 @@ class SideItemCard extends StatelessWidget {
 
   Widget fileBuild() {
     return SizedBox(
-      width: 30,
-      height: 30,
+      width: 24,
+      height: 24,
       child: FittedBox(
         fit: BoxFit.scaleDown,
         child: AnimatedScale(
@@ -156,24 +151,32 @@ class SideItemCard extends StatelessWidget {
           crossFadeState: folder!.localIcon == Custom.folder_fill
               ? CrossFadeState.showSecond
               : CrossFadeState.showFirst,
-          firstChild: Image.asset(
-            'assets/images/folder_open.png',
-            width: 30,
-            height: 30,
-            key: ValueKey(folder!.localIcon),
+          firstChild: Transform.scale(
+            scale: 1.2,
+            child: Image.asset(
+              'assets/images/folder_open.png',
+              width: 24,
+              height: 24,
+              key: ValueKey(folder!.localIcon),
+            ),
           ),
-          secondChild: Image.asset(
-            'assets/images/folder.png',
-            alignment: Alignment.centerLeft,
-            width: 30,
-            height: 30,
-            key: ValueKey(folder!.localIcon),
+          secondChild: Transform.scale(
+            scale: 1.2,
+            child: Image.asset(
+              'assets/images/folder.png',
+              alignment: Alignment.centerLeft,
+              width: 24,
+              height: 24,
+              key: ValueKey(folder!.localIcon),
+            ),
           ),
         ),
         Padding(
           padding: folder!.localIcon == Custom.folder_fill
-              ? EdgeInsets.only(left: 15, top: 10)
-              : EdgeInsets.only(left: 20, top: 12),
+              ? EdgeInsets.only(
+                  left: folder!.name[0].toUpperCase() == 'M' ? 8 : 10, top: 8)
+              : EdgeInsets.only(
+                  left: folder!.name[0].toUpperCase() == 'M' ? 12 : 15, top: 8),
           child: Transform(
             transform: folder!.localIcon == Custom.folder_fill
                 ? Matrix4.skew(0, 0)

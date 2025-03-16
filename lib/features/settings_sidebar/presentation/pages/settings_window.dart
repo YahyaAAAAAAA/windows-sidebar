@@ -53,7 +53,7 @@ class _SettingsWindowState extends State<SettingsWindow>
     return AppScaffold(
       body: Column(
         children: [
-          SideButton.shrunk(
+          SideButton.iconShrunk(
             icon: Icons.arrow_back_ios_new_rounded,
             text: 'Sidebar Settings',
             onPressed: () async {

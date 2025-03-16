@@ -3,6 +3,6 @@ import 'package:windows_widgets/config/extensions/color_extensions.dart';
 
 DividerThemeData sidebarDividerTheme(Color mainColor) {
   return DividerThemeData(
-    color: mainColor.shade100,
+    color: mainColor.shade400,
   );
 }

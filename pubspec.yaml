@@ -23,7 +23,6 @@ dependencies:
   #database
   hive_ce: ^2.10.1
   hive_ce_flutter: ^2.2.0
-  shared_preferences: ^2.5.2
   #state management
   flutter_bloc: ^7.0.0
   #utils

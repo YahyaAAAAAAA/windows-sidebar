@@ -53,13 +53,11 @@ class HeaderRow extends StatelessWidget {
               width: 40,
               padding: EdgeInsets.symmetric(horizontal: 8),
               icon: isExpanded
-                  ? Icons.arrow_back_ios_new_outlined
-                  : Icons.arrow_forward_ios_rounded,
+                  ? Icons.arrow_back_rounded
+                  : Icons.arrow_forward_rounded,
               iconSize: 15,
               buttonStyle: Theme.of(context).iconButtonTheme.style?.copyWith(
-                  backgroundColor: WidgetStatePropertyAll(
-                      Theme.of(context).scaffoldBackgroundColor.shade600),
-                  side: WidgetStatePropertyAll(
+                      side: WidgetStatePropertyAll(
                     BorderSide(
                       color: Theme.of(context).primaryColor.shade400,
                       width: 1,

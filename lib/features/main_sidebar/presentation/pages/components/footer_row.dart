@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:windows_widgets/config/utils/custom_icons.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_button.dart';
 
 class FooterRow extends StatelessWidget {
@@ -19,8 +18,8 @@ class FooterRow extends StatelessWidget {
     return Column(
       children: [
         isExpanded
-            ? SideButton.expanded(
-                icon: Custom.add_folder_fill,
+            ? SideButton.imageExpanded(
+                imagePath: 'assets/images/folder_add.png',
                 text: 'Pick a Folder',
                 onPressed: onPickFolderPressed,
                 buttonStyle: Theme.of(context).iconButtonTheme.style?.copyWith(
@@ -29,8 +28,8 @@ class FooterRow extends StatelessWidget {
                       side: WidgetStatePropertyAll(BorderSide.none),
                     ),
               )
-            : SideButton.shrunk(
-                icon: Custom.add_folder_fill,
+            : SideButton.imageShrunk(
+                imagePath: 'assets/images/folder_add.png',
                 text: 'Pick a Folder',
                 onPressed: onPickFolderPressed,
                 buttonStyle: Theme.of(context).iconButtonTheme.style?.copyWith(
@@ -41,8 +40,8 @@ class FooterRow extends StatelessWidget {
               ),
         SizedBox(height: 2),
         isExpanded
-            ? SideButton.expanded(
-                icon: Custom.add_document_fill,
+            ? SideButton.imageExpanded(
+                imagePath: 'assets/images/file_add.png',
                 text: 'Pick a File',
                 onPressed: onPickFilePressed,
                 buttonStyle: Theme.of(context).iconButtonTheme.style?.copyWith(
@@ -51,8 +50,8 @@ class FooterRow extends StatelessWidget {
                       side: WidgetStatePropertyAll(BorderSide.none),
                     ),
               )
-            : SideButton.shrunk(
-                icon: Custom.add_document_fill,
+            : SideButton.imageShrunk(
+                imagePath: 'assets/images/file_add.png',
                 text: 'Pick a File',
                 onPressed: onPickFilePressed,
                 buttonStyle: Theme.of(context).iconButtonTheme.style?.copyWith(

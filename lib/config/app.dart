@@ -8,7 +8,7 @@ import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 import 'package:windows_widgets/features/main_sidebar/data/hive_side_items_repo.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/cubits/side_items_cubit.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/main_window.dart';
-import 'package:windows_widgets/features/settings_sidebar/data/shared_preferences_prefs_repo.dart';
+import 'package:windows_widgets/features/settings_sidebar/data/hive_prefs_repo.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_cubit.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_states.dart';
 
@@ -23,7 +23,7 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
     with TickerProviderStateMixin, WindowListener, WindowAnimationUtilsMixin {
   //repos
   final itemsRepo = HiveSideItemsRepo();
-  final prefsRepo = SharedPrefsRepo();
+  final prefsRepo = HivePrefsRepo();
 
   bool shouldLoseFoucs = true;
   bool isExpanded = false;
@@ -58,8 +58,7 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => SideItemsCubit(itemsRepo: itemsRepo)),
-        BlocProvider(
-            create: (context) => PrefsCubit(prefsRepo: prefsRepo)..init()),
+        BlocProvider(create: (context) => PrefsCubit(prefsRepo: prefsRepo)),
       ],
       child: MouseRegion(
         onEnter: (_) async {

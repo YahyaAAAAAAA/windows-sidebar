@@ -29,11 +29,17 @@ main:
     ✔ edit name dialog @done(25-03-11 05:44)
     ✔ edit folder open command -> explorer/start @done(25-03-11 07:18)
     ✔ super context menu or dropdownmenu2 or keep it as is @done(25-03-15 06:54)
-    ☐ file/folder pngs instead of icons ?
-    ☐ bring back picker methods
-    ☐ take another look at prefs with Hive this time add adapter
-    ☐ handle item no longer available
+    ✔ file/folder pngs instead of icons ? @done(25-03-15 23:39)
+    ✔ bring back picker methods @done(25-03-15 23:39)
+    ✔ take another look at prefs with Hive this time add adapter @done(25-03-16 02:29)
+    ✔ handle item no longer available @done(25-03-16 06:41)
+    ☐ file -> open file location
+    ☐ move some Picker methods to SideItem ?
+    ☐ more win11 icons ?
+    ☐ settings window ui change
     ☐ media play/pause
+    ☐ media detect for spotify only
+    ☐ media stats (most played sonds/artists)
     ☐ This PC shortcut (expandable widget would be nice)
     ☐ open links in browser
     ☐ app icon
@@ -42,6 +48,6 @@ main:
     ☐ list sort, search (maybe ?)
 
 future plans:
-    ☐ replace Hive with SP for side items
+    ✘ replace Hive with SP for side items @cancelled(25-03-16 06:41)
     ☐ add left alignment
           

@@ -145,6 +145,7 @@ class _MainWindowState extends State<MainWindow>
                               () => item.localIcon = Custom.folder_open_fill),
                           onExit: (_) => setState(
                               () => item.localIcon = Custom.folder_fill),
+                          onLeftClick: () => item.open(context),
                           onRightClick: (context, position) async =>
                               await showContextMenu(
                             context,
@@ -175,6 +176,7 @@ class _MainWindowState extends State<MainWindow>
                           fileIconScale: item.scale,
                           onEnter: (_) => setState(() => item.scale = 1.8),
                           onExit: (_) => setState(() => item.scale = 1.7),
+                          onLeftClick: () => item.open(context),
                           onRightClick: (context, position) async =>
                               await showContextMenu(
                             context,

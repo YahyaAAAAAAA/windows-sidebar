@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:windows_widgets/config/enums/side_item_type.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/custom_icons.dart';
-import 'package:windows_widgets/config/utils/picker.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_file.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_folder.dart';
 
@@ -11,6 +10,7 @@ class SideItemCard extends StatelessWidget {
   final bool isExpanded;
   final int index;
   final void Function(BuildContext context, Offset position)? onRightClick;
+  final void Function()? onLeftClick;
   final void Function(PointerEnterEvent)? onEnter;
   final void Function(PointerExitEvent)? onExit;
 
@@ -23,6 +23,7 @@ class SideItemCard extends StatelessWidget {
     this.onRightClick,
     this.onEnter,
     this.onExit,
+    this.onLeftClick,
   })  : file = null,
         fileIconScale = null;
 
@@ -37,6 +38,7 @@ class SideItemCard extends StatelessWidget {
     this.fileIconScale,
     this.onEnter,
     this.onExit,
+    this.onLeftClick,
   }) : folder = null;
 
   SideItemType decide() {
@@ -66,7 +68,7 @@ class SideItemCard extends StatelessWidget {
         type: MaterialType.transparency,
         child: InkWell(
           borderRadius: BorderRadius.circular(kOuterRadius),
-          onTap: () => Picker.openItem(file ?? folder, context),
+          onTap: onLeftClick,
           onSecondaryTapDown: (details) async {
             if (onRightClick != null) {
               final RenderBox renderBox =

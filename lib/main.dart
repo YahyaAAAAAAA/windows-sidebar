@@ -34,8 +34,9 @@ void main() async {
       size: Size(kWindowWidth, windowHeight),
       maximumSize: Size(kWindowWidth, kWindowMaxHeight),
       minimumSize: Size(kWindowWidth, kWindowMinHeight),
-      center: false,
+      center: true,
       title: 'WindowsSidebar',
+      // titleBarStyle: TitleBarStyle.hidden,
       skipTaskbar: true,
     ),
     () async {

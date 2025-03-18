@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/extensions/sidebar_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
-import 'package:windows_widgets/config/utils/global_colors.dart';
 
 class AppScaffold extends StatelessWidget {
   final Widget body;
@@ -26,14 +25,6 @@ class AppScaffold extends StatelessWidget {
               .scaffoldPadding),
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Theme.of(context).scaffoldBackgroundColor,
-              Theme.of(context).scaffoldBackgroundColor,
-              //TODO
-              // Theme.of(context).scaffoldBackgroundColor.shade600,
-            ],
-          ),
           border: Border.all(
             color: Theme.of(context).extension<SidebarExtensions>()!.color,
             width: Theme.of(context)
@@ -45,17 +36,11 @@ class AppScaffold extends StatelessWidget {
             bottomLeft: Radius.circular(kOuterRadius),
           ),
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(kOuterRadius),
-            bottomLeft: Radius.circular(kOuterRadius),
-          ),
-          child: Scaffold(
-            backgroundColor: GColors.transparent,
-            body: Padding(
-              padding: const EdgeInsets.all(6),
-              child: body,
-            ),
+        child: Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: Padding(
+            padding: const EdgeInsets.all(6),
+            child: body,
           ),
         ),
       ),

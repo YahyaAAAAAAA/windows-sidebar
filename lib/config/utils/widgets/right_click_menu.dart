@@ -7,6 +7,7 @@ Future<String?> showContextMenu(
   void Function()? onDelete,
   void Function()? onNameEdit,
   void Function()? onCommandEdit,
+  void Function()? onOpenLocation,
 }) async {
   if (!isExpanded) return null;
 
@@ -25,11 +26,11 @@ Future<String?> showContextMenu(
     ),
     constraints: BoxConstraints(
       maxWidth: isExpanded ? 150 : 40,
-      maxHeight: 150,
+      maxHeight: 220,
     ),
     elevation: Theme.of(context).popupMenuTheme.elevation,
     shape: Theme.of(context).popupMenuTheme.shape,
-    items: [
+    items: <PopupMenuEntry<String>>[
       PopupMenuItem(
         onTap: onNameEdit,
         padding: EdgeInsets.symmetric(horizontal: 10),
@@ -52,6 +53,19 @@ Future<String?> showContextMenu(
           text: 'Open Command',
         ),
       ),
+      if (onOpenLocation != null)
+        PopupMenuItem(
+          onTap: onOpenLocation,
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          value: 'open location',
+          textStyle: Theme.of(context).popupMenuTheme.textStyle,
+          child: expandedBuild(
+            context,
+            icon: Icons.folder_open_rounded,
+            text: 'Open Location',
+          ),
+        ),
+      PopupMenuDivider(),
       PopupMenuItem(
         onTap: onDelete,
         padding: EdgeInsets.symmetric(horizontal: 10),

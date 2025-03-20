@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 
 class SidebarExtensions extends ThemeExtension<SidebarExtensions> {
   final double globalBorderWidth;
-  final double scaffoldPadding;
   final Color color;
 
   SidebarExtensions({
     required this.globalBorderWidth,
-    required this.scaffoldPadding,
     required this.color,
   });
 
@@ -22,7 +20,6 @@ class SidebarExtensions extends ThemeExtension<SidebarExtensions> {
     return SidebarExtensions(
       globalBorderWidth: globalBorderWidth ?? this.globalBorderWidth,
       color: color ?? this.color,
-      scaffoldPadding: scaffoldPadding ?? this.scaffoldPadding,
     );
   }
 
@@ -36,7 +33,6 @@ class SidebarExtensions extends ThemeExtension<SidebarExtensions> {
       globalBorderWidth:
           lerpDouble(globalBorderWidth, other.globalBorderWidth, t)!,
       color: color,
-      scaffoldPadding: scaffoldPadding,
     );
   }
 }

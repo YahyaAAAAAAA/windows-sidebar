@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:windows_widgets/config/extensions/bool_exensions.dart';
 import 'package:windows_widgets/config/extensions/build_context_extensions.dart';
 import 'package:windows_widgets/config/extensions/color_extensions.dart';
 import 'package:windows_widgets/config/utils/constants.dart';
@@ -18,7 +17,6 @@ import 'package:windows_widgets/features/settings_sidebar/domain/models/prefs.da
 import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_cubit.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_states.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/blur_row.dart';
-import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/padding_row.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/dialogs/prefs_save_dialog.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/resize_row.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/opacity_row.dart';
@@ -170,14 +168,6 @@ class _SettingsWindowState extends State<SettingsWindow>
                       setState(() {});
                     },
                   ),
-
-                  SizedBox(height: 10),
-
-                  PaddingRow(
-                    scaffoldPadding: prefsCubit.prefs!.scaffoldPadding,
-                    onChanged: (value) => setState(() =>
-                        prefsCubit.prefs!.scaffoldPadding = value!.toDouble()),
-                  ),
                 ],
               ),
             ),
@@ -200,8 +190,8 @@ class _SettingsWindowState extends State<SettingsWindow>
                   ),
                   side: WidgetStatePropertyAll(
                     BorderSide(
-                      color: Theme.of(context).primaryColor.shade400,
-                      width: 1,
+                      color: Theme.of(context).primaryColor.shade300,
+                      width: 0.5,
                     ),
                   ),
                 ),

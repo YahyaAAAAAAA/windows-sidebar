@@ -1,17 +1,19 @@
 const double kListViewWidth = 450;
 
-const double kOuterRadius = 5;
+const double kWindowRadius = 8;
+
+const double kOuterRadius = 4;
 
 const double kInnerRadius = 20;
 
 const double kOnEnterRight = -50;
 
-const double kOnEnterRightExpand = -197;
+const double kOnEnterRightExpand = -180;
 
 const double kMaxTextWidth = 80;
 
 const double kDividerIndent = 1;
-const double kDividerEndIndent = 146;
+const double kDividerEndIndent = 136;
 
 const double kWindowHeight = 500;
 
@@ -34,6 +36,3 @@ const int kInitSelectedTheme = 0;
 const bool kInitIsBlurred = true;
 
 const bool kInitHasBorder = false;
-
-//for now this is treated as bool in the app
-const double kInitScaffoldPadding = 0;

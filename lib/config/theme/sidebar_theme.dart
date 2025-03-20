@@ -38,7 +38,6 @@ ThemeData sidebarTheme({
   required Color mainColor,
   required double opacity,
   required bool hasBorder,
-  required double scaffoldPadding,
 }) {
   Color textColor =
       mainColor.isDark() ? mainColor.lighten(1) : mainColor.darken(1);
@@ -56,7 +55,7 @@ ThemeData sidebarTheme({
     canvasColor: mainColor.shade600,
     hoverColor: textColor.withValues(alpha: 0.1),
     iconTheme: sidebarIconTheme(textColor),
-    extensions: sidebarExtensionsTheme(hasBorder, mainColor, scaffoldPadding),
+    extensions: sidebarExtensionsTheme(hasBorder, mainColor, opacity),
     popupMenuTheme: sidebarPopupMenuTheme(mainColor, dialogColor),
     textTheme: sidebarTextTheme(mainColor, textColor),
     sliderTheme: sidebarSliderTheme(textColor),

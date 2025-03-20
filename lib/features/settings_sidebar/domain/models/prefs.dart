@@ -2,7 +2,6 @@ class Prefs {
   int selectedTheme;
   double backgroundOpacity;
   double windowHeight;
-  double scaffoldPadding;
   bool isBlurred;
   bool hasBorder;
 
@@ -10,7 +9,6 @@ class Prefs {
     required this.selectedTheme,
     required this.backgroundOpacity,
     required this.windowHeight,
-    required this.scaffoldPadding,
     required this.isBlurred,
     required this.hasBorder,
   });
@@ -20,7 +18,6 @@ class Prefs {
       'selectedTheme': selectedTheme,
       'backgroundOpacity': backgroundOpacity,
       'windowHeight': windowHeight,
-      'scaffoldPadding': scaffoldPadding,
       'isBlurred': isBlurred,
       'hasBorder': hasBorder,
     };
@@ -28,7 +25,6 @@ class Prefs {
 
   Prefs copyWith({
     double? backgroundOpacity,
-    double? scaffoldPadding,
     int? selectedTheme,
     bool? isBlurred,
     bool? hasBorder,
@@ -40,7 +36,6 @@ class Prefs {
       isBlurred: isBlurred ?? this.isBlurred,
       hasBorder: hasBorder ?? this.hasBorder,
       windowHeight: windowHeight ?? this.windowHeight,
-      scaffoldPadding: scaffoldPadding ?? this.scaffoldPadding,
     );
   }
 }

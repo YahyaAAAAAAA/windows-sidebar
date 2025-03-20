@@ -12,7 +12,6 @@ class PrefsAdapter extends TypeAdapter<Prefs> {
     final isBlurred = reader.readBool();
     final hasBorder = reader.readBool();
     final windowHeight = reader.readDouble();
-    final scaffoldPadding = reader.readDouble();
 
     return Prefs(
       backgroundOpacity: backgroundOpacity,
@@ -20,7 +19,6 @@ class PrefsAdapter extends TypeAdapter<Prefs> {
       isBlurred: isBlurred,
       hasBorder: hasBorder,
       windowHeight: windowHeight,
-      scaffoldPadding: scaffoldPadding,
     );
   }
 
@@ -31,6 +29,5 @@ class PrefsAdapter extends TypeAdapter<Prefs> {
     writer.writeBool(obj.isBlurred);
     writer.writeBool(obj.hasBorder);
     writer.writeDouble(obj.windowHeight);
-    writer.writeDouble(obj.scaffoldPadding);
   }
 }

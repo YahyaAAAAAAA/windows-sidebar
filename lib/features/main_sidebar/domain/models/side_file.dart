@@ -43,4 +43,10 @@ class SideFile extends SideItem {
 
     return true;
   }
+
+  Future<void> openLocation(BuildContext context) async {
+    if (await exists(context)) {
+      await Process.run('explorer', ['/select,', path]);
+    }
+  }
 }

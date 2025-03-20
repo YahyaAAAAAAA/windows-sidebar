@@ -33,8 +33,13 @@ main:
     ✔ bring back picker methods @done(25-03-15 23:39)
     ✔ take another look at prefs with Hive this time add adapter @done(25-03-16 02:29)
     ✔ handle item no longer available @done(25-03-16 06:41)
-    ☐ file -> open file location
-    ☐ move some Picker methods to SideItem ?
+    ✔ remove scaf padding from prefs @done(25-03-20 09:23)
+    ✔ remove when hidden from settings @done(25-03-20 09:34)
+    ✔ add blur native plugin @done(25-03-20 09:35)
+    ✔ remove frameless, using win11 border instead @done(25-03-20 09:35)
+    ✔ reduce buttons/divider with to .5 @done(25-03-20 09:35)
+    ✔ file -> open file location @done(25-03-20 09:48)
+    ✔ move some Picker methods to SideItem ? @done(25-03-20 09:48)
     ☐ more win11 icons ?
     ☐ settings window ui change
     ☐ media play/pause

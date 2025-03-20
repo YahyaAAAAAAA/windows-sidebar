@@ -18,30 +18,21 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-          left: Theme.of(context)
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Theme.of(context).extension<SidebarExtensions>()!.color,
+          width: Theme.of(context)
               .extension<SidebarExtensions>()!
-              .scaffoldPadding),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Theme.of(context).extension<SidebarExtensions>()!.color,
-            width: Theme.of(context)
-                .extension<SidebarExtensions>()!
-                .globalBorderWidth,
-          ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(kOuterRadius),
-            bottomLeft: Radius.circular(kOuterRadius),
-          ),
+              .globalBorderWidth,
         ),
-        child: Scaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          body: Padding(
-            padding: const EdgeInsets.all(6),
-            child: body,
-          ),
+        borderRadius: BorderRadius.circular(kWindowRadius),
+      ),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: Padding(
+          padding: const EdgeInsets.all(6),
+          child: body,
         ),
       ),
     );

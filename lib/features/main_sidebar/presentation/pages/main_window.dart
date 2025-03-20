@@ -182,6 +182,7 @@ class _MainWindowState extends State<MainWindow>
                             context,
                             position,
                             widget.isExpanded,
+                            onOpenLocation: () => item.openLocation(context),
                             onDelete: () => sideItemsCubit.removeItem(item.id!),
                             onNameEdit: () => sideItemsCubit.editItemNameDialog(
                               context: context,

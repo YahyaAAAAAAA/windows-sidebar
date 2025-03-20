@@ -15,8 +15,6 @@ class HivePrefsRepo implements PrefsRepo {
     final isBlurred = await prefsBox.get('isBlurred') ?? kInitIsBlurred;
     final hasBorder = await prefsBox.get('hasBorder') ?? kInitHasBorder;
     final windowHeight = await prefsBox.get('windowHeight') ?? kWindowHeight;
-    final scaffoldPadding =
-        await prefsBox.get('scaffoldPadding') ?? kInitScaffoldPadding;
 
     return Prefs(
       backgroundOpacity: backgroundOpacity,
@@ -24,7 +22,6 @@ class HivePrefsRepo implements PrefsRepo {
       isBlurred: isBlurred,
       hasBorder: hasBorder,
       windowHeight: windowHeight,
-      scaffoldPadding: scaffoldPadding,
     );
   }
 

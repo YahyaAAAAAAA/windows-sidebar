@@ -49,7 +49,6 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
       mainColor: themeDecider(kInitSelectedTheme),
       opacity: kInitBackgroundOpacity,
       hasBorder: kInitHasBorder,
-      scaffoldPadding: kInitScaffoldPadding,
     );
   }
 
@@ -93,7 +92,6 @@ class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
                 mainColor: themeDecider(prefs.selectedTheme),
                 opacity: prefs.backgroundOpacity,
                 hasBorder: prefs.hasBorder,
-                scaffoldPadding: prefs.scaffoldPadding,
               );
             }
           },

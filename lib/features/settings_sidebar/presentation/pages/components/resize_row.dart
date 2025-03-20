@@ -32,7 +32,8 @@ class ResizeRow extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context).scaffoldBackgroundColor.shade600,
                 border: Border.all(
-                  color: Theme.of(context).primaryColor.shade400,
+                  color: Theme.of(context).primaryColor.shade300,
+                  width: 0.5,
                 ),
                 borderRadius: BorderRadius.circular(kOuterRadius),
               ),
@@ -87,7 +88,8 @@ class ResizeRow extends StatelessWidget {
                         Theme.of(context).scaffoldBackgroundColor.shade600),
                     side: WidgetStatePropertyAll(
                       BorderSide(
-                        color: Theme.of(context).primaryColor.shade400,
+                        color: Theme.of(context).primaryColor.shade300,
+                        width: 0.5,
                       ),
                     ),
                   ),

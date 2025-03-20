@@ -20,7 +20,32 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
+#pragma comment(lib, "dwmapi.lib")
+
 using namespace std;
+
+// Blur effect structs
+typedef struct _ACCENT_POLICY {
+  int nAccentState;
+  int nFlags;
+  int nColor;
+  int nAnimationId;
+} ACCENT_POLICY;
+
+typedef struct _WINDOWCOMPOSITIONATTRIBDATA {
+  int nAttribute;
+  PVOID pData;
+  SIZE_T ulDataSize;
+} WINDOWCOMPOSITIONATTRIBDATA;
+
+enum AccentState {
+  ACCENT_DISABLED = 0,
+  ACCENT_ENABLE_BLURBEHIND = 3,
+};
+
+enum WindowCompositionAttribute {
+  WCA_ACCENT_POLICY = 19,
+};
 
 //convert std::string to std::wstring
 std::wstring StringToWString(const std::string& str) {
@@ -35,7 +60,6 @@ bool GetFileIcon(const std::string& filePath, std::vector<uint8_t>& pngBytes) {
     std::wstring wideFilePath = StringToWString(filePath);
 
     if (SHGetFileInfo(wideFilePath.c_str(), 0, &shFileInfo, sizeof(SHFILEINFO), SHGFI_ICON | SHGFI_LARGEICON) == 0) {
-       //no icon found
         return false; 
     }
 
@@ -55,7 +79,6 @@ bool GetFileIcon(const std::string& filePath, std::vector<uint8_t>& pngBytes) {
 
     int width = bmp.bmWidth;
     int height = bmp.bmHeight;
-     //4 bytes per pixel (BGRA)
     int pixelSize = 4; 
     std::vector<uint8_t> rawBitmapData(width * height * pixelSize);
 
@@ -66,7 +89,6 @@ bool GetFileIcon(const std::string& filePath, std::vector<uint8_t>& pngBytes) {
     BITMAPINFO bmi = {0};
     bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
     bmi.bmiHeader.biWidth = width;
-    //avoid flipping
     bmi.bmiHeader.biHeight = -height;
     bmi.bmiHeader.biPlanes = 1;
     bmi.bmiHeader.biBitCount = 32;
@@ -86,12 +108,10 @@ bool GetFileIcon(const std::string& filePath, std::vector<uint8_t>& pngBytes) {
     DeleteDC(hdcMem);
     ReleaseDC(NULL, hdcScreen);
 
-    //convert BGRA to RGBA for PNG encoding
     for (int i = 0; i < width * height; i++) {
-        std::swap(rawBitmapData[i * 4], rawBitmapData[i * 4 + 2]);  // Swap B and R
+        std::swap(rawBitmapData[i * 4], rawBitmapData[i * 4 + 2]);
     }
 
-    //encode as PNG
     int pngSize;
     unsigned char* pngData = stbi_write_png_to_mem(rawBitmapData.data(), width * 4, width, height, 4, &pngSize);
     if (pngSize <= 0) {
@@ -101,7 +121,6 @@ bool GetFileIcon(const std::string& filePath, std::vector<uint8_t>& pngBytes) {
         return false;
     }
 
-    //store PNG bytes
     pngBytes.assign(pngData, pngData + pngSize);
     free(pngData);
 
@@ -112,7 +131,22 @@ bool GetFileIcon(const std::string& filePath, std::vector<uint8_t>& pngBytes) {
     return true;
 }
 
-//initialize Flutter MethodChannel
+void ApplyBlurEffect(HWND hwnd) {
+   // Dynamically load SetWindowCompositionAttribute
+   HMODULE hUser = LoadLibraryA("user32.dll");
+   if (hUser) {
+     typedef BOOL(WINAPI *pSetWindowCompositionAttribute)(HWND, WINDOWCOMPOSITIONATTRIBDATA*);
+     auto SetWindowCompositionAttributeFunc = (pSetWindowCompositionAttribute)GetProcAddress(hUser, "SetWindowCompositionAttribute");
+ 
+     if (SetWindowCompositionAttributeFunc) {
+       ACCENT_POLICY policy = { ACCENT_ENABLE_BLURBEHIND, 0, 0, 0 };
+       WINDOWCOMPOSITIONATTRIBDATA data = { WCA_ACCENT_POLICY, &policy, sizeof(policy) };
+       SetWindowCompositionAttributeFunc(hwnd, &data);
+     }
+     FreeLibrary(hUser);
+   }
+}
+
 void initMethodChannel(flutter::FlutterEngine* flutter_instance) {
     const static std::string channel_name("file_icon_channel");
 
@@ -122,7 +156,7 @@ void initMethodChannel(flutter::FlutterEngine* flutter_instance) {
             &flutter::StandardMethodCodec::GetInstance());
 
     channel->SetMethodCallHandler(
-        [](const flutter::MethodCall<flutter::EncodableValue>& call, 
+        [flutter_instance](const flutter::MethodCall<flutter::EncodableValue>& call, 
            std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
 
             if (call.method_name().compare("getFileIcon") == 0) {
@@ -134,12 +168,20 @@ void initMethodChannel(flutter::FlutterEngine* flutter_instance) {
                     return;
                 }
 
-                //retrieve the file icon as a PNG byte array
                 std::vector<uint8_t> pngBytes;
                 if (GetFileIcon(filePath, pngBytes)) {
                     result->Success(flutter::EncodableValue(pngBytes));
                 } else {
                     result->Error("ICON_RETRIEVAL_FAILED", "Could not retrieve file icon.");
+                }
+            } else if (call.method_name().compare("applyBlur") == 0) {
+                HWND hwnd = GetActiveWindow();
+
+                if (hwnd) {
+                    ApplyBlurEffect(hwnd);
+                    result->Success();
+                } else {
+                    result->Error("HWND_NOT_FOUND", "Could not retrieve window handle.");
                 }
             } else {
                 result->NotImplemented();
@@ -147,8 +189,6 @@ void initMethodChannel(flutter::FlutterEngine* flutter_instance) {
         });
 }
 
-
-//FlutterWindow implementation
 FlutterWindow::FlutterWindow(const flutter::DartProject& project)
     : project_(project) {}
 
@@ -170,7 +210,6 @@ bool FlutterWindow::OnCreate() {
 
     RegisterPlugins(flutter_controller_->engine());
     
-    //initialize the method channel
     initMethodChannel(flutter_controller_->engine());
 
     SetChildContent(flutter_controller_->view()->GetNativeWindow());

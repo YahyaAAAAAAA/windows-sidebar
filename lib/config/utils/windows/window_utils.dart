@@ -8,13 +8,14 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:win32/win32.dart';
 import 'package:windows_widgets/config/utils/global_colors.dart';
+import 'package:windows_widgets/config/native_plugins/window_aero_blur.dart';
 
 class WindowUtils {
   static Offset originalPosition = Offset.zero;
 
   static Future<void> setUp() async {
     await windowManager.setResizable(false);
-    await windowManager.setAsFrameless();
+    // await windowManager.setAsFrameless();
   }
 
   static Future<void> alignRight() async {
@@ -29,7 +30,7 @@ class WindowUtils {
     double newY = (screenHeight - windowHeight) / 2;
 
     int windowWidth = windowSize.width.toInt();
-    double newX = currentPosition.dx + windowWidth - 0.5;
+    double newX = currentPosition.dx + windowWidth - 10;
 
     await windowManager.setPosition(Offset(newX, newY));
   }
@@ -146,11 +147,13 @@ class WindowUtils {
 
   //window effect
   static Future<void> transparent() async {
-    await Window.setEffect(effect: WindowEffect.transparent);
+    await Window.setEffect(
+      effect: WindowEffect.transparent,
+    );
   }
 
   static Future<void> blur() async {
-    await Window.setEffect(effect: WindowEffect.aero);
+    await WindowAeroBlur.applyAeroBlur();
   }
 
   static Future<void> solid() async {

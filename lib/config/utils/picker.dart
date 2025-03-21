@@ -1,12 +1,16 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/enums/open_item_command_type.dart';
+import 'package:windows_widgets/config/extensions/build_context_extensions.dart';
 import 'package:windows_widgets/config/extensions/string_extensions.dart';
 import 'package:windows_widgets/config/native_plugins/file_icon_plugin.dart';
 import 'package:windows_widgets/config/utils/generate.dart';
+import 'package:windows_widgets/config/utils/transition_animation.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_file.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_folder.dart';
+import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/dialogs/pick_url_dialog.dart';
 
 class Picker {
   static Future<SideFolder?> pickFolder() async {
@@ -46,5 +50,51 @@ class Picker {
       );
     }
     return null;
+  }
+
+  //pick a url through dialog (a string)
+  static Future<String?> pickUrl({
+    required BuildContext context,
+    required TextEditingController controller,
+  }) async {
+    //set init name
+    String? url;
+    String? errorText;
+
+    //open dialog
+    await context.dialog(
+      barrierDismissible: false,
+      transitionBuilder: TransitionAnimations.slideFromBottom,
+      pageBuilder: (context, _, __) => StatefulBuilder(
+        builder: (context, setState) => PickUrlDialog(
+          controller: controller,
+          errorText: errorText,
+          // labelText: '${item.type.name.capitalize()} Name',
+          hintText: 'Enter URL',
+          onCancelPressed: () {
+            controller.clear();
+            context.pop();
+          },
+          onSavePressed: () {
+            if (controller.text.isEmpty) {
+              errorText = 'Please enter a URL';
+              setState(() {});
+              return;
+            }
+
+            url = controller.text;
+            context.pop();
+          },
+        ),
+      ),
+    );
+
+    //if name empty/user canceled do nothing
+    if (controller.text.isEmpty) return null;
+
+    //update item, clear controller
+    controller.clear();
+
+    return url;
   }
 }

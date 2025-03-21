@@ -13,8 +13,8 @@ class SideDivider extends StatelessWidget {
     required this.isExpanded,
     this.thickness = 0.5,
     this.height = 10,
-    this.indent = 0,
-    this.endIndent = 0,
+    this.indent,
+    this.endIndent,
   });
 
   @override
@@ -25,14 +25,14 @@ class SideDivider extends StatelessWidget {
       firstChild: Divider(
         thickness: thickness,
         height: height,
-        indent: indent,
-        endIndent: endIndent,
+        indent: 0,
+        endIndent: 0,
       ),
       //shrunk divider
       secondChild: Divider(
         thickness: thickness,
-        indent: kDividerIndent,
-        endIndent: kDividerEndIndent,
+        indent: indent ?? kDividerIndent,
+        endIndent: endIndent ?? kDividerEndIndent,
         height: height,
       ),
       crossFadeState:

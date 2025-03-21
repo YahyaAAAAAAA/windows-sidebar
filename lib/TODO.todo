@@ -40,13 +40,14 @@ main:
     ✔ reduce buttons/divider with to .5 @done(25-03-20 09:35)
     ✔ file -> open file location @done(25-03-20 09:48)
     ✔ move some Picker methods to SideItem ? @done(25-03-20 09:48)
-    ☐ more win11 icons ?
-    ☐ settings window ui change
+    ✘ more win11 icons ? @cancelled(25-03-21 02:19)
+    ✘ settings window ui change @cancelled(25-03-21 02:21)
+    ☐ open links in browser
+    ☐ add a small line next to selected theme in setttings
+    ☐ This PC shortcut (expandable widget would be nice)
     ☐ media play/pause
     ☐ media detect for spotify only
     ☐ media stats (most played sonds/artists)
-    ☐ This PC shortcut (expandable widget would be nice)
-    ☐ open links in browser
     ☐ app icon
     ☐ system tray
     ☐ figure out the cause of lag

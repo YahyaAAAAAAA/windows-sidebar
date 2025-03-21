@@ -44,7 +44,7 @@ class ThemeRow extends StatelessWidget {
                 color: Theme.of(context).scaffoldBackgroundColor.shade600,
                 borderRadius: BorderRadius.circular(kOuterRadius),
                 border: Border.all(
-                  color: Theme.of(context).primaryColor.shade500,
+                  color: Theme.of(context).primaryColor.shade300,
                   width: 0.5,
                 ),
               ),

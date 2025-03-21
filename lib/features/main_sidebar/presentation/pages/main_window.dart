@@ -49,6 +49,7 @@ class _MainWindowState extends State<MainWindow>
     with TickerProviderStateMixin, WindowListener, WindowAnimationUtilsMixin {
   late final SideItemsCubit sideItemsCubit;
   final TextEditingController itemNameController = TextEditingController();
+  final TextEditingController urlController = TextEditingController();
   bool canDrag = false;
   double fileIconScale = 1.7;
 
@@ -63,6 +64,7 @@ class _MainWindowState extends State<MainWindow>
   @override
   void dispose() {
     itemNameController.dispose();
+    urlController.dispose();
     super.dispose();
   }
 
@@ -218,11 +220,25 @@ class _MainWindowState extends State<MainWindow>
               }
             },
           ),
-          SideDivider(isExpanded: widget.isExpanded),
+          // SideDivider(isExpanded: widget.isExpanded),
 
           //bottom
           FooterRow(
             isExpanded: widget.isExpanded,
+            onPickUrlPressed: () async {
+              widget.toggleShouldLoseFocus();
+
+              //TODO HERE/PICKER/PICKER DIALOG/RETURN SIDEURL
+              String? url = await Picker.pickUrl(
+                context: context,
+                controller: urlController,
+              );
+              if (url != null) {
+                print(url);
+                // sideItemsCubit.addItem(folder);
+              }
+              widget.toggleShouldLoseFocus();
+            },
             onPickFolderPressed: () async {
               widget.toggleShouldLoseFocus();
 

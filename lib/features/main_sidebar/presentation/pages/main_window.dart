@@ -14,6 +14,7 @@ import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_file.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_folder.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_item.dart';
+import 'package:windows_widgets/features/main_sidebar/domain/models/side_url.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/cubits/side_items_cubit.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/cubits/side_items_states.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/footer_row.dart';
@@ -51,7 +52,6 @@ class _MainWindowState extends State<MainWindow>
   final TextEditingController itemNameController = TextEditingController();
   final TextEditingController urlController = TextEditingController();
   bool canDrag = false;
-  double fileIconScale = 1.7;
 
   @override
   void initState() {
@@ -175,7 +175,6 @@ class _MainWindowState extends State<MainWindow>
                           isExpanded: widget.isExpanded,
                           index: index,
                           file: item,
-                          fileIconScale: item.scale,
                           onEnter: (_) => setState(() => item.scale = 1.8),
                           onExit: (_) => setState(() => item.scale = 1.7),
                           onLeftClick: () => item.open(context),
@@ -185,6 +184,34 @@ class _MainWindowState extends State<MainWindow>
                             position,
                             widget.isExpanded,
                             onOpenLocation: () => item.openLocation(context),
+                            onDelete: () => sideItemsCubit.removeItem(item.id!),
+                            onNameEdit: () => sideItemsCubit.editItemNameDialog(
+                              context: context,
+                              controller: itemNameController,
+                              item: item,
+                            ),
+                            onCommandEdit: () =>
+                                sideItemsCubit.editItemOpenCommandDialog(
+                              context: context,
+                              item: item,
+                            ),
+                          ),
+                        );
+                      }
+                      if (item is SideUrl) {
+                        return SideItemCard.url(
+                          key: ValueKey(item.id),
+                          url: item,
+                          isExpanded: widget.isExpanded,
+                          index: index,
+                          onEnter: (_) => setState(() => item.scale = 1.8),
+                          onExit: (_) => setState(() => item.scale = 1.7),
+                          onLeftClick: () => item.open(context),
+                          onRightClick: (context, position) async =>
+                              await showContextMenu(
+                            context,
+                            position,
+                            widget.isExpanded,
                             onDelete: () => sideItemsCubit.removeItem(item.id!),
                             onNameEdit: () => sideItemsCubit.editItemNameDialog(
                               context: context,
@@ -228,14 +255,12 @@ class _MainWindowState extends State<MainWindow>
             onPickUrlPressed: () async {
               widget.toggleShouldLoseFocus();
 
-              //TODO HERE/PICKER/PICKER DIALOG/RETURN SIDEURL
-              String? url = await Picker.pickUrl(
+              SideUrl? url = await Picker.pickUrl(
                 context: context,
                 controller: urlController,
               );
               if (url != null) {
-                print(url);
-                // sideItemsCubit.addItem(folder);
+                sideItemsCubit.addItem(url);
               }
               widget.toggleShouldLoseFocus();
             },

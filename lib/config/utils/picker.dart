@@ -1,15 +1,17 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/enums/open_item_command_type.dart';
+import 'package:flutter/foundation.dart';
 import 'package:windows_widgets/config/extensions/build_context_extensions.dart';
 import 'package:windows_widgets/config/extensions/string_extensions.dart';
 import 'package:windows_widgets/config/native_plugins/file_icon_plugin.dart';
+import 'package:windows_widgets/config/native_plugins/url_icon_plugin.dart';
 import 'package:windows_widgets/config/utils/generate.dart';
 import 'package:windows_widgets/config/utils/transition_animation.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_file.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_folder.dart';
+import 'package:windows_widgets/features/main_sidebar/domain/models/side_url.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/dialogs/pick_url_dialog.dart';
 
 class Picker {
@@ -53,11 +55,12 @@ class Picker {
   }
 
   //pick a url through dialog (a string)
-  static Future<String?> pickUrl({
+  static Future<SideUrl?> pickUrl({
     required BuildContext context,
     required TextEditingController controller,
   }) async {
     //set init name
+    final int id = Generate.generateUniqueId();
     String? url;
     String? errorText;
 
@@ -92,9 +95,20 @@ class Picker {
     //if name empty/user canceled do nothing
     if (controller.text.isEmpty) return null;
 
+    if (url == null) return null;
+
     //update item, clear controller
     controller.clear();
 
-    return url;
+    final cleanUrl =
+        url!.getWebsiteName().removeExtension().removeSubdomain().capitalize();
+
+    return SideUrl(
+      id: id,
+      path: url!,
+      name: cleanUrl.isEmpty ? 'New Url' : cleanUrl,
+      command: SideItemOpenCommandType.start.name,
+      icon: await UrlIconPlugin.fetchFavicon(url!),
+    );
   }
 }

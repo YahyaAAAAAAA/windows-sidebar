@@ -5,6 +5,7 @@ import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/custom_icons.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_file.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_folder.dart';
+import 'package:windows_widgets/features/main_sidebar/domain/models/side_url.dart';
 
 class SideItemCard extends StatelessWidget {
   final bool isExpanded;
@@ -25,37 +26,51 @@ class SideItemCard extends StatelessWidget {
     this.onExit,
     this.onLeftClick,
   })  : file = null,
-        fileIconScale = null;
+        url = null;
 
   final SideFile? file;
-  final double? fileIconScale;
   const SideItemCard.file({
     super.key,
     required this.isExpanded,
     required this.file,
     required this.index,
     this.onRightClick,
-    this.fileIconScale,
     this.onEnter,
     this.onExit,
     this.onLeftClick,
-  }) : folder = null;
+  })  : folder = null,
+        url = null;
+
+  final SideUrl? url;
+  const SideItemCard.url({
+    super.key,
+    required this.url,
+    required this.isExpanded,
+    required this.index,
+    this.onRightClick,
+    this.onEnter,
+    this.onExit,
+    this.onLeftClick,
+  })  : folder = null,
+        file = null;
 
   SideItemType decide() {
-    if (folder == null) {
-      return SideItemType.file;
-    } else if (file == null) {
+    if (folder != null) {
       return SideItemType.folder;
+    } else if (file != null) {
+      return SideItemType.file;
     } else {
-      return SideItemType.none;
+      return SideItemType.url;
     }
   }
 
   double setHeightOnHover() {
     if (decide() == SideItemType.folder) {
       return folder!.localIcon == Custom.folder_open_fill ? 20 : 0;
-    } else {
+    } else if (decide() == SideItemType.file) {
       return file!.scale == 1.8 ? 20 : 0;
+    } else {
+      return url!.scale == 1.8 ? 20 : 0;
     }
   }
 
@@ -99,7 +114,9 @@ class SideItemCard extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: decide() == SideItemType.folder
                       ? folderBuild(context)
-                      : fileBuild(),
+                      : decide() == SideItemType.file
+                          ? fileBuild()
+                          : urlBuild(),
                 ),
                 //showed only when sidebar is extended
 
@@ -110,7 +127,9 @@ class SideItemCard extends StatelessWidget {
                         child: Text(
                           decide() == SideItemType.folder
                               ? folder!.name
-                              : file!.name,
+                              : decide() == SideItemType.file
+                                  ? file!.name
+                                  : url!.name,
                           style: Theme.of(context).textTheme.labelMedium,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -134,12 +153,18 @@ class SideItemCard extends StatelessWidget {
         fit: BoxFit.scaleDown,
         child: AnimatedScale(
           duration: Duration(milliseconds: 300),
-          scale: fileIconScale ?? 1.7,
-          child: Image.memory(
-            file!.icon!,
-            width: 16,
-            height: 16,
-          ),
+          scale: file!.scale ?? 1.7,
+          child: file!.icon != null
+              ? Image.memory(
+                  file!.icon!,
+                  width: 16,
+                  height: 16,
+                )
+              : Image.asset(
+                  'assets/images/file.png',
+                  width: 16,
+                  height: 16,
+                ),
         ),
       ),
     );
@@ -192,6 +217,31 @@ class SideItemCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget urlBuild() {
+    return SizedBox(
+      width: 24,
+      height: 24,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: AnimatedScale(
+          duration: Duration(milliseconds: 300),
+          scale: url!.scale ?? 1.7,
+          child: url!.icon != null
+              ? Image.memory(
+                  url!.icon!,
+                  width: 16,
+                  height: 16,
+                )
+              : Image.asset(
+                  'assets/images/url.png',
+                  width: 16,
+                  height: 16,
+                ),
+        ),
+      ),
     );
   }
 }

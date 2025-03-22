@@ -7,6 +7,7 @@ import 'package:windows_widgets/config/utils/constants.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/adapters/side_file_adapter.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/adapters/side_folder_adapter.dart';
+import 'package:windows_widgets/features/main_sidebar/domain/models/adapters/side_url_adapter.dart';
 import 'package:windows_widgets/features/settings_sidebar/domain/models/adapters/prefs_adapter.dart';
 
 void main() async {
@@ -17,9 +18,11 @@ void main() async {
   //register adapters
   Hive.registerAdapter(SideFolderAdapter());
   Hive.registerAdapter(SideFileAdapter());
+  Hive.registerAdapter(SideUrlAdapter());
   Hive.registerAdapter(PrefsAdapter());
 
   await Hive.openBox('sideItemsBox');
+
   final tempPrefsBox = await Hive.openBox('prefsBox');
 
   //i know this is ugly and wrong, but it works 🤷‍♂️

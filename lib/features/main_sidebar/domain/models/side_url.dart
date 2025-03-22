@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:windows_widgets/config/enums/side_item_type.dart';
 import 'package:windows_widgets/config/extensions/build_context_extensions.dart';
@@ -6,8 +7,8 @@ import 'package:windows_widgets/config/extensions/string_extensions.dart';
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_item.dart';
 
 class SideUrl extends SideItem {
-  //local icon no need to store
-  IconData? localIcon;
+  late final Uint8List? icon;
+  double? scale;
 
   SideUrl({
     super.id,
@@ -16,7 +17,8 @@ class SideUrl extends SideItem {
     required super.path,
     required super.name,
     required super.command,
-    this.localIcon = Icons.link_rounded,
+    required this.icon,
+    this.scale = 1.7,
   });
 
   @override
@@ -27,8 +29,7 @@ class SideUrl extends SideItem {
       'command': command,
       'path': path,
       'name': name,
-      //Unit8List for files only
-      'icon': null,
+      'icon': icon,
     };
   }
 

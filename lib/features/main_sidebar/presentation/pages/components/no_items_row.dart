@@ -22,7 +22,7 @@ class NoItemsRow extends StatelessWidget {
               Icons.keyboard_double_arrow_down_rounded,
               size: 30,
             ),
-            SizedBox(width: 10),
+            SizedBox(width: 15),
             Text(
               'Add Shortcuts',
               style: Theme.of(context).textTheme.labelLarge,

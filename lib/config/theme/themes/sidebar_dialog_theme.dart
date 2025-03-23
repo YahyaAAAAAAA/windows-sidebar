@@ -9,6 +9,7 @@ DialogTheme sidebarDialogTheme(Color mainColor, Color dialogColor) {
     ),
     insetPadding: EdgeInsets.all(10),
     contentTextStyle: TextStyle(
+      fontFamily: 'Nova',
       color: dialogColor,
       overflow: TextOverflow.ellipsis,
       fontSize: 12,

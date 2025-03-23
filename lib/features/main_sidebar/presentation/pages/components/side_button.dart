@@ -104,6 +104,7 @@ class SideButton extends StatelessWidget {
   Widget _buildIconExpanded(BuildContext context) {
     return IconButton(
       onPressed: onPressed,
+      style: buttonStyle,
       icon: Row(
         mainAxisSize: MainAxisSize.max,
         spacing: 15,
@@ -127,6 +128,7 @@ class SideButton extends StatelessWidget {
       children: [
         IconButton(
           onPressed: onPressed,
+          style: buttonStyle,
           icon: Icon(
             icon,
             size: 20,
@@ -143,6 +145,7 @@ class SideButton extends StatelessWidget {
   Widget _buildImageExpanded(BuildContext context) {
     return IconButton(
       onPressed: onPressed,
+      style: buttonStyle,
       icon: Row(
         mainAxisSize: MainAxisSize.max,
         spacing: 15,
@@ -171,6 +174,7 @@ class SideButton extends StatelessWidget {
       children: [
         IconButton(
           onPressed: onPressed,
+          style: buttonStyle,
           icon: Transform.scale(
             scale: 1.2,
             child: Image.asset(

@@ -70,6 +70,7 @@ class SideUrl extends SideItem {
         runInShell: true,
       ).then(
         (value) async {
+          //? maybe remove later
           int exitCode = await value.exitCode;
           if (exitCode != 0) {
             if (!context.mounted) return;

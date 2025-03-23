@@ -44,10 +44,13 @@ main:
     ✘ settings window ui change @cancelled(25-03-21 02:21)
     ✔ open links in browser @done(25-03-22 06:15)
     ✘ add a small line next to selected theme in setttings @cancelled(25-03-22 06:16)
-    ☐ add info to context menu
-    ☐ add clear all in settings
-    ☐ add open in incognito for urls
-    ☐ shrunk context menu (delete (all)/open location(files)/open in incognito(urls))
+    ✔ look up Hive box change locatino ? @done(25-03-23 00:09)
+    ✔ add info to context menu @done(25-03-23 03:07)
+    ✔ scrollable overflowed item name @done(25-03-23 04:19)
+    ✔ shrunk context menu (delete (all)/open location(files)/open in incognito(urls)) @done(25-03-23 04:19)
+    ✔ add clear all in settings @done(25-03-23 06:59)
+    ✘ add open in incognito for urls @cancelled(25-03-23 06:59)
+    ☐ delete confirm in settings
     ☐ This PC shortcut (expandable widget would be nice)
     ☐ media play/pause
     ☐ media detect for spotify only

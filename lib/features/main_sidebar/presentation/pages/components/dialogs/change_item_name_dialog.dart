@@ -41,6 +41,10 @@ class ChangeItemNameDialog extends StatelessWidget {
               children: [
                 Text(
                   'Folder Name:',
+                  style:
+                      Theme.of(context).dialogTheme.contentTextStyle?.copyWith(
+                            fontFamily: 'Nova',
+                          ),
                 ),
               ],
             ),
@@ -49,10 +53,16 @@ class ChangeItemNameDialog extends StatelessWidget {
               height: errorText == null ? 40 : 60,
               child: TextField(
                 controller: controller,
-                style: Theme.of(context).textTheme.labelSmall,
+                style: Theme.of(context).dialogTheme.contentTextStyle?.copyWith(
+                      fontFamily: 'Nova',
+                    ),
                 decoration: InputDecoration(
                   errorText: errorText,
                   hintText: hintText,
+                  hintStyle:
+                      Theme.of(context).dialogTheme.contentTextStyle?.copyWith(
+                            fontFamily: 'Nova',
+                          ),
                 ),
               ),
             ),

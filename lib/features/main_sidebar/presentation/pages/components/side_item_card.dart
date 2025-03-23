@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:windows_widgets/config/enums/side_item_type.dart';
@@ -124,14 +125,28 @@ class SideItemCard extends StatelessWidget {
 
                 isExpanded
                     ? Expanded(
-                        child: Text(
-                          decide() == SideItemType.folder
-                              ? folder!.name
-                              : decide() == SideItemType.file
-                                  ? file!.name
-                                  : url!.name,
-                          style: Theme.of(context).textTheme.labelMedium,
-                          overflow: TextOverflow.ellipsis,
+                        child: ScrollConfiguration(
+                          behavior: const ScrollBehavior()
+                              .copyWith(scrollbars: false, dragDevices: {
+                            PointerDeviceKind.mouse,
+                            PointerDeviceKind.touch,
+                            PointerDeviceKind.stylus,
+                          }),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            child: Text(
+                              decide() == SideItemType.folder
+                                  ? folder!.name
+                                  : decide() == SideItemType.file
+                                      ? file!.name
+                                      : url!.name,
+
+                              style: Theme.of(context).textTheme.labelSmall,
+                              maxLines: 1,
+                              // overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ),
                       )
                     : SizedBox(),

@@ -11,12 +11,14 @@ import 'package:windows_widgets/config/utils/widgets/fade_effect.dart';
 import 'package:windows_widgets/config/utils/widgets/global_loading.dart';
 import 'package:windows_widgets/config/utils/windows/window_animation_utils_mixin.dart';
 import 'package:windows_widgets/config/utils/windows/window_utils.dart';
+import 'package:windows_widgets/features/main_sidebar/presentation/cubits/side_items_cubit.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_button.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/side_divider.dart';
 import 'package:windows_widgets/features/settings_sidebar/domain/models/prefs.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_cubit.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_states.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/blur_row.dart';
+import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/clear_all_items_button.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/dialogs/prefs_save_dialog.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/resize_row.dart';
 import 'package:windows_widgets/features/settings_sidebar/presentation/pages/components/opacity_row.dart';
@@ -33,6 +35,7 @@ class SettingsWindow extends StatefulWidget {
 
 class _SettingsWindowState extends State<SettingsWindow>
     with TickerProviderStateMixin, WindowListener, WindowAnimationUtilsMixin {
+  late final SideItemsCubit sideItemsCubit;
   late final PrefsCubit prefsCubit;
   Prefs? initPrefs;
   double windowHeight = 0;
@@ -42,6 +45,8 @@ class _SettingsWindowState extends State<SettingsWindow>
     super.initState();
 
     prefsCubit = context.read<PrefsCubit>();
+    sideItemsCubit = context.read<SideItemsCubit>();
+
     initPrefs = prefsCubit.prefs?.copyWith();
     windowHeight = prefsCubit.prefs!.windowHeight;
   }
@@ -131,6 +136,12 @@ class _SettingsWindowState extends State<SettingsWindow>
                       setState(() {});
                     },
                   ),
+                  SizedBox(height: 10),
+
+                  //clear all button
+                  DeleteAllItemsButton(
+                    onPressed: () async => await sideItemsCubit.clearAll(),
+                  ),
 
                   SizedBox(height: 20),
 
@@ -173,49 +184,45 @@ class _SettingsWindowState extends State<SettingsWindow>
             ),
           ),
 
-          // Spacer(),
-
           SideDivider(isExpanded: true),
 
           SizedBox(height: 5),
+
+          //todo should be moved to its own widget
           //save to db
-          IconButton(
-            onPressed: () async {
-              await prefsCubit.save(prefsCubit.prefs!);
-              initPrefs = prefsCubit.prefs;
-            },
-            style: Theme.of(context).iconButtonTheme.style?.copyWith(
-                  backgroundColor: WidgetStatePropertyAll(
-                    Theme.of(context).scaffoldBackgroundColor.shade600,
-                  ),
-                  side: WidgetStatePropertyAll(
-                    BorderSide(
-                      color: Theme.of(context).primaryColor.shade300,
-                      width: 0.5,
+          BlocBuilder<PrefsCubit, PrefsStates>(builder: (context, state) {
+            return IconButton(
+              onPressed: state is PrefsLoading
+                  ? null
+                  : () async {
+                      await prefsCubit.save(prefsCubit.prefs!);
+                      initPrefs = prefsCubit.prefs;
+                    },
+              style: Theme.of(context).iconButtonTheme.style?.copyWith(
+                    backgroundColor: WidgetStatePropertyAll(
+                      Theme.of(context).scaffoldBackgroundColor.shade600,
+                    ),
+                    side: WidgetStatePropertyAll(
+                      BorderSide(
+                        color: Theme.of(context).primaryColor.shade300,
+                        width: 0.5,
+                      ),
                     ),
                   ),
-                ),
-            icon: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              spacing: 5,
-              children: [
-                Text(
-                  'Apply Settings',
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
-                BlocBuilder<PrefsCubit, PrefsStates>(
-                  builder: (context, state) {
-                    return state is PrefsLoaded
-                        ? Icon(
-                            Icons.check,
-                          )
-                        : GlobalLoading();
-                  },
-                ),
-              ],
-            ),
-          ),
+              icon: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                spacing: 5,
+                children: [
+                  Text(
+                    'Apply Settings',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  state is PrefsLoading ? GlobalLoading() : Icon(Icons.check)
+                ],
+              ),
+            );
+          }),
 
           SizedBox(height: 5),
         ],

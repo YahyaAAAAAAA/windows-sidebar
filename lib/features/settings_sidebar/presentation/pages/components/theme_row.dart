@@ -31,15 +31,20 @@ class ThemeRow extends StatelessWidget {
         DropdownButtonHideUnderline(
           child: DropdownButton2(
             iconStyleData: IconStyleData(
+              openMenuIcon: Icon(
+                Icons.keyboard_arrow_up_rounded,
+                size: 20,
+              ),
               icon: Icon(
-                Icons.arrow_drop_down_rounded,
+                Icons.keyboard_arrow_down_rounded,
+                size: 20,
               ),
               iconEnabledColor: Theme.of(context).iconTheme.color,
             ),
             buttonStyleData: ButtonStyleData(
               width: 75,
               height: 40,
-              padding: EdgeInsets.only(left: 3),
+              padding: EdgeInsets.only(left: 3, right: 3),
               decoration: BoxDecoration(
                 color: Theme.of(context).scaffoldBackgroundColor.shade600,
                 borderRadius: BorderRadius.circular(kOuterRadius),
@@ -58,31 +63,53 @@ class ThemeRow extends StatelessWidget {
                 borderRadius: BorderRadius.circular(kOuterRadius),
               ),
             ),
-            style:
-                Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 11),
+            style: Theme.of(context).dialogTheme.contentTextStyle?.copyWith(
+                  fontFamily: 'Nova',
+                  fontSize: 11,
+                ),
             items: [
               DropdownMenuItem(
                 value: 0,
                 child: Text(
                   'Default',
+                  style: selectedTheme == 0
+                      ? Theme.of(context).textTheme.labelSmall?.copyWith(
+                            fontSize: 11,
+                          )
+                      : null,
                 ),
               ),
               DropdownMenuItem(
                 value: 1,
                 child: Text(
                   'Device',
+                  style: selectedTheme == 1
+                      ? Theme.of(context).textTheme.labelSmall?.copyWith(
+                            fontSize: 11,
+                          )
+                      : null,
                 ),
               ),
               DropdownMenuItem(
                 value: 2,
                 child: Text(
                   'Light',
+                  style: selectedTheme == 2
+                      ? Theme.of(context).textTheme.labelSmall?.copyWith(
+                            fontSize: 11,
+                          )
+                      : null,
                 ),
               ),
               DropdownMenuItem(
                 value: 3,
                 child: Text(
                   'Dark',
+                  style: selectedTheme == 3
+                      ? Theme.of(context).textTheme.labelSmall?.copyWith(
+                            fontSize: 11,
+                          )
+                      : null,
                 ),
               ),
             ],

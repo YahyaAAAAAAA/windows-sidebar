@@ -74,6 +74,7 @@ class SideItemsCubit extends Cubit<SideItemsStates> {
   Future<void> clearAll() async {
     emit(SideItemsLoading());
     try {
+      await Future.delayed(Duration(milliseconds: 300));
       itemsRepo.clearAllItems();
       _items.clear();
 
@@ -137,7 +138,7 @@ class SideItemsCubit extends Cubit<SideItemsStates> {
             context.pop();
           },
           onSavePressed: () {
-            if (controller.text.isEmpty) {
+            if (controller.text.trim().isEmpty) {
               errorText = 'Please enter a name';
               setState(() {});
               return;

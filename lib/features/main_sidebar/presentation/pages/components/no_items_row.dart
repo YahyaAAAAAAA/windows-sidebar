@@ -24,7 +24,7 @@ class NoItemsRow extends StatelessWidget {
             ),
             SizedBox(width: 15),
             Text(
-              'Add Shortcuts',
+              'Nothing Here :(',
               style: Theme.of(context).textTheme.labelLarge,
             ),
           ],

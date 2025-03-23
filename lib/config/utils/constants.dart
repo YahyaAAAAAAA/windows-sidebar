@@ -29,7 +29,7 @@ const double kScaffoldMinPadding = 0;
 
 //init prefs
 
-const double kInitBackgroundOpacity = 0.5;
+const double kInitBackgroundOpacity = 0.3;
 
 const int kInitSelectedTheme = 0;
 

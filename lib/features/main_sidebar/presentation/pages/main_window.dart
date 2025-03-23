@@ -17,6 +17,7 @@ import 'package:windows_widgets/features/main_sidebar/domain/models/side_item.da
 import 'package:windows_widgets/features/main_sidebar/domain/models/side_url.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/cubits/side_items_cubit.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/cubits/side_items_states.dart';
+import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/dialogs/item_info_dialog.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/footer_row.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/header_row.dart';
 import 'package:windows_widgets/features/main_sidebar/presentation/pages/components/no_items_row.dart';
@@ -153,6 +154,10 @@ class _MainWindowState extends State<MainWindow>
                             context,
                             position,
                             widget.isExpanded,
+                            onInfo: () => showDialog(
+                              context: context,
+                              builder: (context) => ItemInfoDialog(item: item),
+                            ),
                             onDelete: () => sideItemsCubit.removeItem(item.id!),
                             onNameEdit: () {
                               sideItemsCubit.editItemNameDialog(
@@ -183,6 +188,10 @@ class _MainWindowState extends State<MainWindow>
                             context,
                             position,
                             widget.isExpanded,
+                            onInfo: () => showDialog(
+                              context: context,
+                              builder: (context) => ItemInfoDialog(item: item),
+                            ),
                             onOpenLocation: () => item.openLocation(context),
                             onDelete: () => sideItemsCubit.removeItem(item.id!),
                             onNameEdit: () => sideItemsCubit.editItemNameDialog(
@@ -212,6 +221,10 @@ class _MainWindowState extends State<MainWindow>
                             context,
                             position,
                             widget.isExpanded,
+                            onInfo: () => showDialog(
+                              context: context,
+                              builder: (context) => ItemInfoDialog(item: item),
+                            ),
                             onDelete: () => sideItemsCubit.removeItem(item.id!),
                             onNameEdit: () => sideItemsCubit.editItemNameDialog(
                               context: context,

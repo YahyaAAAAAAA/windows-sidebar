@@ -39,6 +39,11 @@ class ChangeItemOpenCommandDialog extends StatelessWidget {
               children: [
                 Text(
                   'Change Command',
+                  style:
+                      Theme.of(context).dialogTheme.contentTextStyle?.copyWith(
+                            //for some reason this is a must 🤔
+                            fontFamily: 'Nova',
+                          ),
                 ),
               ],
             ),
@@ -46,6 +51,10 @@ class ChangeItemOpenCommandDialog extends StatelessWidget {
               children: [
                 Text(
                   'Explorer',
+                  style:
+                      Theme.of(context).dialogTheme.contentTextStyle?.copyWith(
+                            fontFamily: 'Nova',
+                          ),
                 ),
                 Transform.scale(
                   scale: 0.8,
@@ -57,6 +66,10 @@ class ChangeItemOpenCommandDialog extends StatelessWidget {
                 ),
                 Text(
                   'Start',
+                  style:
+                      Theme.of(context).dialogTheme.contentTextStyle?.copyWith(
+                            fontFamily: 'Nova',
+                          ),
                 ),
                 Transform.scale(
                   scale: 0.8,

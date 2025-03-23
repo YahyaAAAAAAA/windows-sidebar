@@ -18,7 +18,7 @@ import 'package:windows_widgets/config/utils/windows/window_utils.dart';
 Color themeDecider(int selectedTheme) {
   //default
   if (selectedTheme == 0) {
-    return GColors.mainThemeColor.adjustBrightness(0.8);
+    return GColors.mainThemeColor.adjustBrightness(0.7);
   }
   //device
   else if (selectedTheme == 1) {
@@ -26,11 +26,11 @@ Color themeDecider(int selectedTheme) {
   }
   //light
   else if (selectedTheme == 2) {
-    return Color(0xFFf3f3f3).adjustBrightness(0.9);
+    return GColors.lightThemeColor.adjustBrightness(0.9);
   }
   //dark
   else {
-    return Color(0xFF282828);
+    return GColors.darkThemeColor;
   }
 }
 

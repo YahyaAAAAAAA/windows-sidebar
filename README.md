@@ -37,14 +37,14 @@
 
 ###
 
-<h2 align="left">🟣 Introduction</h2>
+<h2 align="left">🔵 Introduction</h2>
 
-<p align="left">EventsJo is a cross-platform mobile application designed to simplify the process of booking venues for various events in Jordan, including weddings, farm gatherings, and football courts.<br> Built using Flutter and powered by Firebase, EventsJo provides a seamless experience for users to browse, book, and manage event reservations.</p>
+<p align="left">A Windows sidebar tool for quick and easy file access.</p>
 
 
 ###
 
-<h2 align="left">🟣 Tech Stack</h2>
+<h2 align="left">🔵 Tech Stack</h2>
 
 ###
 
@@ -53,7 +53,7 @@
 ###
 
 
-<h2 align="left">🟣 Project Status</h2>
+<h2 align="left">🔵 Project Status</h2>
 
 ###
 
@@ -61,7 +61,7 @@
 
 ###
 
-<h2 align="left">🟣 Contact</h2>
+<h2 align="left">🔵 Contact</h2>
 
 <p align="left">• Email: yahya.amarneh73@gmail.com</p>
 

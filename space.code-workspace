@@ -1,0 +1,47 @@
+{
+  "folders": [
+    { "path": ".","name": "root" },
+    { "path": "lib" },
+  ],
+  "settings": {
+    "search.exclude": {
+      "pubspec.yaml":false,
+      "**/.todo": false,
+      ".gitignore": false,
+      "**/*.code-workspace": false,
+    },
+    "files.exclude": {
+      //change when needed
+      "assets":false,
+      "pubspec.yaml":true,
+      "android": true,
+      "web": true,
+      "windows": true,
+      "ios": true,
+      "linux": true,
+      "macos": true,
+      "build": true,
+      "analysis_options.yaml": true,
+      ".gitignore": true,
+      "**/.todo":true,
+      "lib":true,
+      // most likely to stay hidden
+      "**/*.freezed.dart": true,
+      "**/*.g.dart": true,
+      "**/.git": true,
+      ".dart_tool": true,
+      ".idea": true,
+      ".vscode": true,
+      ".metadata": true,
+      "devtools_options.yaml": true,
+      "pubspec.lock": true,
+      "README.md": true,
+      ".flutter-plugins": true,
+      ".flutter-plugins-dependencies": true,
+      "windows_widgets.iml": true,
+      ".VSCodeCounter": true,
+      "**/*.code-workspace": true,
+  },
+  "discord.enabled": true,
+  }
+}

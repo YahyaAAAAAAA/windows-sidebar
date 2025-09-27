@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "name": "windows_widgets",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+        },
+        {
+            "name": "windows_widgets (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "windows_widgets (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

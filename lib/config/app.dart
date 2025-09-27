@@ -1,115 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:window_manager/window_manager.dart';
-import 'package:windows_widgets/config/theme/sidebar_theme.dart';
-import 'package:windows_widgets/config/utils/constants.dart';
-import 'package:windows_widgets/config/utils/windows/window_animation_utils_mixin.dart';
-import 'package:windows_widgets/config/utils/windows/window_utils.dart';
-import 'package:windows_widgets/features/main_sidebar/data/hive_side_items_repo.dart';
-import 'package:windows_widgets/features/main_sidebar/presentation/cubits/side_items_cubit.dart';
-import 'package:windows_widgets/features/main_sidebar/presentation/pages/main_window.dart';
-import 'package:windows_widgets/features/settings_sidebar/data/hive_prefs_repo.dart';
-import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_cubit.dart';
-import 'package:windows_widgets/features/settings_sidebar/presentation/cubits/prefs/prefs_states.dart';
+import 'package:toastification/toastification.dart';
+import 'package:windows_widgets/core/bloc/bloc_provider.dart';
+import 'package:windows_widgets/core/theme/app_theme.dart';
+import 'package:windows_widgets/features/shared/presentation/cubits/prefs/prefs_cubit.dart';
+import 'package:windows_widgets/features/shared/presentation/cubits/prefs/prefs_states.dart';
+import 'package:windows_widgets/features/shared/presentation/pages/home_page.dart';
 
-class WindowsWidgetsApp extends StatefulWidget {
-  const WindowsWidgetsApp({super.key});
+class App extends StatefulWidget {
+  const App({super.key});
 
   @override
-  State<WindowsWidgetsApp> createState() => _WindowsWidgetsAppState();
+  State<App> createState() => _AppState();
 }
 
-class _WindowsWidgetsAppState extends State<WindowsWidgetsApp>
-    with TickerProviderStateMixin, WindowListener, WindowAnimationUtilsMixin {
-  //repos
-  final itemsRepo = HiveSideItemsRepo();
-  final prefsRepo = HivePrefsRepo();
-
-  bool shouldLoseFoucs = true;
-  bool isExpanded = false;
-  bool isPinned = false;
+class _AppState extends State<App> {
   ThemeData? currentTheme;
-
-  int focusHandle = 0;
-
-  void toggleExpand() => setState(() => isExpanded = !isExpanded);
-
-  void togglePin() => setState(() => isPinned = !isPinned);
-
-  void toggleShouldLoseFocus() =>
-      setState(() => shouldLoseFoucs = !shouldLoseFoucs);
-
-  Color accentColor = Color(0xFF4ca0e0);
 
   @override
   void initState() {
     super.initState();
 
-    currentTheme = sidebarTheme(
-      mainColor: themeDecider(kInitSelectedTheme),
-      opacity: kInitBackgroundOpacity,
-      hasBorder: kInitHasBorder,
-    );
+    currentTheme = getAppTheme(themeIndex: 0, accentColorIndex: 0, opacity: 1, useSystemAccentColor: false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => SideItemsCubit(itemsRepo: itemsRepo)),
-        BlocProvider(create: (context) => PrefsCubit(prefsRepo: prefsRepo)),
-      ],
-      child: MouseRegion(
-        onEnter: (_) async {
-          focusHandle = await WindowUtils.getCurrentWindowHandle();
-
-          if (isPinned) return;
-
-          //animate
-          if (!isExpanded) {
-            animatePositionTo(
-                WindowUtils.originalPosition + Offset(kOnEnterRight, 0));
-          } else {
-            animatePositionTo(
-                WindowUtils.originalPosition + Offset(kOnEnterRightExpand, 0));
-          }
-        },
-        onExit: (_) {
-          if (shouldLoseFoucs) {
-            WindowUtils.focusPreviousWindow(focusHandle);
-          }
-
-          if (isPinned) return;
-
-          //animate
-          animatePositionTo(WindowUtils.originalPosition);
-        },
-        child: BlocConsumer<PrefsCubit, PrefsStates>(
-          listener: (context, state) {
-            if (state is PrefsLoaded) {
-              final prefs = state.prefs;
-              currentTheme = sidebarTheme(
-                mainColor: themeDecider(prefs.selectedTheme),
-                opacity: prefs.backgroundOpacity,
-                hasBorder: prefs.hasBorder,
-              );
-            }
-          },
-          builder: (context, state) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              home: MainWindow(
-                isExpanded: isExpanded,
-                isPinned: isPinned,
-                toggleExpanded: toggleExpand,
-                togglePin: togglePin,
-                shouldLoseFoucs: shouldLoseFoucs,
-                toggleShouldLoseFocus: toggleShouldLoseFocus,
-              ),
-              theme: currentTheme,
+    return AppBlocProvider(
+      child: BlocConsumer<PrefsCubit, PrefsStates>(
+        listener: (context, state) {
+          if (state is PrefsLoaded) {
+            final prefs = state.prefs;
+            currentTheme = getAppTheme(
+              themeIndex: prefs.selectedTheme,
+              accentColorIndex: prefs.selectedAccentColor,
+              opacity: prefs.backgroundOpacity,
+              useSystemAccentColor: prefs.useSystemAccentColor,
             );
-          },
-        ),
+          }
+        },
+        builder: (context, state) {
+          return ToastificationWrapper(
+            config: const ToastificationConfig(maxToastLimit: 2),
+            child: MaterialApp(debugShowCheckedModeBanner: false, home: const HomePage(), theme: currentTheme),
+          );
+        },
       ),
     );
   }

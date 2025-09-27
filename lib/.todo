@@ -1,0 +1,76 @@
+main:
+    ✔ work on UI @done(25-03-01 04:43)
+    ✘ search for windows 7 port, maybe ? @cancelled(25-03-01 04:43)
+    ✔ custom icons/ icons on hover @done(25-03-02 01:24)
+    ✔ add id field to side items @done(25-03-02 01:24)
+    ✔ smooth list scroll @done(25-03-02 01:24)
+    ✔ add animated/reorderable list @done(25-03-03 02:43)
+    ✔ Hive_ce instead of sqlite @done(25-03-04 00:27)
+    ✔ clean up database methods @done(25-03-04 05:54)
+    ✔ save list order @done(25-03-04 05:54)
+    ✔ add pin @done(25-03-05 01:38)
+    ✔ color/opacity change @done(25-03-06 05:57)
+    ✘ maybe mesh background ? @cancelled(25-03-08 00:40)
+    ✔ add withBorder to prefs (also add it to settings window) @done(25-03-08 01:28)
+    ✘ add pin to prefs @cancelled(25-03-08 01:29)
+    ✔ add window height to prefs @done(25-03-09 23:18)
+    ✔ default theme / dark,light theme / device theme @done(25-03-06 05:57)
+    ✔ height resize @done(25-03-06 05:57)
+    ✔ transparent / bluer / solid background @done(25-03-06 05:57)
+    ✔ safe positioning on startup @started(25-03-09 22:07) @done(25-03-09 23:18) @lasted(1h11m34s)
+    ✔ better init settings @started(25-03-09 23:22) @done(25-03-10 01:16) @lasted(1h54m27s)
+    ✔ add height limit @done(25-03-10 01:18)
+    ✔ add didUserUpdate @done(25-03-10 04:30)
+    ✔ test didUserUpdate & design dialog @done(25-03-10 23:40)
+    ✔ add "pixels when hidden" to prefs @done(25-03-11 01:08)
+    ✔ add light theme, change current light theme -> default @done(25-03-11 01:08)
+    ✔ handle not losing focus while pick folder/file @done(25-03-11 01:48)
+    ✔ edit items rename @started(25-03-11 02:32) @done(25-03-11 02:43) @lasted(11m39s)
+    ✔ edit name dialog @done(25-03-11 05:44)
+    ✔ edit folder open command -> explorer/start @done(25-03-11 07:18)
+    ✔ super context menu or dropdownmenu2 or keep it as is @done(25-03-15 06:54)
+    ✔ file/folder pngs instead of icons ? @done(25-03-15 23:39)
+    ✔ bring back picker methods @done(25-03-15 23:39)
+    ✔ take another look at prefs with Hive this time add adapter @done(25-03-16 02:29)
+    ✔ handle item no longer available @done(25-03-16 06:41)
+    ✔ remove scaf padding from prefs @done(25-03-20 09:23)
+    ✔ remove when hidden from settings @done(25-03-20 09:34)
+    ✔ add blur native plugin @done(25-03-20 09:35)
+    ✔ remove frameless, using win11 border instead @done(25-03-20 09:35)
+    ✔ reduce buttons/divider with to .5 @done(25-03-20 09:35)
+    ✔ file -> open file location @done(25-03-20 09:48)
+    ✔ move some Picker methods to SideItem ? @done(25-03-20 09:48)
+    ✘ more win11 icons ? @cancelled(25-03-21 02:19)
+    ✘ settings window ui change @cancelled(25-03-21 02:21)
+    ✔ open links in browser @done(25-03-22 06:15)
+    ✘ add a small line next to selected theme in setttings @cancelled(25-03-22 06:16)
+    ✔ look up Hive box change locatino ? @done(25-03-23 00:09)
+    ✔ add info to context menu @done(25-03-23 03:07)
+    ✔ scrollable overflowed item name @done(25-03-23 04:19)
+    ✔ shrunk context menu (delete (all)/open location(files)/open in incognito(urls)) @done(25-03-23 04:19)
+    ✔ add clear all in settings @done(25-03-23 06:59)
+    ✘ add open in incognito for urls @cancelled(25-03-23 06:59)
+    ✘ fix -> newly opened items lose focus @cancelled(25-03-24 02:38)
+    ✘ delete confirm in settings @cancelled(25-08-31 22:57)
+    ✔ add logger @done(25-09-15 04:26)
+    ✔ This PC shortcut (expandable widget would be nice) @done(25-08-31 23:03)
+    ✔ figure out the cause of lag @done(25-08-31 22:57)
+    ☐ remove hover effects from currently dragged window
+    ☐ separate all ui logic to thier own methods 
+    ☐ add configurations for each widget
+    ☐ add configuratoins in window data manager 
+    ☐ build configurations in widgets settings page
+    ☐ media play/pause
+    ☐ media detect for spotify only
+    ☐ media stats (most played sonds/artists)
+    ☐ app icon
+    ☐ system tray
+    ☐ add option -> double click to open item
+    ☐ list sort, search (maybe ?)
+
+future plans:
+    ✘ replace Hive with SP for side items @cancelled(25-03-16 06:41)
+    ☐ make items selectable
+    ☐ add gropus
+    ☐ add left alignment
+          
